@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.scss';
 
-export default App;
+import GraphBuilder from './pages/GraphBuilder';
+import UserLogin from './pages/UserLogin';
+
+export default class App extends Component {
+  state = {
+    // To create a login functionality
+    isLoggedIn: true
+  }
+
+  render () {
+    let { isLoggedIn } = this.state;
+
+    if (isLoggedIn) {
+      return <GraphBuilder />
+    }
+
+    return <UserLogin />
+  }
+};
