@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 
-export default class Chart extends Component {
+class ChartIcon extends Component {
   render () {
     let { type, content, onClickFn } = this.props,
       retContent;
@@ -27,8 +27,12 @@ export default class Chart extends Component {
   }
 }
 
-Chart.defaultProps = {
+ChartIcon.defaultProps = {
   type: 'column2d',
   content: 'Inset chart here',
   onClickFn: () => {}
+}
+
+export {
+  ChartIcon
 }

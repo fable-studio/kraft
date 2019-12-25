@@ -1,13 +1,14 @@
-import Text from './text';
-import Chart from './chart';
-import Maps from './maps';
-import Image from './image';
-import Rating from './rating';
+import { TextIcon, TextItem } from './text';
+import { ChartIcon} from './chart';
+import { MapsIcon } from './maps';
+import { ImageIcon } from './image';
+import { RatingIcon } from './rating';
 
 export {
-  Text,
-  Chart,
-  Maps,
-  Image,
-  Rating
+  TextIcon,
+  TextItem,
+  ChartIcon,
+  MapsIcon,
+  ImageIcon,
+  RatingIcon
 }

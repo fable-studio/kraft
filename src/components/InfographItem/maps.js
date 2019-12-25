@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 
-export default class Maps extends Component {
+export default class MapsIcon extends Component {
   render () {
     let { type, content, onClickFn } = this.props,
       retContent;
@@ -25,8 +25,12 @@ export default class Maps extends Component {
   }
 }
 
-Maps.defaultProps = {
+MapsIcon.defaultProps = {
   type: 'world',
   content: 'Inset map here',
   onClickFn: () => {}
+}
+
+export {
+  MapsIcon
 }

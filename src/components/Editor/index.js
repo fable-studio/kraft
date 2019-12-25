@@ -3,7 +3,14 @@ import Item from '../DraggableItem/index';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 
 import './index.scss';
-import { Text, Chart, Maps, Image, Rating } from '../InfographItem';
+import { 
+  TextIcon,
+  ChartIcon,
+  MapsIcon,
+  ImageIcon,
+  RatingIcon,
+  TextItem
+ } from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -13,36 +20,22 @@ import {
 export default class Editor extends Component {
   state = {
     sidebarWidth: 70,
-    infoBodyWidth: 600,
-    editorBodyWidth: 600,
+    infoBodyWidth: 500,
+    editorBodyWidth: 400,
+    taskCount: 3,
     draggableList: {
       tasks: {
         'task-1': {
           id: 'task-1',
-          content: (
-            <>
-              <Item.Infograph>task-1</Item.Infograph>
-              <Item.Editor>task-1</Item.Editor>
-            </>
-          )
+          content: <TextItem />
         },
         'task-2': {
           id: 'task-2',
-          content: (
-            <>
-              <Item.Infograph>task-2</Item.Infograph>
-              <Item.Editor>task-2</Item.Editor>
-            </>
-          )
+          content: <TextItem />
         },
         'task-3': {
           id: 'task-3',
-          content: (
-            <>
-              <Item.Infograph>task-3</Item.Infograph>
-              <Item.Editor>task-3</Item.Editor>
-            </>
-          )
+          content: <TextItem />
         }
       },
       columns: {
@@ -93,12 +86,41 @@ export default class Editor extends Component {
     this.setState(newState);
   }
 
+  addNewTask = (content) => {
+    console.log(content);
+    let { draggableList, taskCount } = this.state,
+      newDraggableList;
+
+    newDraggableList = {
+      ...draggableList,
+      tasks: {
+        ...draggableList.tasks,
+        [content.task.id]: content.task
+      },
+      columns: {
+        'column-1': {
+          id: 'column-1',
+          taskIds: [
+            ...draggableList.columns['column-1'].taskIds,
+            content.task.id
+          ]
+        }
+      }
+    };
+
+    this.setState({
+      taskCount: taskCount + 1,
+      draggableList: newDraggableList
+    });
+  }
+
   render () {
     let {
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
-      draggableList
+      draggableList,
+      taskCount
     } = this.state;
 
     return (
@@ -113,11 +135,11 @@ export default class Editor extends Component {
         </div>
         <div className='info-editor-body d-flex flex-row position-relative mt-2'>
           <div className='sidebar d-flex flex-column align-items-center' style={{ width: sidebarWidth }}>
-            <Text />
-            <Chart />
-            <Maps />
-            <Image />
-            <Rating />
+            <TextIcon count={taskCount} onClickFn={this.addNewTask} />
+            <ChartIcon />
+            <MapsIcon />
+            <ImageIcon />
+            <RatingIcon />
           </div>
           <div className='position-relative'>
             <DragDropContext onDragEnd={this.onDragEnd}>

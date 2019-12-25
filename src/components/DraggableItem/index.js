@@ -15,7 +15,7 @@ class Infograph extends Component {
 }
 
 Infograph.defaultProps = {
-  width: 600
+  width: 500
 }
 
 class InfographEditor extends Component {
@@ -30,7 +30,7 @@ class InfographEditor extends Component {
 }
 
 InfographEditor.defaultProps = {
-  width: 600
+  width: 400
 }
 
 
