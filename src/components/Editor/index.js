@@ -6,11 +6,12 @@ import './index.scss';
 import { 
   TextIcon,
   ChartIcon,
-  MapsIcon,
+  MapIcon,
   ImageIcon,
   RatingIcon,
   TextItem,
-  ChartItem
+  ChartItem,
+  MapItem
  } from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,7 +37,7 @@ export default class Editor extends Component {
         },
         'task-3': {
           id: 'task-3',
-          content: <TextItem />
+          content: <MapItem />
         }
       },
       columns: {
@@ -138,7 +139,7 @@ export default class Editor extends Component {
           <div className='sidebar d-flex flex-column align-items-center' style={{ width: sidebarWidth }}>
             <TextIcon count={taskCount} onClickFn={this.addNewTask} />
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
-            <MapsIcon />
+            <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
             <ImageIcon />
             <RatingIcon />
           </div>
