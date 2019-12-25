@@ -1,0 +1,19 @@
+.type-btn {
+  font-size: 12px!important;
+  background-color: white;
+  text-transform: capitalize;
+  color: #636161;
+}
+
+.color-btn {
+  width: 20px !important;
+  height: 20px!important;
+}
+
+div:focus {
+  outline: 0px;
+}
+
+h1:focus {
+  outline: 0px
+}

@@ -1,8 +1,9 @@
 .App-content {
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
+  padding-bottom: 50px;
+  background-color: white;
 }
 
 .info-editor-container {
-  background-color: white;
   margin-top: 70px !important;
 }
