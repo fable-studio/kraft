@@ -4,19 +4,43 @@ import {
   faImage
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
+import Item from '../DraggableItem';
 
-export default class ImageIcon extends Component {
+import defaultImage from '../../assets/images/defaultImage.jpg';
+
+class ImageItem extends Component {
   render () {
-    let { type, content, onClickFn } = this.props,
+    let { content } = this.props;
+
+    return (
+      <>
+        <Item.Infograph>
+          <div className='w-100'>
+            <img style={{ maxWidth: '100%', height: 'auto' }} src={content} alt={'default'} />
+          </div>
+        </Item.Infograph>
+        <Item.Editor>
+          <div></div>
+        </Item.Editor>
+      </>
+    );
+  }
+}
+
+ImageItem.defaultProps = {
+  content: defaultImage
+}
+
+class ImageIcon extends Component {
+  render () {
+    let { count, content, onClickFn } = this.props,
       retContent;
 
-    // @todo: Handle cases for each type
-    if (type === 'column2d') {
-      retContent = content;
-    } else if (type === 'line') {
-
-    } else if (type === 'area2d') {
-
+    retContent = {
+      task: {
+        id: 'task-' + (count + 1),
+        content: <ImageItem content={content} />
+      }
     }
 
     return (
@@ -28,11 +52,11 @@ export default class ImageIcon extends Component {
 }
 
 ImageIcon.defaultProps = {
-  type: 'column2d',
-  content: 'Inset chart here',
+  content: defaultImage,
   onClickFn: () => {}
 }
 
 export {
-  ImageIcon
+  ImageIcon,
+  ImageItem
 }

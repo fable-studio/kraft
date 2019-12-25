@@ -11,7 +11,8 @@ import {
   RatingIcon,
   TextItem,
   ChartItem,
-  MapItem
+  MapItem,
+  ImageItem
  } from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +25,7 @@ export default class Editor extends Component {
     sidebarWidth: 70,
     infoBodyWidth: 500,
     editorBodyWidth: 400,
-    taskCount: 3,
+    taskCount: 4,
     draggableList: {
       tasks: {
         'task-1': {
@@ -37,13 +38,17 @@ export default class Editor extends Component {
         },
         'task-3': {
           id: 'task-3',
+          content: <ImageItem />
+        },
+        'task-4': {
+          id: 'task-4',
           content: <MapItem />
         }
       },
       columns: {
         'column-1': {
           id: 'column-1',
-          taskIds: ['task-1', 'task-2', 'task-3']
+          taskIds: ['task-1', 'task-2', 'task-3', 'task-4']
         }
       },
       columnOrder: ['column-1']
@@ -89,7 +94,6 @@ export default class Editor extends Component {
   }
 
   addNewTask = (content) => {
-    console.log(content);
     let { draggableList, taskCount } = this.state,
       newDraggableList;
 
@@ -140,7 +144,7 @@ export default class Editor extends Component {
             <TextIcon count={taskCount} onClickFn={this.addNewTask} />
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
-            <ImageIcon />
+            <ImageIcon count={taskCount} onClickFn={this.addNewTask} />
             <RatingIcon />
           </div>
           <div className='position-relative'>
