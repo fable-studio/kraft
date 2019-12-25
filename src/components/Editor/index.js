@@ -9,7 +9,8 @@ import {
   MapsIcon,
   ImageIcon,
   RatingIcon,
-  TextItem
+  TextItem,
+  ChartItem
  } from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,7 +32,7 @@ export default class Editor extends Component {
         },
         'task-2': {
           id: 'task-2',
-          content: <TextItem />
+          content: <ChartItem />
         },
         'task-3': {
           id: 'task-3',
@@ -136,7 +137,7 @@ export default class Editor extends Component {
         <div className='info-editor-body d-flex flex-row position-relative mt-2'>
           <div className='sidebar d-flex flex-column align-items-center' style={{ width: sidebarWidth }}>
             <TextIcon count={taskCount} onClickFn={this.addNewTask} />
-            <ChartIcon />
+            <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapsIcon />
             <ImageIcon />
             <RatingIcon />
