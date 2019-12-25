@@ -1,12 +1,13 @@
 import React , { Component } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
+import './index.scss';
 class Infograph extends Component {
   render () {
-    let { width, height } = this.props;
+    let { width } = this.props;
 
     return (
-      <div style={{width, height, background: 'black' }}>
+      <div className='infoitem-default' style={{ width }}>
         {this.props.children}
       </div>
     );
@@ -14,15 +15,14 @@ class Infograph extends Component {
 }
 
 Infograph.defaultProps = {
-  width: 600,
-  height: 200
+  width: 600
 }
 
 class InfographEditor extends Component {
   render () {
-    let { width, height } = this.props;
+    let { width } = this.props;
     return (
-      <div style={{width, height, background: 'blue'}}>
+      <div className='infoeditor-default' style={{ width }}>
         {this.props.children}
       </div>
     );
@@ -30,8 +30,7 @@ class InfographEditor extends Component {
 }
 
 InfographEditor.defaultProps = {
-  width: 600,
-  height: 200
+  width: 600
 }
 
 
