@@ -9,9 +9,33 @@ export default class Editor extends Component {
     editorBodyWidth: 600,
     draggableList: {
       tasks: {
-        'task-1': { id: 'task-1', content: 'task-1'},
-        'task-2': { id: 'task-2', content: 'task-2'},
-        'task-3': { id: 'task-3', content: 'task-3'}
+        'task-1': {
+          id: 'task-1',
+          content: (
+            <>
+              <Item.Infograph>task-1</Item.Infograph>
+              <Item.Editor>task-1</Item.Editor>
+            </>
+          )
+        },
+        'task-2': {
+          id: 'task-2',
+          content: (
+            <>
+              <Item.Infograph>task-2</Item.Infograph>
+              <Item.Editor>task-2</Item.Editor>
+            </>
+          )
+        },
+        'task-3': {
+          id: 'task-3',
+          content: (
+            <>
+              <Item.Infograph>task-3</Item.Infograph>
+              <Item.Editor>task-3</Item.Editor>
+            </>
+          )
+        }
       },
       columns: {
         'column-1': {
@@ -24,7 +48,6 @@ export default class Editor extends Component {
   }
 
   onDragEnd = result => {
-    console.log(result);
     let { source, destination, draggableId } = result,
       { draggableList } = this.state;
 

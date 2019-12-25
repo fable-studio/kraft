@@ -1,9 +1,47 @@
 import React , { Component } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-export default class Item extends Component {
+class Infograph extends Component {
   render () {
-    let { infoBodyWidth, editorBodyWidth, task, index} = this.props;
+    let { width, height } = this.props;
+
+    return (
+      <div style={{width, height, background: 'black' }}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+Infograph.defaultProps = {
+  width: 600,
+  height: 200
+}
+
+class InfographEditor extends Component {
+  render () {
+    let { width, height } = this.props;
+    return (
+      <div style={{width, height, background: 'blue'}}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+InfographEditor.defaultProps = {
+  width: 600,
+  height: 200
+}
+
+
+export default class Item extends Component {
+
+  static Infograph = Infograph;
+  static Editor = InfographEditor;
+
+  render () {
+    let { task, index } = this.props;
     return (
       <Draggable draggableId={task.id} index={index}>
         {provided => (
@@ -12,8 +50,7 @@ export default class Item extends Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <div style={{width: infoBodyWidth, height: 200, background: 'black' }}>{task.content}</div>
-            <div style={{width: editorBodyWidth, height: 200, background: 'blue'}}>{task.content}</div>
+            {task.content}
           </div>
         )}
       </Draggable>
