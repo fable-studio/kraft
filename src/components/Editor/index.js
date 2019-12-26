@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Item from '../DraggableItem/index';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import './index.scss';
 import { 
@@ -129,6 +131,32 @@ export default class Editor extends Component {
     });
   }
 
+  print = () => {
+    let containerEle = document.createElement('div'),
+      infoItems = document.getElementsByClassName('infoitem-default'),
+      width,
+      height;
+
+    containerEle.setAttribute('style', `position: absolute; top: -16384px; width:${this.state.infoBodyWidth}px; background: #ebeff2;`);
+
+    for (let i = 0; i < infoItems.length; i++) {
+      containerEle.appendChild(infoItems[i].cloneNode(true));
+    }
+
+    document.body.insertBefore(containerEle, document.body.firstChild);
+
+    height = containerEle.offsetHeight;
+    width = containerEle.offsetWidth;
+
+    const pdf = new jsPDF('p', 'mm', [width * 0.2646 * 5, height * 0.2646 * 5])
+
+    html2canvas(containerEle).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+      pdf.save("download.pdf");
+    });
+  }
+
   render () {
     let {
       sidebarWidth,
@@ -144,7 +172,7 @@ export default class Editor extends Component {
           <div className='toolbar-container d-inline-flex flex-row align-items-center' style={{ marginLeft: sidebarWidth -10 }}>
             <Input className='mr-2 input-cosmetics' bsSize='lg' placeholder='Enter Infographic name'></Input>
             <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faEye} /></Button>
-            <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faSave} /></Button>
+            <Button className='btn-cosmetics mr-2' onClick={this.print}><FontAwesomeIcon icon={faSave} /></Button>
             <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faShare} /></Button>
           </div>
         </div>
