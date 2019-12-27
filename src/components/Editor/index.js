@@ -13,8 +13,9 @@ import {
   RatingIcon,
   TextItem,
   ChartItem,
-  MapItem,
-  ImageItem
+  RatingItem,
+  ImageItem,
+  MapItem
 } from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -40,25 +41,29 @@ export default class Editor extends Component {
         tasks: {
           'task-1': {
             id: 'task-1',
-            content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
+            content: <ImageItem maxLineWidth={infoBodyWidth} />
           },
           'task-2': {
             id: 'task-2',
-            content: <ChartItem />
+            content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
           },
           'task-3': {
             id: 'task-3',
-            content: <ImageItem maxLineWidth={infoBodyWidth} />
+            content: <ChartItem />
           },
           'task-4': {
             id: 'task-4',
+            content: <RatingItem />
+          },
+          'task-5': {
+            id: 'task-5',
             content: <MapItem />
           }
         },
         columns: {
           'column-1': {
             id: 'column-1',
-            taskIds: ['task-1', 'task-2', 'task-3', 'task-4']
+            taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'task-5']
           }
         },
         columnOrder: ['column-1']

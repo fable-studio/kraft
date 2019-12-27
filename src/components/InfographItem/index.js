@@ -2,7 +2,7 @@ import { TextIcon, TextItem } from './text';
 import { ChartIcon, ChartItem } from './chart';
 import { MapIcon, MapItem } from './maps';
 import { ImageIcon, ImageItem } from './image';
-import { RatingIcon } from './rating';
+import { RatingIcon, RatingItem } from './rating';
 
 export {
   TextIcon,
@@ -13,5 +13,6 @@ export {
   MapItem,
   ImageIcon,
   ImageItem,
-  RatingIcon
+  RatingIcon,
+  RatingItem
 };

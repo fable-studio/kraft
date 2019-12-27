@@ -4,10 +4,18 @@ import { Draggable } from 'react-beautiful-dnd';
 import './index.scss';
 class Infograph extends Component {
   render () {
-    const { width } = this.props;
+    const { width, height } = this.props;
+
+    let styleObj = {
+      width
+    };
+
+    if (height) {
+      styleObj.minHeight = height;
+    }
 
     return (
-      <div className='infoitem-default' style={{ width }}>
+      <div className='infoitem-default' style={styleObj}>
         {this.props.children}
       </div>
     );
@@ -20,9 +28,18 @@ Infograph.defaultProps = {
 
 class InfographEditor extends Component {
   render () {
-    const { width } = this.props;
+    const { width, height } = this.props;
+
+    let styleObj = {
+      width
+    };
+
+    if (height) {
+      styleObj.minHeight = height;
+    }
+
     return (
-      <div className='infoeditor-default' style={{ width }}>
+      <div className='infoeditor-default' style={styleObj}>
         {this.props.children}
       </div>
     );
