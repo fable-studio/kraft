@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faFont
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
@@ -28,7 +28,7 @@ class TextItem extends Component {
 
   getColorBtnHandler = (index) => {
     return () => {
-      let { colorPalette } = this.state;
+      const { colorPalette } = this.state;
 
       this.setState({
         textCosmetics: {
@@ -36,17 +36,17 @@ class TextItem extends Component {
           color: colorPalette[index]
         }
       });
-    }
+    };
   }
 
   getTextTypeHandler = (index) => {
     return () => {
-      let { textTypes } = this.state;
+      const { textTypes } = this.state;
 
       this.setState({
         type: textTypes[index]
       });
-    }
+    };
   }
 
   getFormattedHeader = () => {
@@ -91,11 +91,9 @@ class TextItem extends Component {
   }
 
   render () {
-    let { colorPalette, textTypes, type, textCosmetics } = this.state,
-      retContent,
-      editorContent;
-
-    editorContent = (
+    const { colorPalette, textTypes, type, textCosmetics } = this.state;
+    let retContent;
+    const editorContent = (
       <Item.Editor>
         <div className='h-100 w-100'>
           <div className='d-flex flex-column'>
@@ -125,16 +123,16 @@ class TextItem extends Component {
                       key={index}
                       className='color-btn'
                       onClick={this.getColorBtnHandler(index)}
-                      style={{ backgroundColor: color}}
+                      style={{ backgroundColor: color }}
                     ></Button>
-                  )
+                  );
                 })}
               </ButtonGroup>
             </div>
           </div>
         </div>
       </Item.Editor>
-    )
+    );
     if (type === 'body') {
       retContent = (
         <>
@@ -212,19 +210,17 @@ TextItem.defaultProps = {
   type: 'header',
   content: 'Insert text here',
   maxLineWidth: 480
-}
+};
 
 class TextIcon extends Component {
   render () {
-    let { type, content, onClickFn, count } = this.props,
-      retContent;
-
-    retContent = {
+    const { type, content, onClickFn, count } = this.props;
+    const retContent = {
       task: {
         id: 'task-' + (count + 1),
         content: <TextItem type={type} content={content} />
       }
-    }
+    };
 
     return (
       <BaseItemIcon retContent={retContent} passContent={onClickFn}>
@@ -238,9 +234,9 @@ TextIcon.defaultProps = {
   type: 'header',
   content: 'Insert text here',
   onClickFn: () => {}
-}
+};
 
 export {
   TextIcon,
   TextItem
-}
+};

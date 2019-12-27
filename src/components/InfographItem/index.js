@@ -14,4 +14,4 @@ export {
   ImageIcon,
   ImageItem,
   RatingIcon
-}
+};

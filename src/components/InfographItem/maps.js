@@ -5,7 +5,7 @@ import Maps from 'fusioncharts/fusioncharts.maps';
 import World from 'fusioncharts/maps/fusioncharts.world';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faMap
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
@@ -56,10 +56,11 @@ class MapItem extends Component {
         dataFormat: 'json',
         dataSource: dataSource
       }
-    }
+    };
   }
+
   render () {
-    let { chartConfig } = this.state;
+    const { chartConfig } = this.state;
     return (
       <>
         <Item.Infograph>
@@ -77,20 +78,17 @@ class MapItem extends Component {
 
 MapItem.defaultProps = {
   type: 'world'
-}
-
+};
 
 class MapIcon extends Component {
   render () {
-    let { type, content, onClickFn, count } = this.props,
-      retContent;
-
-    retContent = {
+    const { type, content, onClickFn, count } = this.props;
+    const retContent = {
       task: {
         id: 'task-' + (count + 1),
         content: <MapItem type={type} content={content} />
       }
-    }
+    };
 
     return (
       <BaseItemIcon retContent={retContent} passContent={onClickFn}>
@@ -104,9 +102,9 @@ MapIcon.defaultProps = {
   type: 'world',
   content: 'Inset chart here',
   onClickFn: () => {}
-}
+};
 
 export {
   MapIcon,
   MapItem
-}
+};
