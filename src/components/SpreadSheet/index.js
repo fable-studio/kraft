@@ -41,7 +41,7 @@ export default class SpreadSheet extends Component {
             onChange={this.handleChange}
           >
           </Input>
-          <Button onClick={this.importFile}>Upload file</Button>
+          <Button className='upload-button' size='sm' onClick={this.importFile}>Upload file</Button>
         </div>
         <div>
           <HotTable
