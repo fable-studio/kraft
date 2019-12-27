@@ -6,14 +6,17 @@ import {
 import BaseItemIcon from './base';
 import Item from '../DraggableItem';
 import { ButtonGroup, Button } from 'reactstrap';
+import Sl from 'fusioncharts-smartlabel';
 
 import './text.scss';
 
+const sl = new Sl();
 class TextItem extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
+      content: props.content,
       type: props.type || 'header',
       textCosmetics: {
         color: 'black'
@@ -46,8 +49,48 @@ class TextItem extends Component {
     };
   }
 
+  getFormattedHeader = () => {
+    let { maxLineWidth } = this.props,
+      headers = this.state.content.split('\n'),
+      // divs = '',
+      i;
+
+    headers.forEach((header, index) => {
+      if (!header) return;
+
+      for (i = 20; i < 100; i++) {
+        sl.setStyle({
+          'font-family': 'Noto Sans SC',
+          'font-size': i + 'px'
+        });
+        sl.getSize('a');
+
+        if (sl.getSmartText(header, maxLineWidth, sl._lineHeight).text !== header) {
+          break;
+        }
+      }
+
+      // divs += `<div style='font-size:${i - 1}px'>${header}</div>`;
+    });
+
+    return (
+      <input
+        className='w-100'
+        onChange={this.handleChange}
+        style={{ fontSize: i - 2, background: 'transparent', border: 'none'}}
+        value={headers[0]}
+      >
+      </input>
+    )
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      content: e.target.value
+    });
+  }
+
   render () {
-    const { content } = this.props;
     const { colorPalette, textTypes, type, textCosmetics } = this.state;
     let retContent;
     const editorContent = (
@@ -146,13 +189,13 @@ class TextItem extends Component {
         <>
           <Item.Infograph>
             <div
-              className='mx-2 my-2 h-100'
+              className='mx-2 my-2 h-100 text-center'
               style={{
                 color: textCosmetics.color
               }}
               spellCheck={false}
             >
-              <h1 contentEditable={true} suppressContentEditableWarning={true}>{content}</h1>
+              {this.getFormattedHeader()}
             </div>
           </Item.Infograph>
           {editorContent}
@@ -165,7 +208,8 @@ class TextItem extends Component {
 
 TextItem.defaultProps = {
   type: 'header',
-  content: 'Insert text here'
+  content: 'Insert text here',
+  maxLineWidth: 480
 };
 
 class TextIcon extends Component {

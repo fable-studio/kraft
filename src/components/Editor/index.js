@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Item from '../DraggableItem/index';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import './index.scss';
 import {
@@ -11,8 +13,9 @@ import {
   RatingIcon,
   TextItem,
   ChartItem,
-  MapItem,
-  ImageItem
+  RatingItem,
+  ImageItem,
+  MapItem
 } from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,38 +23,51 @@ import {
   faEye, faSave, faShare
 } from '@fortawesome/free-solid-svg-icons';
 
+const DEFAULTTEXTPADDING = 20;
 export default class Editor extends Component {
-  state = {
-    sidebarWidth: 70,
-    infoBodyWidth: 500,
-    editorBodyWidth: 400,
-    taskCount: 4,
-    draggableList: {
-      tasks: {
-        'task-1': {
-          id: 'task-1',
-          content: <TextItem />
+  constructor (props) {
+    super(props);
+
+    let sidebarWidth = 70,
+      infoBodyWidth = 500,
+      editorBodyWidth = 400;
+
+    this.state = {
+      taskCount: 4,
+      sidebarWidth,
+      infoBodyWidth,
+      editorBodyWidth,
+      draggableList: {
+        tasks: {
+          'task-1': {
+            id: 'task-1',
+            content: <ImageItem maxLineWidth={infoBodyWidth} />
+          },
+          'task-2': {
+            id: 'task-2',
+            content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
+          },
+          'task-3': {
+            id: 'task-3',
+            content: <ChartItem />
+          },
+          'task-4': {
+            id: 'task-4',
+            content: <RatingItem />
+          },
+          'task-5': {
+            id: 'task-5',
+            content: <MapItem />
+          }
         },
-        'task-2': {
-          id: 'task-2',
-          content: <ChartItem />
+        columns: {
+          'column-1': {
+            id: 'column-1',
+            taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'task-5']
+          }
         },
-        'task-3': {
-          id: 'task-3',
-          content: <ImageItem />
-        },
-        'task-4': {
-          id: 'task-4',
-          content: <MapItem />
-        }
-      },
-      columns: {
-        'column-1': {
-          id: 'column-1',
-          taskIds: ['task-1', 'task-2', 'task-3', 'task-4']
-        }
-      },
-      columnOrder: ['column-1']
+        columnOrder: ['column-1']
+      }
     }
   }
 
@@ -118,6 +134,32 @@ export default class Editor extends Component {
     });
   }
 
+  print = () => {
+    let containerEle = document.createElement('div'),
+      infoItems = document.getElementsByClassName('infoitem-default'),
+      width,
+      height;
+
+    containerEle.setAttribute('style', `position: absolute; top: -16384px; width:${this.state.infoBodyWidth}px; background: #ebeff2;`);
+
+    for (let i = 0; i < infoItems.length; i++) {
+      containerEle.appendChild(infoItems[i].cloneNode(true));
+    }
+
+    document.body.insertBefore(containerEle, document.body.firstChild);
+
+    height = containerEle.offsetHeight;
+    width = containerEle.offsetWidth;
+
+    const pdf = new jsPDF('p', 'mm', [width * 0.2646 * 5, height * 0.2646 * 5])
+
+    html2canvas(containerEle).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+      pdf.save("download.pdf");
+    });
+  }
+
   render () {
     const {
       sidebarWidth,
@@ -133,7 +175,7 @@ export default class Editor extends Component {
           <div className='toolbar-container d-inline-flex flex-row align-items-center' style={{ marginLeft: sidebarWidth - 10 }}>
             <Input className='mr-2 input-cosmetics' bsSize='lg' placeholder='Enter Infographic name'></Input>
             <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faEye} /></Button>
-            <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faSave} /></Button>
+            <Button className='btn-cosmetics mr-2' onClick={this.print}><FontAwesomeIcon icon={faSave} /></Button>
             <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faShare} /></Button>
           </div>
         </div>
@@ -142,7 +184,7 @@ export default class Editor extends Component {
             <TextIcon count={taskCount} onClickFn={this.addNewTask} />
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
-            <ImageIcon count={taskCount} onClickFn={this.addNewTask} />
+            <ImageIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth} />
             <RatingIcon />
           </div>
           <div className='position-relative'>
