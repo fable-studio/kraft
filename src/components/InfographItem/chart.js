@@ -91,23 +91,35 @@ class ChartItem extends Component {
       csv,
       isSingleSeries
     };
-    this.dataUpdated = (result) => {
-      if (!result) return;
-      const { chartConfig, isSingleSeries } = this.state;
-      const csv = this.state.csv.slice();
-      result.forEach(res => {
-        const arr = csv[res[0]].slice();
-        arr[res[1]] = res[3];
-        csv[res[0]] = arr;
-      });
-      this.setState({
-        chartConfig: {
-          ...chartConfig,
-          dataSource: createJson(csv, isSingleSeries)
-        },
-        csv
-      });
-    };
+  }
+
+  dataUpdated = (result) => {
+    if (!result) return;
+    const { chartConfig, isSingleSeries } = this.state;
+    const csv = this.state.csv.slice();
+    result.forEach(res => {
+      const arr = csv[res[0]].slice();
+      arr[res[1]] = res[3];
+      csv[res[0]] = arr;
+    });
+    this.setState({
+      chartConfig: {
+        ...chartConfig,
+        dataSource: createJson(csv, isSingleSeries)
+      },
+      csv
+    });
+  };
+
+  fileUpdated = (data) => {
+    const { chartConfig, isSingleSeries } = this.state;
+    this.setState({
+      chartConfig: {
+        ...chartConfig,
+        dataSource: createJson(data, isSingleSeries)
+      },
+      csv: data
+    });
   }
 
   render () {
@@ -123,7 +135,7 @@ class ChartItem extends Component {
           <div>
 
           </div>
-          <SpreadSheet data={this.state.csv} dataUpdated={this.dataUpdated} />
+          <SpreadSheet data={this.state.csv} dataUpdated={this.dataUpdated} fileUpdated={this.fileUpdated} />
         </Item.Editor>
       </>
     );
