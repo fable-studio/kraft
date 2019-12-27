@@ -25,7 +25,7 @@ import {
 const DEFAULTTEXTPADDING = 20;
 export default class Editor extends Component {
   constructor (props) {
-    super (props);
+    super(props);
 
     let sidebarWidth = 70,
       infoBodyWidth = 500,
@@ -48,7 +48,7 @@ export default class Editor extends Component {
           },
           'task-3': {
             id: 'task-3',
-            content: <ImageItem />
+            content: <ImageItem maxLineWidth={infoBodyWidth} />
           },
           'task-4': {
             id: 'task-4',
@@ -179,7 +179,7 @@ export default class Editor extends Component {
             <TextIcon count={taskCount} onClickFn={this.addNewTask} />
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
-            <ImageIcon count={taskCount} onClickFn={this.addNewTask} />
+            <ImageIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth} />
             <RatingIcon />
           </div>
           <div className='position-relative'>
