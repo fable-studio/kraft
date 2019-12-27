@@ -11,11 +11,12 @@ import BaseItemIcon from './base';
 import Item from '../DraggableItem';
 import SpreadSheet from '../SpreadSheet/index.js';
 import PropTypes from 'prop-types';
+import changeIcon from '../../assets/images/change.png';
 ReactFc.fcRoot(FusionCharts, Charts, FusionTheme);
 FusionCharts.options.creditLabel = 0;
 
 const csv = [
-  ['Country', 'Reserves (MMbbl)'],
+  ['Country', 'Reserves (MMbbl)', '', ''],
   ['Venezuela', '290'],
   ['Saudi', '260'],
   ['Canada', '180'],
@@ -25,6 +26,14 @@ const csv = [
   ['US', '30'],
   ['China', '30']
 ];
+const chartTypes = [
+  'msbar2d',
+  'mscolumn2d',
+  'pie2d',
+  'msarea',
+  'msline'
+];
+const isSingleSeriesType = str => !str.startsWith('ms');
 const createJson = (csv, isSingleSeries) => {
   const json = {
     chart: {
@@ -56,7 +65,7 @@ const createJson = (csv, isSingleSeries) => {
       if (i === 0) {
         json.chart.xAxisName = arr[0];
         arr.forEach((ele, j) => {
-          if (j === 0) return;
+          if (j === 0 || !ele) return;
           json.dataset.push({
             seriesname: ele,
             data: []
@@ -67,7 +76,12 @@ const createJson = (csv, isSingleSeries) => {
           label: arr[0]
         });
         arr.forEach((ele, j) => {
-          if (j === 0) return;
+          if (j === 0 || !ele) return;
+          else if (!json.dataset[j - 1]) {
+            json.dataset[j - 1] = {
+              data: []
+            };
+          }
           json.dataset[j - 1].data.push({
             value: ele
           });
@@ -80,7 +94,7 @@ const createJson = (csv, isSingleSeries) => {
 class ChartItem extends Component {
   constructor (props) {
     super(props);
-    const isSingleSeries = !props.type.startsWith('ms');
+    const isSingleSeries = isSingleSeriesType(props.type);
     this.state = {
       chartConfig: {
         type: props.type,
@@ -122,6 +136,28 @@ class ChartItem extends Component {
     });
   }
 
+  changeChart = () => {
+    const { chartConfig, csv } = this.state;
+    let { isSingleSeries } = this.state;
+    let { type, dataSource } = chartConfig;
+    type = chartTypes[(chartTypes.indexOf(type) + 1) % chartTypes.length];
+    const isSeriesChanged = isSingleSeries !== isSingleSeriesType(type);
+    if (isSeriesChanged) {
+      isSingleSeries = !isSingleSeries;
+      dataSource = createJson(csv, isSingleSeries);
+    }
+    this.setState(({ chartConfig }) => {
+      return {
+        chartConfig: {
+          ...chartConfig,
+          type,
+          dataSource
+        },
+        isSingleSeries
+      };
+    });
+  }
+
   render () {
     const { chartConfig } = this.state;
     return (
@@ -133,7 +169,7 @@ class ChartItem extends Component {
         </Item.Infograph>
         <Item.Editor>
           <div>
-
+            <button type="button" onClick={this.changeChart}><img src={changeIcon}/></button>
           </div>
           <SpreadSheet data={this.state.csv} dataUpdated={this.dataUpdated} fileUpdated={this.fileUpdated} />
         </Item.Editor>
@@ -143,16 +179,16 @@ class ChartItem extends Component {
 }
 
 ChartItem.defaultProps = {
-  type: 'bar2d'
+  type: chartTypes[0]
 };
 
 class ChartIcon extends Component {
   render () {
-    const { type, content, onClickFn, count } = this.props;
+    const { type, onClickFn, count } = this.props;
     const retContent = {
       task: {
         id: 'task-' + (count + 1),
-        content: <ChartItem type={type} content={content} />
+        content: <ChartItem type={type} />
       }
     };
 
@@ -165,8 +201,7 @@ class ChartIcon extends Component {
 }
 
 ChartIcon.defaultProps = {
-  type: 'column2d',
-  content: 'Inset chart here',
+  type: chartTypes[0],
   onClickFn: () => {}
 };
 ChartItem.propTypes = {
