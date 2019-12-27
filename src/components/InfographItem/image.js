@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faImage
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
@@ -10,7 +10,7 @@ import defaultImage from '../../assets/images/defaultImage.jpg';
 
 class ImageItem extends Component {
   render () {
-    let { content } = this.props;
+    const { content } = this.props;
 
     return (
       <>
@@ -29,19 +29,17 @@ class ImageItem extends Component {
 
 ImageItem.defaultProps = {
   content: defaultImage
-}
+};
 
 class ImageIcon extends Component {
   render () {
-    let { count, content, onClickFn } = this.props,
-      retContent;
-
-    retContent = {
+    const { count, content, onClickFn } = this.props;
+    const retContent = {
       task: {
         id: 'task-' + (count + 1),
         content: <ImageItem content={content} />
       }
-    }
+    };
 
     return (
       <BaseItemIcon retContent={retContent} passContent={onClickFn}>
@@ -54,9 +52,9 @@ class ImageIcon extends Component {
 ImageIcon.defaultProps = {
   content: defaultImage,
   onClickFn: () => {}
-}
+};
 
 export {
   ImageIcon,
   ImageItem
-}
+};

@@ -13,12 +13,12 @@ export default class App extends Component {
   }
 
   render () {
-    let { isLoggedIn } = this.state;
+    const { isLoggedIn } = this.state;
 
     if (isLoggedIn) {
-      return <GraphBuilder />
+      return <GraphBuilder />;
     }
 
-    return <UserLogin />
+    return <UserLogin />;
   }
 };

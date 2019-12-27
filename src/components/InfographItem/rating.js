@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faStarHalfAlt
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 
 class RatingIcon extends Component {
   render () {
-    let { type, content, onClickFn } = this.props,
-      retContent;
+    const { type, content, onClickFn } = this.props;
+    let retContent;
 
     // @todo: Handle cases for each type
     if (type === 'column2d') {
@@ -31,8 +31,8 @@ RatingIcon.defaultProps = {
   type: 'column2d',
   content: 'Inset chart here',
   onClickFn: () => {}
-}
+};
 
 export {
   RatingIcon
-}
+};
