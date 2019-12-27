@@ -34,9 +34,7 @@ ImageItem.defaultProps = {
 class ImageIcon extends Component {
   render () {
     const { count, content, onClickFn } = this.props;
-    let retContent;
-
-    retContent = {
+    const retContent = {
       task: {
         id: 'task-' + (count + 1),
         content: <ImageItem content={content} />

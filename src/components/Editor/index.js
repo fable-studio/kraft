@@ -95,9 +95,7 @@ export default class Editor extends Component {
 
   addNewTask = (content) => {
     const { draggableList, taskCount } = this.state;
-    let newDraggableList;
-
-    newDraggableList = {
+    const newDraggableList = {
       ...draggableList,
       tasks: {
         ...draggableList.tasks,

@@ -83,9 +83,7 @@ MapItem.defaultProps = {
 class MapIcon extends Component {
   render () {
     const { type, content, onClickFn, count } = this.props;
-    let retContent;
-
-    retContent = {
+    const retContent = {
       task: {
         id: 'task-' + (count + 1),
         content: <MapItem type={type} content={content} />

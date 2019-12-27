@@ -23,6 +23,7 @@ module.exports = {
     'react'
   ],
   rules: {
-    semi: [2, 'always']
+    semi: ['error', 'always'],
+    indent: ['error', 2, { SwitchCase: 1 }]
   }
 }
