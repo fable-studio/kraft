@@ -4,13 +4,13 @@ import './base.scss';
 
 export default class BaseItemIcon extends Component {
   handleClick = () => {
-    let { passContent, retContent } = this.props;
+    const { passContent, retContent } = this.props;
 
     passContent(retContent);
   }
 
   render () {
-    let { width, height } = this.props;
+    const { width, height } = this.props;
 
     return (
       <div className='default-icon mb-1' style={{ width, height }} onClick={this.handleClick}>
@@ -23,4 +23,4 @@ export default class BaseItemIcon extends Component {
 BaseItemIcon.defaultProps = {
   width: 50,
   height: 50
-}
+};

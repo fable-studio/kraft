@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faPalette
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
 
-import userDp from  '../../assets/images/userdp.jpeg';
+import userDp from '../../assets/images/userdp.jpeg';
 import Avatar from '../Avatar';
 
 export default class Header extends Component {

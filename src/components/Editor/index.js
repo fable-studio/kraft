@@ -3,7 +3,7 @@ import Item from '../DraggableItem/index';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 
 import './index.scss';
-import { 
+import {
   TextIcon,
   ChartIcon,
   MapIcon,
@@ -13,10 +13,10 @@ import {
   ChartItem,
   MapItem,
   ImageItem
- } from '../InfographItem';
+} from '../InfographItem';
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faEye, faSave, faShare
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -56,8 +56,8 @@ export default class Editor extends Component {
   }
 
   onDragEnd = result => {
-    let { source, destination, draggableId } = result,
-      { draggableList } = this.state;
+    const { source, destination, draggableId } = result;
+    const { draggableList } = this.state;
 
     if (!destination) return;
 
@@ -68,8 +68,8 @@ export default class Editor extends Component {
       return;
     }
 
-    const column = draggableList.columns[source.droppableId],
-      newTaskIds = Array.from(column.taskIds);
+    const column = draggableList.columns[source.droppableId];
+    const newTaskIds = Array.from(column.taskIds);
 
     newTaskIds.splice(source.index, 1);
     newTaskIds.splice(destination.index, 0, draggableId);
@@ -94,8 +94,8 @@ export default class Editor extends Component {
   }
 
   addNewTask = (content) => {
-    let { draggableList, taskCount } = this.state,
-      newDraggableList;
+    const { draggableList, taskCount } = this.state;
+    let newDraggableList;
 
     newDraggableList = {
       ...draggableList,
@@ -121,7 +121,7 @@ export default class Editor extends Component {
   }
 
   render () {
-    let {
+    const {
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
@@ -132,7 +132,7 @@ export default class Editor extends Component {
     return (
       <>
         <div className='mt-3' style={{ width: editorBodyWidth + infoBodyWidth + sidebarWidth }}>
-          <div className='toolbar-container d-inline-flex flex-row align-items-center' style={{ marginLeft: sidebarWidth -10 }}>
+          <div className='toolbar-container d-inline-flex flex-row align-items-center' style={{ marginLeft: sidebarWidth - 10 }}>
             <Input className='mr-2 input-cosmetics' bsSize='lg' placeholder='Enter Infographic name'></Input>
             <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faEye} /></Button>
             <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faSave} /></Button>
@@ -150,8 +150,8 @@ export default class Editor extends Component {
           <div className='position-relative'>
             <DragDropContext onDragEnd={this.onDragEnd}>
               {draggableList.columnOrder.map(columnId => {
-                const column = draggableList.columns[columnId],
-                  tasks = column.taskIds.map(taskId => draggableList.tasks[taskId]);
+                const column = draggableList.columns[columnId];
+                const tasks = column.taskIds.map(taskId => draggableList.tasks[taskId]);
 
                 return (
                   <Droppable droppableId={columnId} key={columnId}>

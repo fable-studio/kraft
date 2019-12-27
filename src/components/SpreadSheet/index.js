@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { HotTable } from '@handsontable/react'
-import { Input } from 'reactstrap'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import { HotTable } from '@handsontable/react';
+import { Input } from 'reactstrap';
+import PropTypes from 'prop-types';
 
-import 'handsontable/dist/handsontable.full.css'
-import './index.scss'
+import 'handsontable/dist/handsontable.full.css';
+import './index.scss';
 
 export default class SpreadSheet extends Component {
   render () {
@@ -24,10 +24,10 @@ export default class SpreadSheet extends Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }
 SpreadSheet.propTypes = {
   data: PropTypes.array,
   dataUpdated: PropTypes.func
-}
+};
