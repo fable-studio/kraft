@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faPalette
+  faPalette, faEye
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
+import { connect } from 'react-redux';
 
-import userDp from '../../assets/images/userdp.jpeg';
-import Avatar from '../Avatar';
-
-export default class Header extends Component {
+class Header extends Component {
   render () {
     return (
       <div className='info-body-header position-fixed w-100'>
@@ -24,7 +22,8 @@ export default class Header extends Component {
             </Col>
             <Col xl='4' md='4' sm='4'>
               <div className='d-inline-block float-right header-line-height'>
-                <Avatar classNames=' float-right header-line-height' imageSrc={userDp} ></Avatar>
+                <Button className='rounded-circle mr-2' onClick={this.props.togglePreview}><FontAwesomeIcon icon={faEye} /></Button>
+                {/* <Avatar classNames=' float-right header-line-height' imageSrc={userDp} ></Avatar> */}
               </div>
             </Col>
           </Row>
@@ -33,3 +32,11 @@ export default class Header extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    togglePreview: () => { dispatch({ type: 'toggle' }); }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Header);

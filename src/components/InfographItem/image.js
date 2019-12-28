@@ -10,7 +10,7 @@ import BaseItemIcon from './base';
 import Item from '../DraggableItem';
 
 import defaultImage from '../../assets/images/defaultImage.jpg';
-import { Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Input } from 'reactstrap';
 
 import './image.scss';
 
@@ -20,7 +20,6 @@ class ImageItem extends Component {
 
     this.state = {
       content: props.content,
-      showModal: false,
       imageFit: true,
       filters: {
         contrast: {
@@ -69,10 +68,6 @@ class ImageItem extends Component {
     }
   }
 
-  toggleModal = () => {
-    this.setState(prevState => { return { showModal: !prevState.showModal }});
-  }
-
   changeImageFit = () => {
     this.setState(prevState => { return { imageFit: !prevState.imageFit }});
   }
@@ -113,7 +108,7 @@ class ImageItem extends Component {
 
   render () {
     const { maxLineWidth } = this.props,
-      { showModal, content, filters } = this.state,
+      { content, filters } = this.state,
       { contrast, hue, brightness, saturate, sepia, invert, transparent} = filters,
       imgStyle = {
         maxWidth: '100%',
@@ -153,31 +148,6 @@ class ImageItem extends Component {
                 })}
               </div>
             </div>
-            <span className='position-absolute expand-btn rounded-circle' onClick={this.toggleModal}>
-              <FontAwesomeIcon icon={faExpand} />
-            </span>
-            <Modal
-              size={'xl'}
-              isOpen={showModal}
-              modalTransition={{ timeout: 300 }}
-              backdropTransition={{ timeout: 500 }}
-              toggle={this.toggleModal}
-            >
-              <ModalHeader toggle={this.toggleModal} charCode='X'>Edit Image</ModalHeader>
-              <ModalBody>
-                <div>
-                  <div className='modal-image' style={{ width: maxLineWidth }}>
-                    {imageJSX}
-                  </div>
-                  <div className='modal-image-editor'>
-
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color='primary' onClick={this.toggleModal}>Close</Button>
-              </ModalFooter>
-            </Modal>
           </div>
         </Item.Editor>
       </>
