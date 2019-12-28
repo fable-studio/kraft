@@ -57,6 +57,8 @@ class MapItem extends Component {
     this.state = {
       height: props.height,
       type: props.type,
+      caption: '',
+      subCaption: '',
       chartAttr: {
         showLegend: 0,
         baseFont: 'Oswald',
@@ -116,8 +118,20 @@ class MapItem extends Component {
     });
   }
 
+  titleChangeHandler = e => {
+    this.setState({
+      caption: e.target.value
+    });
+  }
+
+  subtitleChangeHandler = e => {
+    this.setState({
+      subCaption: e.target.value
+    });
+  }
+
   render () {
-    const { chartAttr, type, colorRange, height, csv } = this.state;
+    const { chartAttr, type, colorRange, height, csv, caption, subCaption } = this.state;
 
     const chartConfig = {
       type: type,
@@ -125,7 +139,11 @@ class MapItem extends Component {
       height: height,
       dataFormat: 'json',
       dataSource: {
-        chart: { ...chartAttr },
+        chart: {
+          ...chartAttr,
+          caption,
+          subCaption
+        },
         colorRange: { ...colorRange },
         data: parseCSVToData(csv)
       }
@@ -150,11 +168,11 @@ class MapItem extends Component {
             </div>
             <div className='mt-2'>
               <span>Title:</span>
-              <Input className='d-inline-block' />
+              <Input className='d-inline-block' onChange={this.titleChangeHandler} />
             </div>
             <div className='mt-2'>
               <span>Subtitle:</span>
-              <Input className='d-inline-block' />
+              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} />
             </div>
             <div>
               <span>Chart Height</span>
