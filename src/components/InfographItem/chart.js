@@ -5,13 +5,13 @@ import Charts from 'fusioncharts/fusioncharts.charts';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartPie
+  faChartPie, faChartArea, faBorderNone
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 import Item from '../DraggableItem';
 import SpreadSheet from '../SpreadSheet/index.js';
 import PropTypes from 'prop-types';
-import changeIcon from '../../assets/images/change.png';
+import { Button, Input } from 'reactstrap';
 ReactFc.fcRoot(FusionCharts, Charts, FusionTheme);
 FusionCharts.options.creditLabel = 0;
 
@@ -40,6 +40,10 @@ const createJson = (csv, isSingleSeries) => {
       bgColor: 'ebeff2',
       canvasbgcolor: '#ffffff',
       baseFont: 'Oswald',
+      divLineAlpha: 100,
+      alignCaptionWithCanvas: 0,
+      caption: '',
+      subcaption: '',
       theme: 'fusion'
     }
   };
@@ -96,14 +100,24 @@ class ChartItem extends Component {
   constructor (props) {
     super(props);
     const isSingleSeries = isSingleSeriesType(props.type);
+
+    this._defaultCSV = [];
+    for (let i = 0; i < csv.length; i++) {
+      this._defaultCSV.push(csv[i].slice(0));
+    }
+
+    console.log(this._defaultCSV, csv);
     this.state = {
       chartConfig: {
         type: props.type,
         width: '100%',
-        height: 400,
-        dataSource: createJson(csv, isSingleSeries)
+        height: props.height,
+        dataSource: createJson(this._defaultCSV, isSingleSeries)
       },
-      csv,
+      csv: this._defaultCSV,
+      subCaption: '',
+      caption: '',
+      divLineAlpha: 100,
       isSingleSeries
     };
   }
@@ -159,20 +173,78 @@ class ChartItem extends Component {
     });
   }
 
+  changeChartHeight = e => {
+    const value = e.target.value;
+
+    this.setState(prevState => {
+      return {
+        chartConfig: {
+          ...prevState.chartConfig,
+          height: value
+        }
+      };
+    });
+  }
+
+  titleChangeHandler = e => {
+    this.setState({
+      caption: e.target.value
+    });
+  }
+
+  subtitleChangeHandler = e => {
+    this.setState({
+      subCaption: e.target.value
+    });
+  }
+
+  changeDivLineAlpha = () => {
+    this.setState(prevState => {
+      return {
+        divLineAlpha: (!prevState.divLineAlpha) * 100
+      };
+    });
+  }
+
   render () {
-    const { chartConfig } = this.state;
+    const { chartConfig, caption, subCaption, divLineAlpha } = this.state;
+
+    chartConfig.dataSource.chart.caption = caption;
+    chartConfig.dataSource.chart.subCaption = subCaption;
+    chartConfig.dataSource.chart.divLineAlpha = divLineAlpha;
+
     return (
       <>
         <Item.Infograph>
-          <div className='mx-1'>
+          <div className='ml-1 mr-2 my-1'>
             <ReactFc {...chartConfig} />
           </div>
         </Item.Infograph>
         <Item.Editor>
-          <div>
-            <button type="button" onClick={this.changeChart}><img src={changeIcon}/></button>
+          <div className='mx-3 my-3'>
+            <div>
+              <Button className='mr-1' onClick={this.changeChart}>
+                <FontAwesomeIcon icon={faChartArea} />
+              </Button>
+              <Button className='mr-1' onClick={this.changeDivLineAlpha}>
+                <FontAwesomeIcon icon={faBorderNone} />
+              </Button>
+              <span>
+                <span>Chart Height</span>
+                <input type='range' min={300} max={800} value={chartConfig.height} onChange={this.changeChartHeight} />
+                <span>{chartConfig.height}PX</span>
+              </span>
+            </div>
+            <div className='mt-2'>
+              <span>Title:</span>
+              <Input className='d-inline-block' onChange={this.titleChangeHandler} value={caption} />
+            </div>
+            <div className='mt-2'>
+              <span>Subtitle:</span>
+              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={subCaption} />
+            </div>
+            <SpreadSheet data={this.state.csv} dataUpdated={this.dataUpdated} fileUpdated={this.fileUpdated} />
           </div>
-          <SpreadSheet data={this.state.csv} dataUpdated={this.dataUpdated} fileUpdated={this.fileUpdated} />
         </Item.Editor>
       </>
     );
@@ -180,7 +252,8 @@ class ChartItem extends Component {
 }
 
 ChartItem.defaultProps = {
-  type: chartTypes[0]
+  type: chartTypes[0],
+  height: 400
 };
 
 class ChartIcon extends Component {

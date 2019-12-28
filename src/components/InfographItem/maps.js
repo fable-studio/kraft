@@ -168,11 +168,11 @@ class MapItem extends Component {
             </div>
             <div className='mt-2'>
               <span>Title:</span>
-              <Input className='d-inline-block' onChange={this.titleChangeHandler} />
+              <Input className='d-inline-block' onChange={this.titleChangeHandler} value={caption} />
             </div>
             <div className='mt-2'>
               <span>Subtitle:</span>
-              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} />
+              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={subCaption} />
             </div>
             <div>
               <span>Chart Height</span>
@@ -211,7 +211,7 @@ class MapIcon extends Component {
 }
 
 MapIcon.defaultProps = {
-  type: 'worldwithcountries',
+  type: 'world',
   content: 'Inset chart here',
   onClickFn: () => {}
 };
