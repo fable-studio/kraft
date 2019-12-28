@@ -10,11 +10,17 @@
 
 .rating-editor-btn {
   width: 55px;
-  height: 40px;
+  height: 45px;
   margin-left: 5px;
   background-color: white;
   color: #004ab3;
   font-size: 20px;
+}
+.rating-editor-input {
+  font-size: 14px;
+  height: 23px !important;
+  width: 75px !important;
+  padding-left: 4px;
 }
 
 .rating-editor-star-btn {
@@ -24,4 +30,5 @@
 
 .rating-container {
   width: 83%;
+  margin-top: -5px;
 }
