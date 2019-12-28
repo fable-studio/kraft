@@ -181,7 +181,7 @@ export default class Editor extends Component {
         </div>
         <div className='info-editor-body d-flex flex-row position-relative mt-2'>
           <div className='sidebar d-flex flex-column align-items-center' style={{ width: sidebarWidth }}>
-            <TextIcon count={taskCount} onClickFn={this.addNewTask} />
+            <TextIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING}/>
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
             <ImageIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth} />

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faFont, faAlignLeft, faAlignRight, faAlignCenter
+  faFont, faAlignLeft, faAlignRight, faAlignCenter, faQuoteLeft, faQuoteRight
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 import Item from '../DraggableItem';
@@ -103,6 +103,37 @@ class TextItem extends Component {
     )
   }
 
+  getText = type => {
+    let { content } = this.state,
+      textFontSize,
+      textJSX;
+
+    if (type === 'title') {
+      textFontSize = 35;
+      textJSX = <div style={{ fontSize: textFontSize }}>{content}</div>;
+    } else if (type === 'quote') {
+      textFontSize = 37;
+      textJSX = (
+        <div className='d-flex flex-row'>
+          <div className='d-inline-block position-relative' style={{ width: 52, background: 'white', borderRadius: 5, marginRight: 10 }}>
+            <span style={{ position: 'absolute', top: 0, left: 5, fontSize: 20 }}>
+              <FontAwesomeIcon icon={faQuoteLeft} />
+            </span>
+            <span style={{ position: 'absolute', top: 20, left: 25, fontSize: 20}}>
+              <FontAwesomeIcon icon={faQuoteRight} />
+            </span>
+          </div>
+          <div style={{ fontSize: textFontSize }}>{content}</div>
+        </div>
+      )
+    } else if (type === 'body') {
+      textFontSize = 20;
+      textJSX = <div style={{ fontSize: textFontSize }}>{content}</div>;
+    }
+
+    return textJSX;
+  }
+
   onTextChangeHandler = e => {
     this.setState({
       content: e.target.value
@@ -123,6 +154,7 @@ class TextItem extends Component {
               {textTypes.map((textType, index) => {
                 return (
                   <Button
+                    active={textType === type}
                     key={index}
                     className='type-btn'
                     onClick={this.getTextTypeHandler(index)}
@@ -151,24 +183,24 @@ class TextItem extends Component {
               <div className='info-text-justify'>
                 <span className='mr-2'>Alignment:</span>
                 <ButtonGroup size='sm'>
-                  <Button className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-left')}>
+                  <Button active={alignment === 'text-left'} className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-left')}>
                     <FontAwesomeIcon icon={faAlignLeft} />
                   </Button>
-                  <Button className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-center')}>
-                    <FontAwesomeIcon icon={faAlignRight} />
-                  </Button>
-                  <Button className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-right')}>
+                  <Button active={alignment === 'text-center'} className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-center')}>
                     <FontAwesomeIcon icon={faAlignCenter} />
+                  </Button>
+                  <Button active={alignment === 'text-right'} className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-right')}>
+                    <FontAwesomeIcon icon={faAlignRight} />
                   </Button>
                 </ButtonGroup>
               </div>
               <div className='info-text-style'>
                 <span className='mr-2'>Font style:</span>
                 <ButtonGroup size='sm'>
-                  <Button className='font-weight-bold text-decoration-btn' onClick={this.getFontStyleHandler('textBold', 'font-weight-bold')}>B</Button>
-                  <Button className='font-italic text-decoration-btn' onClick={this.getFontStyleHandler('textItalic', 'font-italic')}>I</Button>
-                  <Button className='font-underline text-decoration-btn' onClick={this.getFontStyleHandler('textUnderline', 'font-underline')}>U</Button>
-                  <Button className='text-decoration-btn' onClick={() => this.setState({ textBold: '', textItalic: '', textUnderline: '' })}>N</Button>
+                  <Button active={textBold !== ''} className='font-weight-bold text-decoration-btn' onClick={this.getFontStyleHandler('textBold', 'font-weight-bold')}>B</Button>
+                  <Button active={textItalic !== ''} className='font-italic text-decoration-btn' onClick={this.getFontStyleHandler('textItalic', 'font-italic')}>I</Button>
+                  <Button active={textUnderline !== ''} className='font-underline text-decoration-btn' onClick={this.getFontStyleHandler('textUnderline', 'font-underline')}>U</Button>
+                  <Button active={!textBold && !textItalic && !textUnderline} className='text-decoration-btn' onClick={() => this.setState({ textBold: '', textItalic: '', textUnderline: '' })}>N</Button>
                 </ButtonGroup>
               </div>
             </div>
@@ -181,75 +213,22 @@ class TextItem extends Component {
       </Item.Editor>
     );
 
-    if (type === 'body') {
-      retContent = (
-        <>
-          <Item.Infograph>
-            <div
-              className='mx-2 my-2 h-100'
-              style={{
-                color: textCosmetics.color
-              }}
-              spellCheck={false}
-            >
-              {/* @todo: fill up */}
-            </div>
-          </Item.Infograph>
-          {editorContent}
-        </>
-      );
-    } else if (type === 'title') {
-      retContent = (
-        <>
-          <Item.Infograph>
-            <div
-              className='mx-2 my-2 h-100'
-              style={{
-                color: textCosmetics.color
-              }}
-              spellCheck={false}
-            >
-              {/* @todo: fill up */}
-            </div>
-          </Item.Infograph>
-          {editorContent}
-        </>
-      );
-    } else if (type === 'quote') {
-      retContent = (
-        <>
-          <Item.Infograph>
-            <div
-              className='mx-3 my-2 h-100'
-              style={{
-                color: textCosmetics.color
-              }}
-              spellCheck={false}
-            >
-              {/* @todo: fill up */}
-            </div>
-          </Item.Infograph>
-          {editorContent}
-        </>
-      );
-    } else if (type === 'header') {
-      retContent = (
-        <>
-          <Item.Infograph>
-            <div
-              className={textContainerClassName}
-              style={{
-                color: textCosmetics.color
-              }}
-              spellCheck={false}
-            >
-              {this.getFormattedHeader()}
-            </div>
-          </Item.Infograph>
-          {editorContent}
-        </>
-      );
-    }
+    retContent = (
+      <>
+        <Item.Infograph>
+          <div
+            className={textContainerClassName}
+            style={{
+              color: textCosmetics.color
+            }}
+            spellCheck={false}
+          >
+            {type === 'header' ? this.getFormattedHeader() : this.getText(type)}
+          </div>
+        </Item.Infograph>
+        {editorContent}
+      </>
+    );
     return retContent;
   }
 }
@@ -262,11 +241,11 @@ TextItem.defaultProps = {
 
 class TextIcon extends Component {
   render () {
-    const { type, content, onClickFn, count } = this.props;
+    const { type, content, onClickFn, count, maxLineWidth } = this.props;
     const retContent = {
       task: {
         id: 'task-' + (count + 1),
-        content: <TextItem type={type} content={content} />
+        content: <TextItem type={type} content={content} maxLineWidth={maxLineWidth} />
       }
     };
 
@@ -280,6 +259,7 @@ class TextIcon extends Component {
 
 TextIcon.defaultProps = {
   type: 'header',
+  maxLineWidth: 480,
   content: 'Insert text here',
   onClickFn: () => {}
 };
