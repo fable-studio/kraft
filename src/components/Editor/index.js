@@ -33,7 +33,7 @@ export default class Editor extends Component {
       editorBodyWidth = 400;
 
     this.state = {
-      taskCount: 4,
+      taskCount: 5,
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
@@ -185,7 +185,7 @@ export default class Editor extends Component {
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
             <ImageIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth} />
-            <RatingIcon />
+            <RatingIcon count={taskCount} onClickFn={this.addNewTask} />
           </div>
           <div className='position-relative'>
             <DragDropContext onDragEnd={this.onDragEnd}>
