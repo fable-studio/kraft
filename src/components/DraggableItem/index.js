@@ -10,7 +10,7 @@ class Infograph extends Component {
       width
     };
 
-    if (height) {
+    if (typeof height !== 'undefined') {
       styleObj.minHeight = height;
     }
 
@@ -34,7 +34,7 @@ class InfographEditor extends Component {
       width
     };
 
-    if (height) {
+    if (typeof height !== 'undefined') {
       styleObj.minHeight = height;
     }
 
