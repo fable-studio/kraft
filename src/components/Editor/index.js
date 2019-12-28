@@ -23,7 +23,7 @@ import {
   faEye, faSave, faShare
 } from '@fortawesome/free-solid-svg-icons';
 
-const DEFAULTTEXTPADDING = 20;
+const DEFAULTTEXTPADDING = 30;
 export default class Editor extends Component {
   constructor (props) {
     super(props);

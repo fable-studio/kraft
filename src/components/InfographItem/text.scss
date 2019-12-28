@@ -21,3 +21,24 @@ h1:focus {
 input:focus {
   outline: 0px;
 }
+
+.header-text {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.text-decoration-btn {
+  width: 30px;
+  background-color: white;
+  color: #636161;
+}
+
+.text-alignment-btn {
+  width: 30px;
+  background-color: white;
+  color: #636161;
+}
+
+.font-underline {
+  text-decoration: underline !important;
+}

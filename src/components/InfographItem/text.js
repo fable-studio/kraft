@@ -1,7 +1,8 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faFont
+  faFont, faAlignLeft, faAlignRight, faAlignCenter
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 import Item from '../DraggableItem';
@@ -18,6 +19,10 @@ class TextItem extends Component {
     this.state = {
       content: props.content,
       type: props.type || 'header',
+      alignment: 'text-left',
+      textBold: '',
+      textItalic: '',
+      textUnderline: '',
       textCosmetics: {
         color: 'black'
       },
@@ -49,18 +54,34 @@ class TextItem extends Component {
     };
   }
 
+  getFontStyleHandler = (type, val) => {
+    return () => {
+      this.setState({
+        [type]: val
+      });
+    }
+  }
+
+  getTextAlignmentHandler = type => {
+    return () => {
+      this.setState({
+        alignment: type
+      });
+    }
+  }
+
   getFormattedHeader = () => {
     let { maxLineWidth } = this.props,
       headers = this.state.content.split('\n'),
-      // divs = '',
+       divs = [],
       i;
 
     headers.forEach((header, index) => {
       if (!header) return;
 
-      for (i = 20; i < 100; i++) {
+      for (i = 20; i < 120; i++) {
         sl.setStyle({
-          'font-family': 'Noto Sans SC',
+          'font-family': 'Oswald',
           'font-size': i + 'px'
         });
         sl.getSize('a');
@@ -70,34 +91,35 @@ class TextItem extends Component {
         }
       }
 
-      // divs += `<div style='font-size:${i - 1}px'>${header}</div>`;
+      divs.push(
+        <div className='header-text' key={index} style={{ fontSize: i - 2, lineHeight: `${i - 5}px` }}>{header}</div>
+      );
     });
 
     return (
-      <input
-        className='w-100'
-        onChange={this.handleChange}
-        style={{ fontSize: i - 2, background: 'transparent', border: 'none'}}
-        value={headers[0]}
-      >
-      </input>
+      <>
+        {divs}
+      </>
     )
   }
 
-  handleChange = (e) => {
+  onTextChangeHandler = e => {
     this.setState({
       content: e.target.value
     });
   }
 
   render () {
-    const { colorPalette, textTypes, type, textCosmetics } = this.state;
-    let retContent;
+    const { colorPalette, textTypes, type, textCosmetics, content, alignment,
+      textBold, textItalic, textUnderline } = this.state;
+    let retContent,
+      textContainerClassName = `mx-3 my-2 h-100 py-3 ${alignment} ${textBold} ${textItalic} ${textUnderline}`;
+
     const editorContent = (
       <Item.Editor>
-        <div className='h-100 w-100'>
-          <div className='d-flex flex-column'>
-            <ButtonGroup className='type-btn-group mt-2 px-3' size='sm'>
+        <div className='h-100 w-100 px-3 py-2'>
+          <div style={{ fontSize: 14 }} className='d-flex flex-column'>
+            <ButtonGroup className='type-btn-group mt-2' size='sm'>
               {textTypes.map((textType, index) => {
                 return (
                   <Button
@@ -109,13 +131,9 @@ class TextItem extends Component {
                   </Button>
                 );
               })}
-              {/* <Button className='type-btn'>Header</Button>
-              <Button className='type-btn'>Title</Button>
-              <Button className='type-btn'>Qoute</Button>
-              <Button className='type-btn'>Body</Button> */}
             </ButtonGroup>
-            <div className='mt-1 px-3'>
-              <span style={{ fontSize: 14 }}>Color: </span>
+            <div className='mt-2'>
+              <span>Color: </span>
               <ButtonGroup className='px-1' size='sm'>
                 {colorPalette.map((color, index) => {
                   return (
@@ -129,10 +147,40 @@ class TextItem extends Component {
                 })}
               </ButtonGroup>
             </div>
+            <div className='mt-3 d-flex flex-row justify-content-between'>
+              <div className='info-text-justify'>
+                <span className='mr-2'>Alignment:</span>
+                <ButtonGroup size='sm'>
+                  <Button className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-left')}>
+                    <FontAwesomeIcon icon={faAlignLeft} />
+                  </Button>
+                  <Button className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-center')}>
+                    <FontAwesomeIcon icon={faAlignRight} />
+                  </Button>
+                  <Button className='font-weight-bold text-alignment-btn' onClick={this.getTextAlignmentHandler('text-right')}>
+                    <FontAwesomeIcon icon={faAlignCenter} />
+                  </Button>
+                </ButtonGroup>
+              </div>
+              <div className='info-text-style'>
+                <span className='mr-2'>Font style:</span>
+                <ButtonGroup size='sm'>
+                  <Button className='font-weight-bold text-decoration-btn' onClick={this.getFontStyleHandler('textBold', 'font-weight-bold')}>B</Button>
+                  <Button className='font-italic text-decoration-btn' onClick={this.getFontStyleHandler('textItalic', 'font-italic')}>I</Button>
+                  <Button className='font-underline text-decoration-btn' onClick={this.getFontStyleHandler('textUnderline', 'font-underline')}>U</Button>
+                  <Button className='text-decoration-btn' onClick={() => this.setState({ textBold: '', textItalic: '', textUnderline: '' })}>N</Button>
+                </ButtonGroup>
+              </div>
+            </div>
+            <div className='mt-2'>
+              <div style={{ fontSize: 14 }} >Content:</div>
+              <textarea className='w-100' style={{ fontSize: 12, height: 60 }} value={content} onChange={this.onTextChangeHandler}></textarea>
+            </div>
           </div>
         </div>
       </Item.Editor>
     );
+
     if (type === 'body') {
       retContent = (
         <>
@@ -172,7 +220,7 @@ class TextItem extends Component {
         <>
           <Item.Infograph>
             <div
-              className='mx-2 my-2 h-100'
+              className='mx-3 my-2 h-100'
               style={{
                 color: textCosmetics.color
               }}
@@ -189,7 +237,7 @@ class TextItem extends Component {
         <>
           <Item.Infograph>
             <div
-              className='mx-2 my-2 h-100 text-center'
+              className={textContainerClassName}
               style={{
                 color: textCosmetics.color
               }}
