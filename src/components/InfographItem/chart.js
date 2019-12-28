@@ -39,6 +39,7 @@ const createJson = (csv, isSingleSeries) => {
     chart: {
       bgColor: 'ebeff2',
       canvasbgcolor: '#ffffff',
+      baseFont: 'Oswald',
       theme: 'fusion'
     }
   };
