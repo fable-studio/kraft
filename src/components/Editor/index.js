@@ -20,11 +20,12 @@ import {
 import { Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEye, faSave, faShare
+  faSave
 } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
 
-const DEFAULTTEXTPADDING = 20;
-export default class Editor extends Component {
+const DEFAULTTEXTPADDING = 30;
+class Editor extends Component {
   constructor (props) {
     super(props);
 
@@ -33,7 +34,7 @@ export default class Editor extends Component {
       editorBodyWidth = 400;
 
     this.state = {
-      taskCount: 4,
+      taskCount: 5,
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
@@ -68,7 +69,7 @@ export default class Editor extends Component {
         },
         columnOrder: ['column-1']
       }
-    }
+    };
   }
 
   onDragEnd = result => {
@@ -134,6 +135,31 @@ export default class Editor extends Component {
     });
   }
 
+  deleteTask = id => {
+    const { draggableList } = this.state,
+      taskIds = draggableList.columns['column-1'].taskIds;
+
+    if (taskIds.length <= 1) return;
+
+    const newDraggableList = {
+      ...draggableList,
+      tasks: {
+        ...draggableList.tasks
+      },
+      columns: {
+        'column-1': {
+          id: 'column-1',
+          taskIds: taskIds.filter(taskId => taskId !== id)
+        }
+      }
+    };
+    delete newDraggableList.tasks[id];
+
+    this.setState({
+      draggableList: newDraggableList
+    });
+  }
+
   print = () => {
     let containerEle = document.createElement('div'),
       infoItems = document.getElementsByClassName('infoitem-default'),
@@ -160,6 +186,10 @@ export default class Editor extends Component {
     });
   }
 
+  // togglePreview = () => {
+  //   this.setState(prevState => { return { preview: !prevState.preview }; });
+  // }
+
   render () {
     const {
       sidebarWidth,
@@ -167,25 +197,26 @@ export default class Editor extends Component {
       editorBodyWidth,
       draggableList,
       taskCount
-    } = this.state;
+    } = this.state,
+    { preview } = this.props;
 
     return (
       <>
-        <div className='mt-3' style={{ width: editorBodyWidth + infoBodyWidth + sidebarWidth }}>
+        <div className={preview ? 'd-none' : 'mt-3'} style={{ width: editorBodyWidth + infoBodyWidth + sidebarWidth }}>
           <div className='toolbar-container d-inline-flex flex-row align-items-center' style={{ marginLeft: sidebarWidth - 10 }}>
             <Input className='mr-2 input-cosmetics' bsSize='lg' placeholder='Enter Infographic name'></Input>
-            <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faEye} /></Button>
+            {/* <Button className='btn-cosmetics mr-2' onClick={this.props.togglePreview}><FontAwesomeIcon icon={faEye} /></Button> */}
             <Button className='btn-cosmetics mr-2' onClick={this.print}><FontAwesomeIcon icon={faSave} /></Button>
-            <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faShare} /></Button>
+            {/* <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faShare} /></Button> */}
           </div>
         </div>
         <div className='info-editor-body d-flex flex-row position-relative mt-2'>
-          <div className='sidebar d-flex flex-column align-items-center' style={{ width: sidebarWidth }}>
-            <TextIcon count={taskCount} onClickFn={this.addNewTask} />
+          <div className={preview ? 'd-none' : 'sidebar d-flex flex-column align-items-center'} style={{ width: sidebarWidth }}>
+            <TextIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING}/>
             <ChartIcon count={taskCount} onClickFn={this.addNewTask}/>
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
             <ImageIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth} />
-            <RatingIcon />
+            <RatingIcon count={taskCount} onClickFn={this.addNewTask} />
           </div>
           <div className='position-relative'>
             <DragDropContext onDragEnd={this.onDragEnd}>
@@ -198,7 +229,7 @@ export default class Editor extends Component {
                     {provided => {
                       return (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
-                          {tasks.map((task, index) => <Item infoBodyWidth={infoBodyWidth} editorBodyWidth={editorBodyWidth} key={task.id} task={task} index={index} />)}
+                          {tasks.map((task, index) => <Item infoBodyWidth={infoBodyWidth} editorBodyWidth={editorBodyWidth} key={task.id} task={task} index={index} deleteTask={this.deleteTask} />)}
                           {provided.placeholder}
                         </div>
                       );
@@ -213,3 +244,11 @@ export default class Editor extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    preview: state.preview.preview
+  };
+};
+
+export default connect(mapStateToProps)(Editor);

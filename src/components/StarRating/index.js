@@ -29,7 +29,7 @@ export class StarRating extends Component {
     return (
       <div className={className}>
         <div className='star-rating' style={{ fontSize: starSize }}>
-          <div className='star-rating-percentage' style={{ width: ((rating * 10) + '%') }}>
+          <div className='star-rating-percentage' style={{ width: (rating + '%') }}>
             {percentStarsJSX}
           </div>
           <div className='star-rating-background'>
@@ -42,7 +42,7 @@ export class StarRating extends Component {
 };
 
 StarRating.defaultProps = {
-  rating: 5.5,
+  rating: 55,
   numberOfStars: 10,
   spaceBetweenStars: 0,
   starSize: 38

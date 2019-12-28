@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import './index.scss';
+import { connect } from 'react-redux';
 class Infograph extends Component {
   render () {
     const { width, height } = this.props;
@@ -10,7 +11,7 @@ class Infograph extends Component {
       width
     };
 
-    if (height) {
+    if (typeof height !== 'undefined') {
       styleObj.minHeight = height;
     }
 
@@ -28,18 +29,18 @@ Infograph.defaultProps = {
 
 class InfographEditor extends Component {
   render () {
-    const { width, height } = this.props;
+    const { width, height, preview } = this.props;
 
     let styleObj = {
       width
     };
 
-    if (height) {
+    if (typeof height !== 'undefined') {
       styleObj.minHeight = height;
     }
 
     return (
-      <div className='infoeditor-default' style={styleObj}>
+      <div className={preview ? 'd-none' : 'infoeditor-default'} style={styleObj}>
         {this.props.children}
       </div>
     );
@@ -50,24 +51,49 @@ InfographEditor.defaultProps = {
   width: 400
 };
 
-export default class Item extends Component {
+const mapStateToPropsEditor = state => {
+  return {
+    preview: state.preview.preview
+  };
+};
+
+const InfographEditorHOC = connect(mapStateToPropsEditor)(InfographEditor);
+
+class Item extends Component {
   static Infograph = Infograph;
-  static Editor = InfographEditor;
+  static Editor = InfographEditorHOC;
 
   render () {
-    const { task, index } = this.props;
+    const { task, index, preview } = this.props;
     return (
       <Draggable draggableId={task.id} index={index}>
         {provided => (
-          <div className='d-flex flex-row'
+          <div
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            {task.content}
+            <div className='d-flex flex-row position-relative'>
+              <span
+                className={preview ? 'd-none' : 'position-absolute font-weight-bold'}
+                style={{ right: 7, top: -2, cursor: 'pointer' }}
+                onClick={() => this.props.deleteTask(task.id)}
+              >
+                x
+              </span>
+              {task.content}
+            </div>
           </div>
         )}
       </Draggable>
     );
   }
 }
+
+const mapStateToPropsItem = state => {
+  return {
+    preview: state.preview.preview
+  };
+};
+
+export default connect(mapStateToPropsItem)(Item);
