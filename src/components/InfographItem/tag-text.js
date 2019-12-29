@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Item from '../DraggableItem';
 import BaseItemIcon from './base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStream, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faStream, faPlus, faTimes, faAlignLeft, faAlignRight, faAlignCenter } from '@fortawesome/free-solid-svg-icons';
 import Card from './card';
 import { Button, Input } from 'reactstrap';
 
@@ -69,9 +69,47 @@ class TagText extends Component {
 
  }
 
- upadetTextAlignemnt = () => {
-
+ upadetTextAlignemntLeft = () => {
+   if (this.state.selectedIndex === null) return;
+   this.setState(state => {
+     const cards = state.cards.slice(),
+       card = Object.assign({}, cards[state.selectedIndex]);
+     card.textAlign = 'left';
+     cards[state.selectedIndex] = card;
+     return {
+       ...state,
+       cards
+     };
+   });
  }
+
+ upadetTextAlignemntRight = () => {
+   if (this.state.selectedIndex === null) return;
+   this.setState(state => {
+     const cards = state.cards.slice(),
+       card = Object.assign({}, cards[state.selectedIndex]);
+     card.textAlign = 'right';
+     cards[state.selectedIndex] = card;
+     return {
+       ...state,
+       cards
+     };
+   });
+ }
+
+upadetTextAlignemntCenter = () => {
+  if (this.state.selectedIndex === null) return;
+  this.setState(state => {
+    const cards = state.cards.slice(),
+      card = Object.assign({}, cards[state.selectedIndex]);
+    card.textAlign = 'center';
+    cards[state.selectedIndex] = card;
+    return {
+      ...state,
+      cards
+    };
+  });
+}
 
  updateTitle = (e) => {
    if (this.state.selectedIndex === null) return;
@@ -133,6 +171,20 @@ class TagText extends Component {
              </Button>
              <Button className='mr-1' onClick={this.deleteCard}>
                <FontAwesomeIcon icon={faTimes} />
+             </Button>
+           </div>
+           <div className='mt-2'>
+             <span className='font-weight-bold'>Text</span>
+           </div>
+           <div>
+             <Button className='mr-1' onClick={this.upadetTextAlignemntLeft}>
+               <FontAwesomeIcon icon={faAlignLeft} />
+             </Button>
+             <Button className='mr-1' onClick={this.upadetTextAlignemntCenter}>
+               <FontAwesomeIcon icon={faAlignCenter} />
+             </Button>
+             <Button className='mr-1' onClick={this.upadetTextAlignemntRight}>
+               <FontAwesomeIcon icon={faAlignRight} />
              </Button>
            </div>
            <div className='mt-2'>

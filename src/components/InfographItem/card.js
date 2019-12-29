@@ -13,7 +13,8 @@ const Card = (props) => {
       </div>
     </div>),
     order = props.isLeftAligned ? [indexDiv, textDiv] : [textDiv, indexDiv];
-  return (<div className="card card-view" onClick={() => props.clicked(props.index)}>
+
+  return (<div className={'card card-view' + ` text-${props.textAlign}`} onClick={() => props.clicked(props.index)}>
     <div className="row no-gutters">
       {
         order
