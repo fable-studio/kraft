@@ -5,7 +5,7 @@ import './index.scss';
 
 export class StarRating extends Component {
   render () {
-    let { rating, numberOfStars, starSize, spaceBetweenStars, className } = this.props,
+    let { rating, numberOfStars, starSize, spaceBetweenStars, className, starStyle, starBgStyle } = this.props,
       percentStarsJSX = [],
       bgStarsJSX = [],
       space,
@@ -16,12 +16,12 @@ export class StarRating extends Component {
         space = spaceBetweenStars
       }
       percentStarsJSX.push(
-        <span key={i} className='star star-active' style={{ marginLeft: space }}>
+        <span key={i} className='star star-active' style={{ ...starStyle, marginLeft: space }}>
           ★
         </span>
       );
       bgStarsJSX.push(
-        <span key={i} className='star star-bg' style={{ marginLeft: space }}>
+        <span key={i} className='star star-bg' style={{ color: starBgStyle.backgroundColor, marginLeft: space }}>
           ★
         </span>
       )
@@ -45,5 +45,11 @@ StarRating.defaultProps = {
   rating: 55,
   numberOfStars: 10,
   spaceBetweenStars: 0,
-  starSize: 38
+  starSize: 38,
+  starStyle: {
+    color: '#ffd83e'
+  },
+  starBgStyle: {
+    backgroundColor: 'white'
+  }
 }
