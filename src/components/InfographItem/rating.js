@@ -10,6 +10,7 @@ import { Progress, Button, Input } from 'reactstrap';
 import { StarRating } from '../StarRating';
 
 import './rating.scss';
+import { connect } from 'react-redux';
 
 const clamp = (num, lower, upper) => Math.max(Math.min(num, upper), lower);
 class RatingItem extends Component {
@@ -43,14 +44,50 @@ class RatingItem extends Component {
 
   render () {
     let { rating, type } = this.state,
+      { themes } = this.props,
+      { themeList, curSelected } = themes,
+      curTheme = themeList[curSelected],
       progressJSX;
 
     if (type === 'progress') {
-      progressJSX = <Progress className='h-50 w-100 rating' value={rating} max="100" />;
+      // progressJSX = <Progress className='h-50 w-100 rating' value={rating} max="100" />;
+      progressJSX = (
+        <div className="h-50 w-100 rating progress" style={{ ...curTheme.rating.background }}>
+          <div 
+            className="progress-bar" 
+            role="progressbar" 
+            aria-valuenow="55" 
+            aria-valuemin="0" 
+            aria-valuemax="100" 
+            style={{ ...curTheme.rating.progress, width: rating + '%' }}
+          ></div>
+        </div>
+      );
     } else if (type === 'progress-striped') {
-      progressJSX = <Progress striped className='h-50 w-100 rating' value={rating} max="100" />
+      // progressJSX = <Progress striped className='h-50 w-100 rating' value={rating} max="100" />
+      progressJSX = (
+        <div className="h-50 w-100 rating progress" style={{ ...curTheme.rating.background }}>
+          <div 
+            className="progress-bar progress-bar-striped" 
+            role="progressbar" 
+            aria-valuenow="55" 
+            aria-valuemin="0" 
+            aria-valuemax="100" 
+            style={{ ...curTheme.rating['progress-striped'], width: rating + '%' }}
+          ></div>
+        </div>
+      );
     } else if (type === 'star') {
-      progressJSX = <StarRating spaceBetweenStars={1} starSize={35} rating={rating || 0} className={'rating-container'} />
+      progressJSX = (
+        <StarRating
+          spaceBetweenStars={1} 
+          starSize={35} 
+          rating={rating || 0} 
+          className={'rating-container'} 
+          starStyle={{ ...curTheme.rating.star }} 
+          starBgStyle={{ ...curTheme.rating.background }} 
+        />
+      )
     }
 
     return (
@@ -91,7 +128,15 @@ class RatingItem extends Component {
 
 RatingItem.defaultProps = {
   rating: 55
-}
+};
+
+const mapStateToPropsRatingItem = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const RatingItemHOC = connect(mapStateToPropsRatingItem)(RatingItem);
 
 class RatingIcon extends Component {
   render () {
@@ -99,7 +144,7 @@ class RatingIcon extends Component {
       retContent = {
         task: {
           id: 'task-' + (count + 1),
-          content: <RatingItem content={content} maxLineWidth={maxLineWidth} />
+          content: <RatingItemHOC content={content} maxLineWidth={maxLineWidth} />
         }
       };
 
@@ -118,5 +163,5 @@ RatingIcon.defaultProps = {
 
 export {
   RatingIcon,
-  RatingItem
+  RatingItemHOC
 };

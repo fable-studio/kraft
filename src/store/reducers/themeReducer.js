@@ -54,7 +54,7 @@ const initState = {
           backgroundColor: '#800204'
         },
         'progress-striped': {
-          color: '#800204'
+          backgroundColor: '#800204'
         },
         star: {
           color: '#800204'
@@ -112,7 +112,7 @@ const initState = {
           backgroundColor: '#493139'
         },
         'progress-striped': {
-          color: '#493139'
+          backgroundColor: '#493139'
         },
         star: {
           color: '#493139'
@@ -170,7 +170,7 @@ const initState = {
           backgroundColor: '#493139'
         },
         'progress-striped': {
-          color: '#493139'
+          backgroundColor: '#493139'
         },
         star: {
           color: '#493139'
