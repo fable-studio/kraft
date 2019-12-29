@@ -59,7 +59,6 @@ class SettingsPanel extends Component {
           // this._curThemeId = id;
           this._curTheme[id] = this._curTheme[id] || cloneObject(themeList[id]);
         } else {
-          console.log('jj', apply);
           apply && this.props.updateFullTheme(this._curTheme[id], id);
           // delete this._curTheme;
           // delete this._curThemeId;
@@ -197,77 +196,88 @@ class SettingsPanel extends Component {
             </ModalHeader>
             <ModalBody>
               <div className='w-100 d-flex flex-column justify-content-start align-items-start px-2 py-2' style={{ maxHeight: '65vh', overflowY: 'scroll' }}>
-                <div>
-                  <span>Background Color: </span>
-                  <ColorPicker className='d-inline-block' color={curTheme.infograph.background} onColorChange={this.shallowThemeChange(ids[i], 'infograph-background')} />
+                <div className='w-100'>
+                  <div className='separator' style={{ fontSize: 20 }}>Background</div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 44 }}>Background Color </span>
+                    <ColorPicker className='d-inline-block' color={curTheme.infograph.background} onColorChange={this.shallowThemeChange(ids[i], 'infograph-background')} />
+                  </div>
                 </div>
-                <h3>Text</h3>
-                <div>
-                  <span>Header Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.text.header.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-header')} />
+                <div className='w-100'>
+                  <div className='separator' style={{ fontSize: 20 }}>Text</div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 80 }}>Header Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.text.header.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-header')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 101 }}>Title Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.text.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-title')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 88 }}>Quote Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.text.quote.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-quote')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 96 }}>Body Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.text.body.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                  </div>
                 </div>
-                <div>
-                  <span>Title Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.text.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-title')} />
+                <div className='w-100'>
+                  <div className='separator' style={{ fontSize: 20 }}>Chart</div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 126 }}>Palette</span>
+                    {curTheme.chart.generic.palette.map((color, index) => {
+                      return (
+                        <ColorPicker key={index} className='d-inline-block' color={color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-palette', index)} />
+                      );
+                    })}
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 59 }}>Chart title Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-title')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 33 }}>Chart subtitle Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-subtitle')} />
+                  </div>
                 </div>
-                <div>
-                  <span>Quote Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.text.quote.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-quote')} />
+                <div className='w-100'>
+                  <div className='separator' style={{ fontSize: 20 }}>Map</div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 126 }}>Palette</span>
+                    {curTheme.map.generic.palette.map((color, index) => {
+                      return (
+                        <ColorPicker key={index} className='d-inline-block' color={color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-palette', index)} />
+                      );
+                    })}
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 69 }}>Map title Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-title')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 42 }}>Map subtitle Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-subtitle')} />
+                  </div>
                 </div>
-                <div>
-                  <span>Body Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.text.body.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
-                </div>
-                <h3>Chart</h3>
-                <div>
-                  <span>Palette:</span>
-                  {curTheme.chart.generic.palette.map((color, index) => {
-                    return (
-                      <ColorPicker key={index} className='d-inline-block' color={color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-palette', index)} />
-                    );
-                  })}
-                </div>
-                <div>
-                  <span>Chart title Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-title')} />
-                </div>
-                <div>
-                  <span>Chart subtitle Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-subtitle')} />
-                </div>
-                <h3>Map</h3>
-                <div>
-                  <span>Palette:</span>
-                  {curTheme.map.generic.palette.map((color, index) => {
-                    return (
-                      <ColorPicker key={index} className='d-inline-block' color={color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-palette', index)} />
-                    );
-                  })}
-                </div>
-                <div>
-                  <span>Map title Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-title')} />
-                </div>
-                <div>
-                  <span>Map subtitle Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-subtitle')} />
-                </div>
-                <h3>Rating</h3>
-                <div>
-                  <span>Rating background Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.rating.background.backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
-                </div>
-                <div>
-                  <span>Progress Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.rating.progress.backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
-                </div>
-                <div>
-                  <span>Striped progess Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.rating['progress-striped'].backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
-                </div>
-                <div>
-                  <span>Star progess Color</span>
-                  <ColorPicker className='d-inline-block' color={curTheme.rating.star.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                <div className='w-100'>
+                  <div className='separator' style={{ fontSize: 20 }}>Rating</div>
+                  <div className='d-flex flex-row' >
+                    <span style={{ marginRight: 37 }}>Rating background</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.rating.background.backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 69 }}>Progress Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.rating.progress.backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 18 }}>Striped progess Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.rating['progress-striped'].backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                  </div>
+                  <div className='d-flex flex-row'>
+                    <span style={{ marginRight: 42 }}>Star progess Color</span>
+                    <ColorPicker className='d-inline-block' color={curTheme.rating.star.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                  </div>
                 </div>
               </div>
             </ModalBody>
@@ -288,10 +298,10 @@ class SettingsPanel extends Component {
 
     return (
       <div>
+        <div className='settings-btn position-fixed d-flex justify-content-center align-items-center' style={{ right: showPanel ? 200 : 0 }} onClick={this.togglePanel}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </div>
         <div className='settings-panel-container position-fixed' style={{ right: showPanel ? 0 : -200 }}>
-          <div className='settings-btn position-absolute d-flex justify-content-center align-items-center' onClick={this.togglePanel}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          </div>
           <div
             className='d-flex flex-column justify-content-start align-items-start position-absolute'
             style={{ marginTop: 68, width: 200, minHeight: '100vh', overflowY: 'scroll', right: 0, background: '#5d5d5d', paddingBottom: 15 }}

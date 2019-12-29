@@ -71,7 +71,6 @@ class ColorRange extends Component {
       let range = this.props.range,
         newRange;
 
-      // console.log(e.target.value);
       newRange = range.map((range, i) => {
         if (i === index) {
           return {
@@ -83,7 +82,6 @@ class ColorRange extends Component {
           ...range
         };
       });
-      // console.log(newRange);
       this.setState({
         range: newRange
       });

@@ -96,7 +96,7 @@ class RatingItem extends Component {
           <div className='h-100 d-flex flex-column mx-3 justify-content-center'>
             <div className='d-flex flex-row align-items-center' style={{ height: 60 }}>
               {progressJSX}
-              <span style={{ fontSize: 40, marginLeft: 12, fontWeight: 'bolder'}}>{`${rating || 0}%`}</span>
+              <span style={{ fontSize: 40, marginLeft: 12, fontWeight: 'bolder', ...curTheme.text.header }}>{`${rating || 0}%`}</span>
             </div>
           </div>
         </Item.Infograph>

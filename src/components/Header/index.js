@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render () {
-    console.log(this.props.preview);
     return (
       <div className='info-body-header position-fixed w-100'>
         <Container>

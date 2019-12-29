@@ -9,6 +9,8 @@ export default class ColorPicker extends Component {
       color: props.color,
       displayColorPicker: false
     };
+    this._propColor = props.color;
+    this._stateColor = this.state.color;
   }
 
   handleClick = () => {
@@ -24,6 +26,17 @@ export default class ColorPicker extends Component {
     this.props.onColorChange(color.hex);
   }
 
+  componentDidUpdate () {
+    if (this.state.color === this._stateColor && this.props.color !== this._propColor) {
+      this._propColor = this.props.color;
+      this.setState({
+        color: this._propColor
+      });
+    }
+
+    this._stateColor = this.state.color;
+  }
+
   render () {
     const { height, width } = this.props;
 
@@ -32,7 +45,7 @@ export default class ColorPicker extends Component {
         width: width + 'px',
         height: height + 'px',
         borderRadius: '2px',
-        background: this.state.color,
+        background: this.state.color
       },
       swatch: {
         padding: '5px',
