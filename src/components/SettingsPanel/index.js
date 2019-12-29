@@ -294,7 +294,7 @@ class SettingsPanel extends Component {
           </div>
           <div
             className='d-flex flex-column justify-content-start align-items-start position-absolute'
-            style={{ marginTop: 70, width: 200, minHeight: '100vh', overflowY: 'scroll', right: 0, background: '#ebeff2', paddingBottom: 15 }}
+            style={{ marginTop: 68, width: 200, minHeight: '100vh', overflowY: 'scroll', right: 0, background: '#5d5d5d', paddingBottom: 15 }}
           >
             {this.generateDemos()}
           </div>

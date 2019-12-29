@@ -3,7 +3,7 @@ $headerHeight: 70px;
 .info-body-header {
   height: $headerHeight;
   line-height: $headerHeight;
-  background-color: white;
+  background-color: #282b34;
   border-bottom: 1px solid #f2f4f9;
   box-shadow: 3px 0 10px 0 rgba(183,192,206,.2);
   padding-left: 20px;
@@ -22,5 +22,17 @@ $headerHeight: 70px;
 }
 
 .header-icon {
-  color: #004ab3;
+  color: #dd3b1f;
+}
+
+.preview-btn {
+  height: 44px !important;
+  width: 44px !important;
+  background-color: #282b34 !important;
+}
+
+.preview-btn-container {
+  .active {
+    background-color: rgb(156, 153, 153) !important;
+  }
 }
