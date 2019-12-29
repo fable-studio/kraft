@@ -201,6 +201,7 @@ class Editor extends Component {
           this.setState({
             showSpinner: false
           });
+          containerEle.parentNode.removeChild(containerEle);
         });
       } else {
         html2canvas(containerEle).then(canvas => {
@@ -212,10 +213,10 @@ class Editor extends Component {
           this.setState({
             showSpinner: false
           });
+          containerEle.parentNode.removeChild(containerEle);
         });
       }
 
-      containerEle.parentNode.removeChild(containerEle);
     };
   }
 

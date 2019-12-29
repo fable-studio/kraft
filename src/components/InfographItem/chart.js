@@ -218,6 +218,7 @@ class ChartItem extends Component {
     chartAttr.caption = caption;
     chartAttr.subCaption = subCaption;
     chartAttr.divLineAlpha = divLineAlpha;
+    chartAttr.valuefontcolor = curTheme.text.header.color;
     chartAttr.bgColor = curTheme.infograph.background;
     chartAttr.paletteColors = curTheme.chart.generic.palette;
     chartAttr.captionFontColor = curTheme.chart.title.color;

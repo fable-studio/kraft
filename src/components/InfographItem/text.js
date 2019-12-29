@@ -112,6 +112,7 @@ class TextItem extends Component {
       { themes } = this.props,
       curTheme = themes.themeList[themes.curSelected],
       textFontSize,
+      lineHeight,
       // fontColor,
       textJSX;
 
@@ -120,11 +121,11 @@ class TextItem extends Component {
       // fontColor = textCosmetics.color || curTheme.text.title.color;
       textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.title }}>{content}</div>;
     } else if (type === 'quote') {
-      textFontSize = 37;
+      textFontSize = 30;
       // fontColor = textCosmetics.color || curTheme.text.quote.color;
       textJSX = (
         <div className='d-flex flex-row'>
-          <div className='d-inline-block position-relative' style={{ width: 52, background: 'white', borderRadius: 5, marginRight: 10 }}>
+          <div className='d-inline-block position-relative' style={{ minWidth: 52, minHeight: 52, background: 'white', borderRadius: 5, marginRight: 10 }}>
             <span style={{ position: 'absolute', top: 0, left: 5, fontSize: 20 }}>
               <FontAwesomeIcon icon={faQuoteLeft} />
             </span>
@@ -132,7 +133,7 @@ class TextItem extends Component {
               <FontAwesomeIcon icon={faQuoteRight} />
             </span>
           </div>
-          <div style={{ fontSize: textFontSize, ...curTheme.text.quote }}>{content}</div>
+          <div style={{ fontSize: textFontSize, lineHeight: '30px', ...curTheme.text.quote }}>{content}</div>
         </div>
       )
     } else if (type === 'body') {
