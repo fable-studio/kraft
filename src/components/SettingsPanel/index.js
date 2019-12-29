@@ -7,14 +7,25 @@ import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 
 import './index.scss';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faEdit, faCheck
+} from '@fortawesome/free-solid-svg-icons'
+import { cloneObject } from '../../utils';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import ColorPicker from '../ColorPicker/index';
 
 ReactFc.fcRoot(FusionCharts, Widgets, FusionTheme);
 FusionCharts.options.creditLabel = 0;
 
 class SettingsPanel extends Component {
   state = {
-    showPanel: false
+    showPanel: false,
+    modalOpen: null,
+    currentHoveredTheme: null
   }
+
+  _curTheme = {};
 
   togglePanel = () => {
     this.setState(prevState => {
@@ -30,9 +41,65 @@ class SettingsPanel extends Component {
     }
   }
 
+  setVisibleEditor = val => {
+    return () => {
+      this.setState({
+        currentHoveredTheme: val
+      });
+    }
+  }
+
+  toggleModal = (id, open, apply) => {
+    return () => {
+      this.setState(() => {
+        let { themes } = this.props,
+          { themeList } = themes;
+
+        if (open) {
+          // this._curThemeId = id;
+          this._curTheme[id] = this._curTheme[id] || cloneObject(themeList[id]);
+        } else {
+          console.log('jj', apply);
+          apply && this.props.updateFullTheme(this._curTheme[id], id);
+          // delete this._curTheme;
+          // delete this._curThemeId;
+        }
+
+        return {
+          modalOpen: open && id,
+          currentHoveredTheme: null
+        }
+      });
+    }
+  }
+
+  shallowThemeChange = (id, type, index) => {
+    return val => {
+      switch (type) {
+        case 'infograph-background': this._curTheme[id].infograph.background = val; break;
+        case 'infograph-text-header': this._curTheme[id].text.header.color = val; break;
+        case 'infograph-text-title': this._curTheme[id].text.title.color = val; break;
+        case 'infograph-text-quote': this._curTheme[id].text.quote.color = val; break;
+        case 'infograph-text-body': this._curTheme[id].text.body.color = val; break;
+        case 'infograph-chart-palette': this._curTheme[id].chart.generic.palette[index] = val; break;
+        case 'infograph-chart-title': this._curTheme[id].chart.title.color = val; break;
+        case 'infograph-chart-subtitle': this._curTheme[id].chart.subtitle.color = val; break;
+        case 'infograph-map-palette': this._curTheme[id].map.generic.palette[index] = val; break;
+        case 'infograph-map-title': this._curTheme[id].map.title.color = val; break;
+        case 'infograph-map-subtitle': this._curTheme[id].map.subtitle.color = val; break;
+        case 'infograph-rating-background': this._curTheme[id].rating.background.backgroundColor = val; break;
+        case 'infograph-progress-background': this._curTheme[id].rating.progress.backgroundColor = val; break;
+        case 'infograph-progress-striped-background': this._curTheme[id].rating['progress-striped'].backgroundColor = val; break;
+        case 'infograph-star-background': this._curTheme[id].rating.star.color = val; break;
+      };
+    }
+  }
+
   generateDemos = () => {
     let { themes } = this.props,
-      { themeList, ids } = themes,
+      { themeList, ids, curSelected } = themes,
+      { currentHoveredTheme, modalOpen } = this.state,
+      showEditor,
       demos = [],
       defaultChartAttr = {
         theme: 'fusion',
@@ -70,6 +137,7 @@ class SettingsPanel extends Component {
           ]
         }
       },
+      showModal,
       curTheme,
       i;
 
@@ -93,9 +161,24 @@ class SettingsPanel extends Component {
         }
       }
 
+      showEditor = (curSelected === ids[i] && i === currentHoveredTheme);
+      showModal =  modalOpen === ids[i];
+
       demos.push(
-        <div key={ids[i]} className='theme-container' onClick={this.changeTheme(ids[i])}>
-          <div className='theme-demo d-flex flex-column justify-content-start align-items-start px-2 py-2 h-100' style={{ background: curTheme.infograph.background}}>
+        <div key={ids[i]} className='theme-container position-relative' onMouseOver={this.setVisibleEditor(i)} onMouseOut={this.setVisibleEditor(null)}>
+          <div 
+            className={ showEditor ? 'position-absolute rounded-circle' : 'd-none' } 
+            style={{ top: -12, right: -10, width: 28, height: 28, backgroundColor: 'white' }}
+          >
+            <span style={{ paddingLeft: 7, paddingTop: 1 }} onClick={this.toggleModal(ids[i], true)}><FontAwesomeIcon icon={faEdit} /></span>
+          </div>
+          <div 
+            className={ curSelected === ids[i] ? 'position-absolute rounded-circle' : 'd-none' } 
+            style={{ top: -12, left: -10, width: 28, height: 28, backgroundColor: 'white' }}
+          >
+            <span style={{ paddingLeft: 7, paddingTop: 1 }} onClick={this.toggleModal(ids[i], true)}><FontAwesomeIcon icon={faCheck} /></span>
+          </div>
+          <div onClick={this.changeTheme(ids[i])} className='theme-demo d-flex flex-column justify-content-start align-items-start px-2 py-2 h-100' style={{ background: curTheme.infograph.background}}>
             <div style={{ fontSize: 32, lineHeight: '55px', ...curTheme.text.header }}>Infographic</div>
             <div style={{ fontSize: 14, lineHeight: '14px', ...curTheme.text.title }}>Lorem ipsum dolor sit amet</div>
             <div className='w-100 demo-progress mt-1 progress' style={{ ...curTheme.rating.background }}>
@@ -108,6 +191,91 @@ class SettingsPanel extends Component {
               Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
             </div>
           </div>
+          <Modal isOpen={showModal} toggle={this.toggleModal(ids[i], false)}>
+            <ModalHeader charCode={'x'} toggle={this.toggleModal(ids[i], false)}>
+              Edit theme
+            </ModalHeader>
+            <ModalBody>
+              <div className='w-100 d-flex flex-column justify-content-start align-items-start px-2 py-2' style={{ maxHeight: '65vh', overflowY: 'scroll' }}>
+                <div>
+                  <span>Background Color: </span>
+                  <ColorPicker className='d-inline-block' color={curTheme.infograph.background} onColorChange={this.shallowThemeChange(ids[i], 'infograph-background')} />
+                </div>
+                <h3>Text</h3>
+                <div>
+                  <span>Header Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.text.header.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-header')} />
+                </div>
+                <div>
+                  <span>Title Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.text.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-title')} />
+                </div>
+                <div>
+                  <span>Quote Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.text.quote.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-quote')} />
+                </div>
+                <div>
+                  <span>Body Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.text.body.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                </div>
+                <h3>Chart</h3>
+                <div>
+                  <span>Palette:</span>
+                  {curTheme.chart.generic.palette.map((color, index) => {
+                    return (
+                      <ColorPicker key={index} className='d-inline-block' color={color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-palette', index)} />
+                    );
+                  })}
+                </div>
+                <div>
+                  <span>Chart title Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-title')} />
+                </div>
+                <div>
+                  <span>Chart subtitle Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-subtitle')} />
+                </div>
+                <h3>Map</h3>
+                <div>
+                  <span>Palette:</span>
+                  {curTheme.map.generic.palette.map((color, index) => {
+                    return (
+                      <ColorPicker key={index} className='d-inline-block' color={color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-palette', index)} />
+                    );
+                  })}
+                </div>
+                <div>
+                  <span>Map title Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-title')} />
+                </div>
+                <div>
+                  <span>Map subtitle Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-subtitle')} />
+                </div>
+                <h3>Rating</h3>
+                <div>
+                  <span>Rating background Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.rating.background.backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                </div>
+                <div>
+                  <span>Progress Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.rating.progress.backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                </div>
+                <div>
+                  <span>Striped progess Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.rating['progress-striped'].backgroundColor} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                </div>
+                <div>
+                  <span>Star progess Color</span>
+                  <ColorPicker className='d-inline-block' color={curTheme.rating.star.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-text-body')} />
+                </div>
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={this.toggleModal(ids[i], false, true)}>Apply</Button>
+              <Button onClick={this.toggleModal(ids[i], false)}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
         </div>
       );
     }
@@ -144,7 +312,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeTheme: id => { dispatch({type: 'CHANGE_THEME', currentTheme: id}); }
+    changeTheme: id => { dispatch({type: 'CHANGE_THEME', currentTheme: id}); },
+    updateFullTheme: (theme, id) => { dispatch({ type: 'update_full_theme', theme, id }) }
   }
 }
 

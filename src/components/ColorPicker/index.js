@@ -54,7 +54,7 @@ export default class ColorPicker extends Component {
     };
 
     return (
-      <div>
+      <div className={this.props.className}>
         <div style={ styles.swatch } onClick={ this.handleClick }>
           <div style={ styles.color } />
         </div>

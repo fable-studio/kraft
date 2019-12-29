@@ -122,7 +122,7 @@ const staticthemeList = {
       palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
     },
     infograph: {
-      background: '#f6efdf'
+      background: '#ffff00'
     },
     text: {
       header: {
@@ -213,6 +213,15 @@ const actions = {
         }
       }
     };
+  },
+  update_full_theme: (state, { theme, id }) => {
+    return {
+      ...state,
+      themeList: {
+        ...state.themeList,
+        [id]: cloneObject(theme)
+      }
+    };
   }
 };
 
@@ -220,11 +229,11 @@ const themeReducer = (state = initState, action = {}) => {
   if (action.type === 'CHANGE_THEME') {
     return {
       ...state,
-      curSelected: action.currentTheme,
-      themeList: {
-        ...state.themeList,
-        [action.currentTheme]: cloneObject(staticthemeList[action.currentTheme])
-      }
+      curSelected: action.currentTheme
+      // themeList: {
+      //   ...state.themeList,
+      //   [action.currentTheme]: cloneObject(staticthemeList[action.currentTheme])
+      // }
     };
   } else if (actions[action.type]) {
     return actions[action.type](state, action);
