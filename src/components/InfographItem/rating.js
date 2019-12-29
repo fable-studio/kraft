@@ -149,7 +149,7 @@ class RatingIcon extends Component {
       };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-ratinf-btn' tooltext='Add rating'>
         <FontAwesomeIcon icon={faStarHalfAlt} />
       </BaseItemIcon>
     );

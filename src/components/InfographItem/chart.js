@@ -284,7 +284,7 @@ class ChartIcon extends Component {
     };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-chart-btn' tooltext='Add chart'>
         <FontAwesomeIcon icon={faChartPie} />
       </BaseItemIcon>
     );

@@ -273,7 +273,7 @@ class TextIcon extends Component {
     };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-text-btn' tooltext='Add text'>
         <FontAwesomeIcon icon={faFont} />
       </BaseItemIcon>
     );

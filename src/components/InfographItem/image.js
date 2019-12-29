@@ -171,7 +171,7 @@ class ImageIcon extends Component {
     };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-image-btn' tooltext='Add image'>
         <FontAwesomeIcon icon={faImage} />
       </BaseItemIcon>
     );

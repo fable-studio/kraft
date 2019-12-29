@@ -381,7 +381,7 @@ class MapIcon extends Component {
     };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-map-btn' tooltext='Add map'>
         <FontAwesomeIcon icon={faMap} />
       </BaseItemIcon>
     );
