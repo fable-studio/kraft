@@ -13,8 +13,12 @@
   height: 45px;
   margin-left: 5px;
   background-color: white;
-  color: #dd3b1f;
+  color: #5a6268;
   font-size: 20px;
+
+  .progress-bar {
+    background-color: #5a6268;
+  }
 }
 .rating-editor-input {
   font-size: 14px;

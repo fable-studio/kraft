@@ -122,42 +122,42 @@ const staticthemeList = {
       palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
     },
     infograph: {
-      background: '#ffff00'
+      background: '#2b3d50'
     },
     text: {
       header: {
-        color: '#493139'
+        color: '#e4eaf1'
       },
       title: {
-        color: '#e56d53'
+        color: '#d1ac18'
       },
       body: {
-        color: '#bebebe'
+        color: '#e4eaf1'
       },
       quote: {
-        color: '#e56d53'
+        color: '#e94939'
       }
     },
     chart: {
       generic: {
-        palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa']
+        palette: ['#eabd04', '#e94939', '#9955b4', '#4ab0f4']
       },
       title: {
-        color: '#493139'
+        color: '#d1ac18'
       },
       subtitle: {
-        color: '#e56d53'
+        color: '#e4eaf1'
       }
     },
     map: {
       generic: {
-        palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa']
+        palette: ['#eabd04', '#e94939', '#9955b4', '#4ab0f4']
       },
       title: {
-        color: '#493139'
+        color: '#d1ac18'
       },
       subtitle: {
-        color: '#e56d53'
+        color: '#e4eaf1'
       }
     },
     rating: {
@@ -165,13 +165,13 @@ const staticthemeList = {
         backgroundColor: 'white'
       },
       progress: {
-        backgroundColor: '#493139'
+        backgroundColor: '#e94939'
       },
       'progress-striped': {
-        backgroundColor: '#493139'
+        backgroundColor: '#e94939'
       },
       star: {
-        color: '#493139'
+        color: '#e94939'
       }
     }
   }
