@@ -40,7 +40,7 @@ export default class SpreadSheet extends Component {
       newData[0].push('');
     }
     return (
-      <div className='spreadsheet-container' style={{ _width: 400, _height: 400, _overflow: 'auto' }}>
+      <div className='spreadsheet-container my-3' style={{ _width: 400, _height: 400, _overflow: 'auto' }}>
         <div className='spreadsheet-input py-2 d-flex flex-row justify-content-between'>
           <div className='d-inline-block'>
             <Input

@@ -220,7 +220,7 @@ class TextItem extends Component {
               </div>
             </div>
             <div className='mt-2'>
-              <div style={{ fontSize: 14 }} >Content:</div>
+              <div className='font-weight-bold' style={{ fontSize: 14 }} >Content:</div>
               <textarea className='w-100' style={{ fontSize: 12, height: 60 }} value={content} onChange={this.onTextChangeHandler}></textarea>
             </div>
           </div>

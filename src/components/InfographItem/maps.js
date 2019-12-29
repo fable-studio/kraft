@@ -122,18 +122,18 @@ class ColorRange extends Component {
 
     for (i = 0; i < range.length; i++) {
       rows.push(
-        <div className='d-flex flex-row py-1 px-1' key={i} style={{ border: '1px solid red' }}>
+        <div className='d-flex flex-row py-1 px-1' key={i} style={{  }}>
           <span className='mr-2'>
-            <span>Min Value: </span>
+            <span>Min Value</span>
             <Input type={'number'} value={range[i].min} onChange={this.onValueChange(i, 'min')} />
           </span>
           <span className='mr-2'>
-            <span>Max Value: </span>
+            <span>Max Value</span>
             <Input type={'number'} value={range[i].max} onChange={this.onValueChange(i, 'max')} />
           </span>
-          <span className='mr-2'>
-            <span>Color: </span>
-            <ColorPicker color={palette[i]} onColorChange={this.onColorChange(i)} />
+          <span className='ml-2'>
+            <span>Color</span>
+            <ColorPicker color={palette[i]} onColorChange={this.onColorChange(i)} height={26} />
             {/* <div style={{ width: 40, height: 30, backgroundColor: palette[i] }}></div> */}
           </span>
         </div>
@@ -160,11 +160,11 @@ class ColorRange extends Component {
   render () {
     return (
       <div className='w-100 d-flex flex-column'>
-        <div className='d-flex flex-row justify-content-between'>
-          <span>Color Range</span>
+        <div className='d-flex flex-row justify-content-between' style={{ }}>
+          <span className='font-weight-bold' style={{ fontSize: 18}}>Color Range</span>
           <span>
-            <Button onClick={this.addRange}>+</Button>
-            <Button onClick={this.removeRange}>-</Button>
+            <Button className='add-remove-btn' onClick={this.addRange}>+</Button>
+            <Button className='add-remove-btn' onClick={this.removeRange}>-</Button>
           </span>
         </div>
         {this.getRows()}
@@ -331,23 +331,25 @@ class MapItem extends Component {
               <Button className='map-item-icon mr-1' onClick={this.changeMapType('maps/europe')}><FontAwesomeIcon icon={faGlobeEurope} /></Button>
             </div>
             <div className='mt-2'>
-              <span>Title:</span>
+              <span className='font-weight-bold'>Title:</span>
               <Input className='d-inline-block' onChange={this.titleChangeHandler} value={caption} />
             </div>
             <div className='mt-2'>
-              <span>Subtitle:</span>
+              <span className='font-weight-bold'>Subtitle:</span>
               <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={subCaption} />
             </div>
+            <hr />
             <div className='mt-2'>
               <ColorRangeHOC
                 range={range.map(range => { return { min: range.minvalue, max: range.maxvalue }; })}
                 onChange={this.rangeChangeHandler}
               />
             </div>
-            <div>
-              <span>Chart Height</span>
-              <input type='range' min={300} max={800} value={height} onChange={this.changeMapHeight} />
-              <span>{height}PX</span>
+            <hr />
+            <div className='d-flex flex-row map-height-range'>
+              <span className='mr-1'>Chart Height</span>
+              <input style={{ marginLeft: 'auto' }} type='range' min={300} max={800} value={height} onChange={this.changeMapHeight} />
+              <span className='ml-2'>{height}px</span>
             </div>
             <SpreadSheet data={csv} dataUpdated={this.dataUpdated} fileUpdated={this.fileUpdated} />
           </div>

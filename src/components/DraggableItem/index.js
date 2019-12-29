@@ -86,7 +86,7 @@ class Item extends Component {
             <div className='d-flex flex-row position-relative'>
               <span
                 className={preview ? 'd-none' : 'position-absolute font-weight-bold'}
-                style={{ right: 7, top: -2, cursor: 'pointer' }}
+                style={{ right: 10, top: 0, cursor: 'pointer' }}
                 onClick={() => this.props.deleteTask(task.id)}
               >
                 x

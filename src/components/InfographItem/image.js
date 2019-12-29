@@ -3,8 +3,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faImage,
-  faExpand
+  faImage
 } from '@fortawesome/free-solid-svg-icons';
 import BaseItemIcon from './base';
 import Item from '../DraggableItem';
@@ -128,21 +127,21 @@ class ImageItem extends Component {
           {imageJSX}
         </Item.Infograph>
         <Item.Editor>
-          <div className='h-100 mx-2 my-3 position-relative' style={{}}>
+          <div className='h-100 mx-3 my-3 position-relative' style={{}}>
             <div className='d-flex flex-column' style={{ fontSize: 14}}>
               <div>
-                <label htmlFor='image-upload' className='d-inline'>Upload Image: </label>
+                <label htmlFor='image-upload font-weight-bold' className='d-inline'>Upload Image: </label>
                 <Input id='image-upload' type='file' className='input-file d-inline ml-2' onChange={this.uploadImage}></Input>
               </div>
               <div className='image-filter-container d-flex flex-column justify-content-start'>
-                <div className='image-filter-title'>Image Filters</div>
+                <div className='separator font-weight-bold'>Image Filters</div>
                 {Object.keys(filters).map((name, index) => {
                   let filter = filters[name];
                   return (
-                    <div className='image-filter' key={index}>
-                      <span>{name}</span>
+                    <div className='my-2 w-100 image-filter d-flex flex-row justify-content-between' key={index}>
+                      <span className='mr-2'>{name}</span>
                       <input type='range' min={filter.min} max={filter.max} value={filter.value} onChange={this.imageFilterHandler(name)} />
-                      <span>{`${filter.value}${filter.unit}`}</span>
+                      <span style={{ width: 40 }}>{`${filter.value}${filter.unit}`}</span>
                     </div>
                   );
                 })}
