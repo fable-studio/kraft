@@ -2,33 +2,49 @@ import React, { Component } from 'react';
 import Item from '../DraggableItem';
 import BaseItemIcon from './base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStream, faPlus, faTimes, faAlignLeft, faAlignRight, faAlignCenter } from '@fortawesome/free-solid-svg-icons';
+import {
+  faStream,
+  faPlus,
+  faTimes,
+  faAlignLeft,
+  faAlignRight,
+  faAlignCenter,
+  faList,
+  faListOl
+} from '@fortawesome/free-solid-svg-icons';
 import Card from './card';
 import { Button, ButtonGroup, Input } from 'reactstrap';
+
+const getCardAlignment = (mode, index) => {
+  if (mode === 0) return 'left';
+  else if (mode === 2) return 'right';
+  else return index % 2 === 0 ? 'left' : 'right';
+};
 
 class TagText extends Component {
  state = {
    selectedIndex: 0,
-   cardAlignMode: 0,
+   cardStyleMode: 2,
+   numericOrdering: false,
    cards: [{
      id: 'card-0',
      title: 'Lorem ipsum',
      textAlign: 'text-left',
-     cardAlign: 'left',
+     cardAlign: 'right',
      content: 'Lorem ipsum dolor sit amet, eu sed liber audiam dolores, probo saepe verterem ius an. Quo lorem definitionem at. Et nulla malorum percipitur ius, possit latine splendide pro no'
    },
    {
      id: 'card-1',
      title: 'Lorem ipsum',
      textAlign: 'text-left',
-     cardAlign: 'left',
+     cardAlign: 'right',
      content: 'Lorem ipsum dolor sit amet, eu sed liber audiam dolores, probo saepe verterem ius an. Quo lorem definitionem at. Et nulla malorum percipitur ius, possit latine splendide pro no'
    },
    {
      id: 'card-2',
      title: 'Lorem ipsum',
      textAlign: 'text-left',
-     cardAlign: 'left',
+     cardAlign: 'right',
      content: 'Lorem ipsum dolor sit amet, eu sed liber audiam dolores, probo saepe verterem ius an. Quo lorem definitionem at. Et nulla malorum percipitur ius, possit latine splendide pro no'
    }]
  }
@@ -40,7 +56,7 @@ class TagText extends Component {
        id: `card-${cards.length}`,
        title: 'Lorem ipsum',
        textAlign: 'text-left',
-       cardAlign: 'left',
+       cardAlign: getCardAlignment(state.cardStyleMode, cards.length),
        content: 'Lorem ipsum dolor sit amet, eu sed liber audiam dolores, probo saepe verterem ius an. Quo lorem definitionem at. Et nulla malorum percipitur ius, possit latine splendide pro no'
      });
      return {
@@ -65,8 +81,12 @@ class TagText extends Component {
    });
  }
 
- updateCardAlignemnt = () => {
-
+ updateCardOrdering = (arg) => {
+   this.setState(() => {
+     return {
+       numericOrdering: arg
+     };
+   });
  }
 
  upadetTextAlignemnt = (alignment) => {
@@ -122,8 +142,23 @@ class TagText extends Component {
    });
  }
 
+ upadetCardStyling = (val) => {
+   this.setState(state => {
+     const cards = state.cards.map((card, i) => {
+       return Object.assign({}, card, {
+         cardAlign: getCardAlignment(val, i)
+       });
+     });
+     return {
+       ...state,
+       cards,
+       cardStyleMode: val
+     };
+   });
+ }
+
  render () {
-   const { selectedIndex, cards } = this.state,
+   const { selectedIndex, cards, numericOrdering, cardStyleMode } = this.state,
      { title, content } = selectedIndex === null ? {
        title: '',
        content: ''
@@ -134,7 +169,11 @@ class TagText extends Component {
        <Item.Infograph>
          {
            cards.map(({ id, title, content, textAlign, cardAlign }, index) =>
-             <Card key={id} index={index} title={title} content={content} clicked={this.cardSelected} textAlign={textAlign} cardAlign={cardAlign} selected={index === selectedIndex} ></Card>)
+             <Card key={id} index={index} title={title}
+               content={content} clicked={this.cardSelected}
+               textAlign={textAlign} isLeftAligned={cardAlign === 'left'}
+               selected={index === selectedIndex}
+               isNumeric={numericOrdering} ></Card>)
          }
        </Item.Infograph>
        <Item.Editor>
@@ -148,7 +187,19 @@ class TagText extends Component {
                  <FontAwesomeIcon icon={faTimes} />
                </Button>
              </ButtonGroup>
-           </div><div className='info-text-justify'>
+           </div>
+           <div className='info-text-justify'>
+             <span className='mr-2'>Ordering: &nbsp; </span>
+             <ButtonGroup size='sm'>
+               <Button active={numericOrdering === false} className='mr-1' onClick={() => this.updateCardOrdering(false)}>
+                 <FontAwesomeIcon icon={faList} />
+               </Button>
+               <Button active={numericOrdering === true} className='mr-1' onClick={() => this.updateCardOrdering(true)}>
+                 <FontAwesomeIcon icon={faListOl} />
+               </Button>
+             </ButtonGroup>
+           </div>
+           <div className='info-text-justify'>
              <span className='mr-2'>Alignment:</span>
              <ButtonGroup size='sm'>
                <Button active={textAlign === 'text-left'} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetTextAlignemnt('text-left'); }}>
@@ -158,6 +209,20 @@ class TagText extends Component {
                  <FontAwesomeIcon icon={faAlignCenter} />
                </Button>
                <Button active={textAlign === 'text-right'} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetTextAlignemnt('text-right'); }}>
+                 <FontAwesomeIcon icon={faAlignRight} />
+               </Button>
+             </ButtonGroup>
+           </div>
+           <div className='info-text-justify'>
+             <span className='mr-2'>Card Style:</span>
+             <ButtonGroup size='sm'>
+               <Button active={cardStyleMode === 0} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetCardStyling(0); }}>
+                 <FontAwesomeIcon icon={faAlignLeft} />
+               </Button>
+               <Button active={cardStyleMode === 1} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetCardStyling(1); }}>
+                 <FontAwesomeIcon icon={faStream} />
+               </Button>
+               <Button active={cardStyleMode === 2} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetCardStyling(2); }}>
                  <FontAwesomeIcon icon={faAlignRight} />
                </Button>
              </ButtonGroup>
@@ -188,7 +253,7 @@ class TagTextIcon extends Component {
     };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} tooltext='Add step tool'>
         <FontAwesomeIcon icon={faStream} />
       </BaseItemIcon>
     );
