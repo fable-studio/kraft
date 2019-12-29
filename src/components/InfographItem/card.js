@@ -13,19 +13,12 @@ const Card = (props) => {
       </div>
     </div>),
     order = props.isLeftAligned ? [indexDiv, textDiv] : [textDiv, indexDiv];
-  return (<div className="card card-view">
+  return (<div className="card card-view" onClick={() => props.clicked(props.index)}>
     <div className="row no-gutters">
       {
         order
       }
     </div>
-    <span
-      className={'position-absolute font-weight-bold'}
-      style={{ right: 5, top: -5, cursor: 'pointer' }}
-      onClick={props.deleteCard()}
-    >
-    x
-    </span>
   </div>);
 };
 
