@@ -106,7 +106,6 @@ class ChartItem extends Component {
       this._defaultCSV.push(csv[i].slice(0));
     }
 
-    console.log(this._defaultCSV, csv);
     this.state = {
       chartConfig: {
         type: props.type,

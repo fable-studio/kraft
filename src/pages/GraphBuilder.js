@@ -5,6 +5,7 @@ import Header from '../components/Header/index';
 
 import './GraphBuilder.scss';
 import Editor from '../components/Editor';
+import SettingsPanel from '../components/SettingsPanel';
 
 export default class GraphBuilder extends Component {
   render () {
@@ -17,6 +18,7 @@ export default class GraphBuilder extends Component {
           </div> */}
           <Editor />
         </div>
+        <SettingsPanel />
       </div>
     );
   }
