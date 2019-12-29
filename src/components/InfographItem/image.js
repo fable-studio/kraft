@@ -72,7 +72,6 @@ class ImageItem extends Component {
   }
 
   uploadImage = e => {
-    console.log(e.target.files);
     let file = e.target.files && e.target.files[0];
 
     if (file) {
