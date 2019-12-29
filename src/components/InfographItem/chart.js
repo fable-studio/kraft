@@ -12,6 +12,7 @@ import Item from '../DraggableItem';
 import SpreadSheet from '../SpreadSheet/index.js';
 import PropTypes from 'prop-types';
 import { Button, Input } from 'reactstrap';
+import { connect } from 'react-redux';
 ReactFc.fcRoot(FusionCharts, Charts, FusionTheme);
 FusionCharts.options.creditLabel = 0;
 
@@ -40,6 +41,7 @@ const createJson = (csv, isSingleSeries) => {
       bgColor: 'ebeff2',
       canvasbgcolor: '#ffffff',
       baseFont: 'Oswald',
+      legenditemfont: 'Oswald',
       divLineAlpha: 100,
       alignCaptionWithCanvas: 0,
       caption: '',
@@ -206,11 +208,19 @@ class ChartItem extends Component {
   }
 
   render () {
-    const { chartConfig, caption, subCaption, divLineAlpha } = this.state;
+    const { chartConfig, caption, subCaption, divLineAlpha } = this.state,
+      { themes } = this.props,
+      { themeList, curSelected } = themes,
+      curTheme = themeList[curSelected],
+      chartAttr = chartConfig.dataSource.chart;
 
-    chartConfig.dataSource.chart.caption = caption;
-    chartConfig.dataSource.chart.subCaption = subCaption;
-    chartConfig.dataSource.chart.divLineAlpha = divLineAlpha;
+    chartAttr.caption = caption;
+    chartAttr.subCaption = subCaption;
+    chartAttr.divLineAlpha = divLineAlpha;
+    chartAttr.bgColor = curTheme.infograph.background;
+    chartAttr.paletteColors = curTheme.chart.generic.palette;
+    chartAttr.captionFontColor = curTheme.chart.title.color;
+    chartAttr.subcaptionFontColor = curTheme.chart.subtitle.color;
 
     return (
       <>
@@ -255,13 +265,21 @@ ChartItem.defaultProps = {
   height: 400
 };
 
+const mapStateToPropsChartItem = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const ChartItemHOC = connect(mapStateToPropsChartItem)(ChartItem);
+
 class ChartIcon extends Component {
   render () {
     const { type, onClickFn, count } = this.props;
     const retContent = {
       task: {
         id: 'task-' + (count + 1),
-        content: <ChartItem type={type} />
+        content: <ChartItemHOC type={type} />
       }
     };
 
@@ -290,5 +308,5 @@ ChartIcon.propTypes = {
 
 export {
   ChartIcon,
-  ChartItem
+  ChartItemHOC
 };

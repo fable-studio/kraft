@@ -4,9 +4,11 @@ const initState = {
   curSelected: 'theme-1',
   themeList: {
     'theme-1': {
-      infograph: {
-        background: '#ebeff2',
+      generic: {
         palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+      },
+      infograph: {
+        background: '#ebeff2'
       },
       text: {
         header: {
@@ -60,9 +62,11 @@ const initState = {
       }
     },
     'theme-2': {
-      infograph: {
-        background: '#f6efdf',
+      generic: {
         palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+      },
+      infograph: {
+        background: '#f6efdf'
       },
       text: {
         header: {
@@ -116,9 +120,11 @@ const initState = {
       }
     },
     'theme-3': {
-      infograph: {
-        background: '#f6efdf',
+      generic: {
         palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+      },
+      infograph: {
+        background: '#f6efdf'
       },
       text: {
         header: {
@@ -174,12 +180,42 @@ const initState = {
   }
 };
 
-const themeReducer = (state = initState, actions = {}) => {
-  if (actions.type === 'CHANGE_THEME') {
+const actions = {
+  update_map_palette: (state, { newValue, index }) => {
+    let themeList = state.themeList,
+      curSelected = state.curSelected,
+      theme = themeList[curSelected],
+      map = theme.map,
+      newPalette = Array.from(map.generic.palette);
+
+    newPalette[index] = newValue;
     return {
       ...state,
-      curSelected: actions.currentTheme
+      themeList: {
+        ...themeList,
+        [curSelected]: {
+          ...themeList[curSelected],
+          map: {
+            ...map,
+            generic: {
+              ...map.generic,
+              palette: newPalette
+            }
+          }
+        }
+      }
     };
+  }
+};
+
+const themeReducer = (state = initState, action = {}) => {
+  if (action.type === 'CHANGE_THEME') {
+    return {
+      ...state,
+      curSelected: action.currentTheme
+    };
+  } else if (actions[action.type]) {
+    return actions[action.type](state, action);
   }
   return state;
 };

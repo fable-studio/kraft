@@ -20,6 +20,8 @@ import { Button, Input } from 'reactstrap';
 
 import './maps.scss';
 import defaultCSVdata, { formatCSV } from './maps-data';
+import { connect } from 'react-redux';
+import ColorPicker from '../ColorPicker';
 
 ReactFc.fcRoot(FusionCharts, Maps, World, WorldWithCountries, Africa, NorthAmerica, Asia, Europe, FusionTheme);
 FusionCharts.options.creditLabel = 0;
@@ -50,9 +52,155 @@ const parseCSVToData = csv => {
   return parsedDataAr;
 };
 
-class MapItem extends Component {
+class ColorRange extends Component {
   constructor (props) {
     super(props);
+
+    this.state = {
+      range: props.range.map(range => { return { min: range.min, max: range.max }; })
+    };
+  }
+  onColorChange = (index) => {
+    return (color) => {
+      this.props.updatePalette(color, index);
+    };
+  }
+
+  onValueChange = (index, type) => {
+    return e => {
+      let range = this.props.range,
+        newRange;
+
+      // console.log(e.target.value);
+      newRange = range.map((range, i) => {
+        if (i === index) {
+          return {
+            ...range,
+            [type]: e.target.value
+          };
+        }
+        return {
+          ...range
+        };
+      });
+      // console.log(newRange);
+      this.setState({
+        range: newRange
+      });
+      this.props.onChange(this.getUpdatedData(newRange));
+    };
+  }
+
+  addRange = () => {
+    const newRange = [...this.state.range, { min: 0, max: 0 }];
+    this.setState({
+      range: newRange
+    });
+
+    this.props.onChange(this.getUpdatedData(newRange));
+  }
+
+  removeRange = () => {
+    const newRange = Array.from(this.state.range);
+
+    newRange.pop();
+    this.setState({
+      range: newRange
+    });
+
+    this.props.onChange(this.getUpdatedData(newRange));
+  }
+
+  getRows = () => {
+    let { range } = this.state,
+      { themes } = this.props,
+      { themeList, curSelected } = themes,
+      curTheme = themeList[curSelected],
+      palette = curTheme.map.generic.palette,
+      i,
+      rows = [];
+
+    for (i = 0; i < range.length; i++) {
+      rows.push(
+        <div className='d-flex flex-row py-1 px-1' key={i} style={{ border: '1px solid red' }}>
+          <span className='mr-2'>
+            <span>Min Value: </span>
+            <Input type={'number'} value={range[i].min} onChange={this.onValueChange(i, 'min')} />
+          </span>
+          <span className='mr-2'>
+            <span>Max Value: </span>
+            <Input type={'number'} value={range[i].max} onChange={this.onValueChange(i, 'max')} />
+          </span>
+          <span className='mr-2'>
+            <span>Color: </span>
+            <ColorPicker color={palette[i]} onColorChange={this.onColorChange(i)} />
+            {/* <div style={{ width: 40, height: 30, backgroundColor: palette[i] }}></div> */}
+          </span>
+        </div>
+      );
+    }
+
+    return rows;
+  }
+
+  getUpdatedData = (range) => {
+    let newColorRange = [],
+      i;
+
+    for (i = 0; i < range.length; i++) {
+      newColorRange.push({
+        minvalue: range[i].min,
+        maxvalue: range[i].max
+      });
+    }
+
+    return newColorRange;
+  }
+
+  render () {
+    return (
+      <div className='w-100 d-flex flex-column'>
+        <div className='d-flex flex-row justify-content-between'>
+          <span>Color Range</span>
+          <span>
+            <Button onClick={this.addRange}>+</Button>
+            <Button onClick={this.removeRange}>-</Button>
+          </span>
+        </div>
+        {this.getRows()}
+      </div>
+    );
+  }
+}
+
+ColorRange.defaultProps = {
+  onChange: () => {}
+};
+
+const mapStateToPropsCM = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const mapDispatchToPropsCM = dispatch => {
+  return {
+    updatePalette: (color, index) => {
+      dispatch({
+        type: 'update_map_palette',
+        prop: 'map/generic/palette',
+        newValue: color,
+        index
+      });
+    }
+  };
+};
+
+const ColorRangeHOC = connect(mapStateToPropsCM, mapDispatchToPropsCM)(ColorRange);
+
+class MapItem extends Component {
+  constructor (props) {
+    super(props);;
 
     this.state = {
       height: props.height,
@@ -69,16 +217,11 @@ class MapItem extends Component {
         entityFillHoverColor: '#FFF9C4',
         theme: 'fusion'
       },
-      colorRange: {
-        minvalue: '0',
-        code: '#FFE0B2',
-        gradient: '0',
-        color: [
-          { minvalue: '0.5', maxvalue: '1.0', color: '#FFD74D' },
-          { minvalue: '1.0', maxvalue: '2.0', color: '#FB8C00' },
-          { minvalue: '2.0', maxvalue: '3.0', color: '#E65100' }
-        ]
-      },
+      range: [
+        { minvalue: '0', maxvalue: '1.0' },
+        { minvalue: '1.0', maxvalue: '2.0' },
+        { minvalue: '2.0', maxvalue: '3.0' }
+      ],
       csv: defaultCSVdata[props.type]
     };
   }
@@ -130,9 +273,21 @@ class MapItem extends Component {
     });
   }
 
-  render () {
-    const { chartAttr, type, colorRange, height, csv, caption, subCaption } = this.state;
+  rangeChangeHandler = range => {
+    this.setState({
+      range
+    });
+  }
 
+  render () {
+    const { chartAttr, type, height, csv, caption, subCaption, range } = this.state,
+      { themes } = this.props,
+      { themeList, curSelected } = themes,
+      curTheme = themeList[curSelected];
+
+    const newChartAttr = Object.assign({}, chartAttr);
+
+    newChartAttr.bgcolor = curTheme.infograph.background;
     const chartConfig = {
       type: type,
       width: '100%',
@@ -140,11 +295,20 @@ class MapItem extends Component {
       dataFormat: 'json',
       dataSource: {
         chart: {
-          ...chartAttr,
+          ...newChartAttr,
           caption,
           subCaption
         },
-        colorRange: { ...colorRange },
+        colorRange: {
+          gradient: 0,
+          color: range.map((range, index) => {
+            return {
+              minvalue: range.minvalue,
+              maxvalue: range.maxvalue,
+              color: curTheme.map.generic.palette[index]
+            };
+          })
+        },
         data: parseCSVToData(csv)
       }
     };
@@ -174,6 +338,12 @@ class MapItem extends Component {
               <span>Subtitle:</span>
               <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={subCaption} />
             </div>
+            <div className='mt-2'>
+              <ColorRangeHOC
+                range={range.map(range => { return { min: range.minvalue, max: range.maxvalue }; })}
+                onChange={this.rangeChangeHandler}
+              />
+            </div>
             <div>
               <span>Chart Height</span>
               <input type='range' min={300} max={800} value={height} onChange={this.changeMapHeight} />
@@ -192,13 +362,21 @@ MapItem.defaultProps = {
   height: 400
 };
 
+const mapStateToPropsMapItem = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const MapItemHOC = connect(mapStateToPropsMapItem)(MapItem);
+
 class MapIcon extends Component {
   render () {
     const { type, content, onClickFn, count } = this.props;
     const retContent = {
       task: {
         id: 'task-' + (count + 1),
-        content: <MapItem type={type} content={content} />
+        content: <MapItemHOC type={type} content={content} />
       }
     };
 
@@ -218,5 +396,5 @@ MapIcon.defaultProps = {
 
 export {
   MapIcon,
-  MapItem
+  MapItemHOC
 };

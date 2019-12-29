@@ -1,6 +1,6 @@
-import { TextIcon, TextItem } from './text';
-import { ChartIcon, ChartItem } from './chart';
-import { MapIcon, MapItem } from './maps';
+import { TextIcon, TextItemHOC as TextItem } from './text';
+import { ChartIcon, ChartItemHOC as ChartItem } from './chart';
+import { MapIcon, MapItemHOC as MapItem } from './maps';
 import { ImageIcon, ImageItem } from './image';
 import { RatingIcon, RatingItem } from './rating';
 

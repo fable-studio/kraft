@@ -5,9 +5,11 @@ import './index.scss';
 import { connect } from 'react-redux';
 class Infograph extends Component {
   render () {
-    const { width, height } = this.props;
+    const { width, height, themes } = this.props;
+    const curTheme = themes.themeList[themes.curSelected];
 
     let styleObj = {
+      ...curTheme.infograph,
       width
     };
 
@@ -26,6 +28,14 @@ class Infograph extends Component {
 Infograph.defaultProps = {
   width: 500
 };
+
+const mapStateToPropsInfograph = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const InfographHOC = connect(mapStateToPropsInfograph)(Infograph);
 
 class InfographEditor extends Component {
   render () {
@@ -60,7 +70,7 @@ const mapStateToPropsEditor = state => {
 const InfographEditorHOC = connect(mapStateToPropsEditor)(InfographEditor);
 
 class Item extends Component {
-  static Infograph = Infograph;
+  static Infograph = InfographHOC;
   static Editor = InfographEditorHOC;
 
   render () {

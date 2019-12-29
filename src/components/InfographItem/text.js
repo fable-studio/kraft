@@ -10,6 +10,7 @@ import { ButtonGroup, Button } from 'reactstrap';
 import Sl from 'fusioncharts-smartlabel';
 
 import './text.scss';
+import { connect } from 'react-redux';
 
 const sl = new Sl();
 class TextItem extends Component {
@@ -24,16 +25,17 @@ class TextItem extends Component {
       textItalic: '',
       textUnderline: '',
       textCosmetics: {
-        color: 'black'
+        // color: 'black'
       },
-      textTypes: ['header', 'title', 'quote', 'body'],
-      colorPalette: ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'white', 'black', 'olive']
+      textTypes: ['header', 'title', 'quote', 'body']
     };
   }
 
   getColorBtnHandler = (index) => {
     return () => {
-      const { colorPalette } = this.state;
+      const { themes } = this.props,
+        curTheme = themes.themeList[themes.curSelected],
+        colorPalette = curTheme.generic.palette;
 
       this.setState({
         textCosmetics: {
@@ -71,9 +73,11 @@ class TextItem extends Component {
   }
 
   getFormattedHeader = () => {
-    let { maxLineWidth } = this.props,
+    let { maxLineWidth, themes } = this.props,
+      curTheme = themes.themeList[themes.curSelected],
       headers = this.state.content.split('\n'),
-       divs = [],
+      // fontColor = this.state.textCosmetics.color || curTheme.text.header.color,
+      divs = [],
       i;
 
     headers.forEach((header, index) => {
@@ -92,7 +96,7 @@ class TextItem extends Component {
       }
 
       divs.push(
-        <div className='header-text' key={index} style={{ fontSize: i - 2, lineHeight: `${i - 5}px` }}>{header}</div>
+        <div className='header-text' key={index} style={{ fontSize: i - 2, lineHeight: `${i - 5}px`, ...curTheme.text.header }}>{header}</div>
       );
     });
 
@@ -104,15 +108,20 @@ class TextItem extends Component {
   }
 
   getText = type => {
-    let { content } = this.state,
+    let { content, textCosmetics } = this.state,
+      { themes } = this.props,
+      curTheme = themes.themeList[themes.curSelected],
       textFontSize,
+      // fontColor,
       textJSX;
 
     if (type === 'title') {
       textFontSize = 35;
-      textJSX = <div style={{ fontSize: textFontSize }}>{content}</div>;
+      // fontColor = textCosmetics.color || curTheme.text.title.color;
+      textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.title }}>{content}</div>;
     } else if (type === 'quote') {
       textFontSize = 37;
+      // fontColor = textCosmetics.color || curTheme.text.quote.color;
       textJSX = (
         <div className='d-flex flex-row'>
           <div className='d-inline-block position-relative' style={{ width: 52, background: 'white', borderRadius: 5, marginRight: 10 }}>
@@ -123,12 +132,13 @@ class TextItem extends Component {
               <FontAwesomeIcon icon={faQuoteRight} />
             </span>
           </div>
-          <div style={{ fontSize: textFontSize }}>{content}</div>
+          <div style={{ fontSize: textFontSize, ...curTheme.text.quote }}>{content}</div>
         </div>
       )
     } else if (type === 'body') {
       textFontSize = 20;
-      textJSX = <div style={{ fontSize: textFontSize }}>{content}</div>;
+      // fontColor = textCosmetics.color || curTheme.text.body.color;
+      textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.body }}>{content}</div>;
     }
 
     return textJSX;
@@ -141,8 +151,13 @@ class TextItem extends Component {
   }
 
   render () {
-    const { colorPalette, textTypes, type, textCosmetics, content, alignment,
+    const { textTypes, type, textCosmetics, content, alignment,
       textBold, textItalic, textUnderline } = this.state;
+
+    const { themes } = this.props,
+      curTheme = themes.themeList[themes.curSelected],
+      colorPalette = curTheme.generic.palette;
+
     let retContent,
       textContainerClassName = `mx-3 my-2 h-100 py-3 ${alignment} ${textBold} ${textItalic} ${textUnderline}`;
 
@@ -164,7 +179,7 @@ class TextItem extends Component {
                 );
               })}
             </ButtonGroup>
-            <div className='mt-2'>
+            {/* <div className='mt-2'>
               <span>Color: </span>
               <ButtonGroup className='px-1' size='sm'>
                 {colorPalette.map((color, index) => {
@@ -178,7 +193,7 @@ class TextItem extends Component {
                   );
                 })}
               </ButtonGroup>
-            </div>
+            </div> */}
             <div className='mt-3 d-flex flex-row justify-content-between'>
               <div className='info-text-justify'>
                 <span className='mr-2'>Alignment:</span>
@@ -239,13 +254,21 @@ TextItem.defaultProps = {
   maxLineWidth: 480
 };
 
+const mapStateToPropsTextItem = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const TextItemHOC = connect(mapStateToPropsTextItem)(TextItem);
+
 class TextIcon extends Component {
   render () {
     const { type, content, onClickFn, count, maxLineWidth } = this.props;
     const retContent = {
       task: {
         id: 'task-' + (count + 1),
-        content: <TextItem type={type} content={content} maxLineWidth={maxLineWidth} />
+        content: <TextItemHOC type={type} content={content} maxLineWidth={maxLineWidth} />
       }
     };
 
@@ -266,5 +289,5 @@ TextIcon.defaultProps = {
 
 export {
   TextIcon,
-  TextItem
+  TextItemHOC
 };
