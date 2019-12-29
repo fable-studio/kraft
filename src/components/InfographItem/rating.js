@@ -52,28 +52,28 @@ class RatingItem extends Component {
     if (type === 'progress') {
       // progressJSX = <Progress className='h-50 w-100 rating' value={rating} max="100" />;
       progressJSX = (
-        <div className="h-50 w-100 rating progress" style={{ ...curTheme.rating.background }}>
+        <div className="h-50 w-100 rating progress" style={{ ...curTheme.rating.background, marginTop: 5 }}>
           <div 
             className="progress-bar" 
             role="progressbar" 
             aria-valuenow="55" 
             aria-valuemin="0" 
             aria-valuemax="100" 
-            style={{ ...curTheme.rating.progress, width: rating + '%' }}
+            style={{ ...curTheme.rating.progress, width: rating + '%', height: 30 }}
           ></div>
         </div>
       );
     } else if (type === 'progress-striped') {
       // progressJSX = <Progress striped className='h-50 w-100 rating' value={rating} max="100" />
       progressJSX = (
-        <div className="h-50 w-100 rating progress" style={{ ...curTheme.rating.background }}>
+        <div className="h-50 w-100 rating progress" style={{ ...curTheme.rating.background, marginTop: 5 }}>
           <div 
             className="progress-bar progress-bar-striped" 
             role="progressbar" 
             aria-valuenow="55" 
             aria-valuemin="0" 
             aria-valuemax="100" 
-            style={{ ...curTheme.rating['progress-striped'], width: rating + '%' }}
+            style={{ ...curTheme.rating['progress-striped'], width: rating + '%', height: 30 }}
           ></div>
         </div>
       );
@@ -94,7 +94,7 @@ class RatingItem extends Component {
       <>
         <Item.Infograph height={70}>
           <div className='h-100 d-flex flex-column mx-3 justify-content-center'>
-            <div className='d-flex flex-row align-items-center'>
+            <div className='d-flex flex-row align-items-center' style={{ height: 60 }}>
               {progressJSX}
               <span style={{ fontSize: 40, marginLeft: 12, fontWeight: 'bolder'}}>{`${rating || 0}%`}</span>
             </div>
@@ -149,7 +149,7 @@ class RatingIcon extends Component {
       };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-ratinf-btn' tooltext='Add rating'>
         <FontAwesomeIcon icon={faStarHalfAlt} />
       </BaseItemIcon>
     );

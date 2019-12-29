@@ -17,10 +17,10 @@ import {
   ImageItem,
   MapItem
 } from '../InfographItem';
-import { Input, Button } from 'reactstrap';
+import { Input, Button, Spinner } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faSave
+  faFilePdf, faFileImage
 } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 
@@ -38,6 +38,8 @@ class Editor extends Component {
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
+      fileName: 'fable-studio',
+      showSpinner: false,
       draggableList: {
         tasks: {
           'task-1': {
@@ -160,35 +162,62 @@ class Editor extends Component {
     });
   }
 
-  print = () => {
-    let containerEle = document.createElement('div'),
-      infoItems = document.getElementsByClassName('infoitem-default'),
-      width,
-      height;
+  print = (type) => {
+    return () => {
+      let containerEle = document.createElement('div'),
+        infoItems = document.getElementsByClassName('infoitem-default'),
+        width,
+        height,
+        { fileName, infoBodyWidth } = this.state,
+        { curSelected, themeList } = this.props.themes;
 
-    containerEle.setAttribute('style', `position: absolute; top: -16384px; width:${this.state.infoBodyWidth}px; background: #ebeff2;`);
+      this.setState({
+        showSpinner: true
+      });
+      containerEle.setAttribute('style', `position: absolute; top: -16384px; width:${infoBodyWidth}px; background: ${themeList[curSelected].infograph.background};`);
 
-    for (let i = 0; i < infoItems.length; i++) {
-      containerEle.appendChild(infoItems[i].cloneNode(true));
-    }
+      for (let i = 0; i < infoItems.length; i++) {
+        containerEle.appendChild(infoItems[i].cloneNode(true));
+      }
 
-    document.body.insertBefore(containerEle, document.body.firstChild);
+      document.body.insertBefore(containerEle, document.body.firstChild);
 
-    height = containerEle.offsetHeight;
-    width = containerEle.offsetWidth;
+      height = containerEle.offsetHeight;
+      width = containerEle.offsetWidth;
 
-    const pdf = new jsPDF('p', 'mm', [width * 0.2646 * 5, height * 0.2646 * 5])
+      if (type === 'pdf') {
+        const pdf = new jsPDF('p', 'mm', [width * 0.2646 * 5, height * 0.2646 * 5]);
 
-    html2canvas(containerEle).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'JPEG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
-      pdf.save("download.pdf");
-    });
+        html2canvas(containerEle).then(canvas => {
+          const imgData = canvas.toDataURL('image/png');
+          pdf.addImage(imgData, 'JPEG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+          pdf.save(fileName + '.pdf');
+          this.setState({
+            showSpinner: false
+          });
+        });
+      } else {
+        html2canvas(containerEle).then(canvas => {
+          var a = document.createElement('a');
+          // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+          a.href = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+          a.download = fileName + '.jpg';
+          a.click();
+          this.setState({
+            showSpinner: false
+          });
+        });
+      }
+
+      containerEle.parentNode.removeChild(containerEle);
+    };
   }
 
-  // togglePreview = () => {
-  //   this.setState(prevState => { return { preview: !prevState.preview }; });
-  // }
+  updateFileName = e => {
+    this.setState({
+      fileName: e.target.value
+    });
+  }
 
   render () {
     const {
@@ -196,7 +225,8 @@ class Editor extends Component {
       infoBodyWidth,
       editorBodyWidth,
       draggableList,
-      taskCount
+      taskCount,
+      showSpinner
     } = this.state,
     { preview } = this.props;
 
@@ -204,9 +234,11 @@ class Editor extends Component {
       <>
         <div className={preview ? 'd-none' : 'mt-3'} style={{ width: editorBodyWidth + infoBodyWidth + sidebarWidth }}>
           <div className='toolbar-container d-inline-flex flex-row align-items-center' style={{ marginLeft: sidebarWidth - 10 }}>
-            <Input className='mr-2 input-cosmetics' bsSize='lg' placeholder='Enter Infographic name'></Input>
+            <Input className='mr-2 input-cosmetics' bsSize='lg' placeholder='Enter Infographic name' onChange={this.updateFileName}></Input>
             {/* <Button className='btn-cosmetics mr-2' onClick={this.props.togglePreview}><FontAwesomeIcon icon={faEye} /></Button> */}
-            <Button className='btn-cosmetics mr-2' onClick={this.print}><FontAwesomeIcon icon={faSave} /></Button>
+            <Button className='btn-cosmetics mr-2' onClick={this.print('pdf')}><FontAwesomeIcon icon={faFilePdf} /></Button>
+            <Button className='btn-cosmetics mr-2' onClick={this.print('jpg')}><FontAwesomeIcon icon={faFileImage} /></Button>
+            {showSpinner && <Spinner color='danger' />}
             {/* <Button className='btn-cosmetics mr-2'><FontAwesomeIcon icon={faShare} /></Button> */}
           </div>
         </div>
@@ -247,7 +279,8 @@ class Editor extends Component {
 
 const mapStateToProps = state => {
   return {
-    preview: state.preview.preview
+    preview: state.preview.preview,
+    themes: state.themes
   };
 };
 

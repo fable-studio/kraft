@@ -238,18 +238,29 @@ class ChartItem extends Component {
               <Button className='mr-1' onClick={this.changeDivLineAlpha}>
                 <FontAwesomeIcon icon={faBorderNone} />
               </Button>
-              <span>
-                <span>Chart Height</span>
-                <input type='range' min={300} max={800} value={chartConfig.height} onChange={this.changeChartHeight} />
-                <span>{chartConfig.height}PX</span>
-              </span>
+              <div className='d-inline-block'>
+                <div className='d-flex flex-row'>
+                  <span className='ml-2 mr-1'>Chart Height</span>
+                  <input
+                    style={{
+                      marginTop: 0
+                    }}
+                    type='range'
+                    min={300}
+                    max={800}
+                    value={chartConfig.height}
+                    onChange={this.changeChartHeight}
+                  />
+                  <span className='ml-2'>{chartConfig.height}px</span>
+                </div>
+              </div>
             </div>
             <div className='mt-2'>
-              <span>Title:</span>
+              <span className='font-weight-bold'>Title:</span>
               <Input className='d-inline-block' onChange={this.titleChangeHandler} value={caption} />
             </div>
             <div className='mt-2'>
-              <span>Subtitle:</span>
+              <span className='font-weight-bold'>Subtitle:</span>
               <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={subCaption} />
             </div>
             <SpreadSheet data={this.state.csv} dataUpdated={this.dataUpdated} fileUpdated={this.fileUpdated} />
@@ -284,7 +295,7 @@ class ChartIcon extends Component {
     };
 
     return (
-      <BaseItemIcon retContent={retContent} passContent={onClickFn}>
+      <BaseItemIcon retContent={retContent} passContent={onClickFn} id='sidebar-chart-btn' tooltext='Add chart'>
         <FontAwesomeIcon icon={faChartPie} />
       </BaseItemIcon>
     );

@@ -25,10 +25,12 @@ export default class ColorPicker extends Component {
   }
 
   render () {
+    const { height, width } = this.props;
+
     const styles = {
       color: {
-        width: '36px',
-        height: '14px',
+        width: width + 'px',
+        height: height + 'px',
         borderRadius: '2px',
         background: this.state.color,
       },
@@ -74,5 +76,7 @@ export default class ColorPicker extends Component {
 ColorPicker.defaultProps = {
   onColorChange: () => {},
   color: '#ff0000',
-  className: ''
+  className: '',
+  width: 36,
+  height: 14
 };
