@@ -57,6 +57,20 @@ const staticthemeList = {
       star: {
         color: '#800204'
       }
+    },
+    'tag-text': {
+      background: {
+        backgroundColor: 'white'
+      },
+      orderText: {
+        backgroundColor: '#800204'
+      },
+      title: {
+        color: '#e96655'
+      },
+      content: {
+        color: '#e96655'
+      }
     }
   },
   'theme-2': {
@@ -115,6 +129,20 @@ const staticthemeList = {
       star: {
         color: '#493139'
       }
+    },
+    'tag-text': {
+      background: {
+        backgroundColor: 'white'
+      },
+      orderText: {
+        backgroundColor: '#493139'
+      },
+      title: {
+        color: '#493139'
+      },
+      content: {
+        color: '#e56d53'
+      }
     }
   },
   'theme-3': {
@@ -172,6 +200,20 @@ const staticthemeList = {
       },
       star: {
         color: '#e94939'
+      }
+    },
+    'tag-text': {
+      background: {
+        backgroundColor: 'white'
+      },
+      orderText: {
+        backgroundColor: '#e94939'
+      },
+      title: {
+        color: '#d1ac18'
+      },
+      content: {
+        color: '#e4eaf1'
       }
     }
   }

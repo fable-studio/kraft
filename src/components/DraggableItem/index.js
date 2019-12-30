@@ -8,7 +8,7 @@ class Infograph extends Component {
     const { width, height, themes } = this.props;
     const curTheme = themes.themeList[themes.curSelected];
 
-    let styleObj = {
+    const styleObj = {
       ...curTheme.infograph,
       width
     };
@@ -41,7 +41,7 @@ class InfographEditor extends Component {
   render () {
     const { width, height, preview } = this.props;
 
-    let styleObj = {
+    const styleObj = {
       width
     };
 

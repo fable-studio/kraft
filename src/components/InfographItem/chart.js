@@ -32,9 +32,10 @@ const chartTypes = [
   'mscolumn2d',
   'pie2d',
   'msarea',
-  'msline'
+  'msline',
+  'stackedcolumn2d'
 ];
-const isSingleSeriesType = str => !str.startsWith('ms');
+const isSingleSeriesType = str => !(str.startsWith('ms') || str.startsWith('stacked'));
 const createJson = (csv, isSingleSeries) => {
   const json = {
     chart: {

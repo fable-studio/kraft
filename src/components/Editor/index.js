@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Item from '../DraggableItem/index';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import JsPDF from 'jspdf';
 
 import './index.scss';
 import {
@@ -15,7 +15,9 @@ import {
   ChartItem,
   RatingItem,
   ImageItem,
-  MapItem
+  MapItem,
+  TagTextIcon,
+  TagText
 } from '../InfographItem';
 import { Input, Button, Spinner } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,7 +31,7 @@ class Editor extends Component {
   constructor (props) {
     super(props);
 
-    let sidebarWidth = 70,
+    const sidebarWidth = 70,
       infoBodyWidth = 500,
       editorBodyWidth = 400;
 
@@ -60,6 +62,10 @@ class Editor extends Component {
           },
           'task-5': {
             id: 'task-5',
+            content: <TagText />
+          },
+          'task-6': {
+            id: 'task-6',
             content: <MapItem />
           }
         },
@@ -186,7 +192,7 @@ class Editor extends Component {
       width = containerEle.offsetWidth;
 
       if (type === 'pdf') {
-        const pdf = new jsPDF('p', 'mm', [width * 0.2646 * 5, height * 0.2646 * 5]);
+        const pdf = new JsPDF('p', 'mm', [width * 0.2646 * 5, height * 0.2646 * 5]);
 
         html2canvas(containerEle).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
@@ -222,14 +228,14 @@ class Editor extends Component {
 
   render () {
     const {
-      sidebarWidth,
-      infoBodyWidth,
-      editorBodyWidth,
-      draggableList,
-      taskCount,
-      showSpinner
-    } = this.state,
-    { preview } = this.props;
+        sidebarWidth,
+        infoBodyWidth,
+        editorBodyWidth,
+        draggableList,
+        taskCount,
+        showSpinner
+      } = this.state,
+      { preview } = this.props;
 
     return (
       <>
@@ -250,6 +256,7 @@ class Editor extends Component {
             <MapIcon count={taskCount} onClickFn={this.addNewTask}/>
             <ImageIcon count={taskCount} onClickFn={this.addNewTask} maxLineWidth={infoBodyWidth} />
             <RatingIcon count={taskCount} onClickFn={this.addNewTask} />
+            <TagTextIcon count={taskCount} onClickFn={this.addNewTask} />
           </div>
           <div className='position-relative'>
             <DragDropContext onDragEnd={this.onDragEnd}>
