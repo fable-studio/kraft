@@ -14,6 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Card from './card';
 import { Button, ButtonGroup, Input } from 'reactstrap';
+import { connect } from 'react-redux';
 
 const getCardAlignment = (mode, index) => {
   if (mode === 0) return 'left';
@@ -159,11 +160,13 @@ class TagText extends Component {
 
  render () {
    const { selectedIndex, cards, numericOrdering, cardStyleMode } = this.state,
-     { title, content } = selectedIndex === null ? {
+     { title, content, textAlign } = selectedIndex === null ? {
        title: '',
-       content: ''
+       content: '',
+       textAlign: ''
      } : cards[selectedIndex],
-     { textAlign } = cards[selectedIndex];
+     { themeList, curSelected } = this.props.themes,
+     curTheme = themeList[curSelected];
    return (
      <>
        <Item.Infograph>
@@ -173,7 +176,7 @@ class TagText extends Component {
                content={content} clicked={this.cardSelected}
                textAlign={textAlign} isLeftAligned={cardAlign === 'left'}
                selected={index === selectedIndex}
-               isNumeric={numericOrdering} ></Card>)
+               isNumeric={numericOrdering} curTheme={curTheme} ></Card>)
          }
        </Item.Infograph>
        <Item.Editor>
@@ -242,6 +245,14 @@ class TagText extends Component {
  }
 }
 
+const mapStateToPropsTagText = state => {
+  return {
+    themes: state.themes
+  };
+};
+
+const TagTextHOC = connect(mapStateToPropsTagText)(TagText);
+
 class TagTextIcon extends Component {
   render () {
     const { type, onClickFn, count } = this.props;
@@ -261,6 +272,6 @@ class TagTextIcon extends Component {
 }
 
 export {
-  TagText,
+  TagTextHOC,
   TagTextIcon
 };
