@@ -107,6 +107,10 @@ class Editor extends Component {
     newTaskIds.splice(source.index, 1);
     newTaskIds.splice(destination.index, 0, draggableId);
 
+    // make sure that the credit is always at bottom
+    newTaskIds.splice(newTaskIds.indexOf('task-0'), 1);
+    newTaskIds.push('task-0');
+
     const newColumn = {
       ...column,
       taskIds: newTaskIds
