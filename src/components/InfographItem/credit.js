@@ -33,9 +33,6 @@ class CreditItem extends Component {
             </div>
           </div>
         </Item.Infograph>
-        <Item.Editor>
-          <div></div>  
-        </Item.Editor>
       </>
     );
   }
