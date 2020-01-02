@@ -113,8 +113,8 @@ class TextItem extends Component {
 
   getText = type => {
     let { content, textCosmetics } = this.state,
-      { themes } = this.props,
-      curTheme = themes.themeList[themes.curSelected],
+      // { themes } = this.props,
+      // curTheme = themes.themeList[themes.curSelected],
       textFontSize,
       lineHeight,
       // fontColor,
@@ -123,7 +123,7 @@ class TextItem extends Component {
     if (type === 'title') {
       textFontSize = 35;
       // fontColor = textCosmetics.color || curTheme.text.title.color;
-      textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.title }}>{content}</div>;
+      textJSX = <div style={{ fontSize: textFontSize, ...textCosmetics }}>{content}</div>;
     } else if (type === 'quote') {
       textFontSize = 30;
       // fontColor = textCosmetics.color || curTheme.text.quote.color;
@@ -137,13 +137,13 @@ class TextItem extends Component {
               <FontAwesomeIcon icon={faQuoteRight} />
             </span>
           </div>
-          <div style={{ fontSize: textFontSize, lineHeight: '30px', ...curTheme.text.quote }}>{content}</div>
+          <div style={{ fontSize: textFontSize, lineHeight: '30px', ...textCosmetics }}>{content}</div>
         </div>
       )
     } else if (type === 'body') {
       textFontSize = 20;
       // fontColor = textCosmetics.color || curTheme.text.body.color;
-      textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.body }}>{content}</div>;
+      textJSX = <div style={{ fontSize: textFontSize, ...textCosmetics }}>{content}</div>;
     }
 
     return textJSX;
@@ -258,9 +258,9 @@ class TextItem extends Component {
         <Item.Infograph>
           <div
             className={textContainerClassName}
-            style={{
-              color: textCosmetics.color
-            }}
+            // style={{
+            //   color: textCosmetics.color
+            // }}
             spellCheck={false}
           >
             {type === 'header' ? this.getFormattedHeader() : this.getText(type)}

@@ -109,8 +109,8 @@ class ChartItem extends Component {
       alignCaptionWithCanvas: 0,
       caption: '',
       subcaption: '',
-      captionfontcolor: this.textCosmetics.caption.color,
-      subcaptionfontcolor: this.textCosmetics.subcaption.color,
+      captionfontcolor: this.textCosmetics.title.color,
+      subcaptionfontcolor: this.textCosmetics.subtitle.color,
       theme: 'fusion'
     };
 
@@ -294,8 +294,8 @@ class ChartItem extends Component {
               ...prevState.chartConfig.dataSource,
               chart: {
                 ...chartAttr,
-                captionfontcolor: this.textCosmetics.caption.color,
-                subcaptionfontcolor: this.textCosmetics.caption.color
+                captionfontcolor: this.textCosmetics.title.color,
+                subcaptionfontcolor: this.textCosmetics.subtitle.color
               }
             }
           }
@@ -353,10 +353,6 @@ class ChartItem extends Component {
               <span className='font-weight-bold'>Title:</span>
               <Input className='d-inline-block' onChange={this.titleChangeHandler} value={chartAttr.caption} />
             </div>
-            <div className='mt-2'>
-              <span className='font-weight-bold'>Subtitle:</span>
-              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={chartAttr.subCaption} />
-            </div>
             {
               chartAttr.caption &&
                 (<div className='mt-2'>
@@ -375,6 +371,10 @@ class ChartItem extends Component {
                   </ButtonGroup>
                 </div>)
             }
+            <div className='mt-2'>
+              <span className='font-weight-bold'>Subtitle:</span>
+              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={chartAttr.subCaption} />
+            </div>
             {
               chartAttr.subcaption &&
                 (<div className='mt-2'>

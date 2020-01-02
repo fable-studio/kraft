@@ -36,7 +36,7 @@ class Editor extends Component {
       editorBodyWidth = 400;
 
     this.state = {
-      taskCount: 5,
+      taskCount: 6,
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
@@ -44,35 +44,35 @@ class Editor extends Component {
       showSpinner: false,
       draggableList: {
         tasks: {
-          'task-1': {
-            id: 'task-1',
+          'task-6': {
+            id: 'task-6',
             content: <ImageItem maxLineWidth={infoBodyWidth} />
-          },
-          'task-2': {
-            id: 'task-2',
-            content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
-          },
-          'task-3': {
-            id: 'task-3',
-            content: <ChartItem />
-          },
-          'task-4': {
-            id: 'task-4',
-            content: <RatingItem />
           },
           'task-5': {
             id: 'task-5',
+            content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
+          },
+          'task-4': {
+            id: 'task-4',
+            content: <ChartItem />
+          },
+          'task-3': {
+            id: 'task-3',
+            content: <RatingItem />
+          },
+          'task-2': {
+            id: 'task-2',
             content: <TagText />
           },
-          'task-6': {
-            id: 'task-6',
+          'task-1': {
+            id: 'task-1',
             content: <MapItem />
           }
         },
         columns: {
           'column-1': {
             id: 'column-1',
-            taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'task-5']
+            taskIds: ['task-6', 'task-5', 'task-4', 'task-3', 'task-2', 'task-1']
           }
         },
         columnOrder: ['column-1']
@@ -130,8 +130,8 @@ class Editor extends Component {
         'column-1': {
           id: 'column-1',
           taskIds: [
-            ...draggableList.columns['column-1'].taskIds,
-            content.task.id
+            content.task.id,
+            ...draggableList.columns['column-1'].taskIds
           ]
         }
       }

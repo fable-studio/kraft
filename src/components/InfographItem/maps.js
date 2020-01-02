@@ -16,7 +16,7 @@ import {
 import BaseItemIcon from './base';
 import Item from '../DraggableItem';
 import SpreadSheet from '../SpreadSheet';
-import { Button, Input } from 'reactstrap';
+import { Button, Input, ButtonGroup } from 'reactstrap';
 
 import './maps.scss';
 import defaultCSVdata, { formatCSV } from './maps-data';
@@ -198,13 +198,14 @@ const ColorRangeHOC = connect(mapStateToPropsCM, mapDispatchToPropsCM)(ColorRang
 
 class MapItem extends Component {
   constructor (props) {
-    super(props);;
+    super(props);
 
+    this.textCosmetics = props.themes.themeList[props.themes.curSelected].map.text;
     this.state = {
       height: props.height,
       type: props.type,
-      caption: '',
-      subCaption: '',
+      // caption: '',
+      // subCaption: '',
       chartAttr: {
         showLegend: 0,
         baseFont: 'Oswald',
@@ -213,7 +214,11 @@ class MapItem extends Component {
         labelsepchar: ': ',
         bgcolor: 'ebeff2',
         entityFillHoverColor: '#FFF9C4',
-        theme: 'fusion'
+        theme: 'fusion',
+        caption: '',
+        subcaption: '',
+        captionfontcolor: this.textCosmetics.title.color,
+        subcaptionfontcolor: this.textCosmetics.subtitle.color
       },
       range: [
         { minvalue: '0', maxvalue: '1.0' },
@@ -260,14 +265,26 @@ class MapItem extends Component {
   }
 
   titleChangeHandler = e => {
-    this.setState({
-      caption: e.target.value
+    let value = e.target.value;
+    this.setState(prevState => {
+      return {
+        chartAttr: {
+          ...prevState.chartAttr,
+          caption: value
+        }
+      };
     });
   }
 
   subtitleChangeHandler = e => {
-    this.setState({
-      subCaption: e.target.value
+    let value = e.target.value;
+    this.setState(prevState => {
+      return {
+        chartAttr: {
+          ...prevState.chartAttr,
+          subcaption: value
+        }
+      };
     });
   }
 
@@ -277,11 +294,52 @@ class MapItem extends Component {
     });
   }
 
+  getColorBtnHandler = (attribute, index) => {
+    const { themes } = this.props,
+      { themeList, curSelected } = themes,
+      curTheme = themeList[curSelected],
+      { palette } = curTheme.map.text.generic;
+
+    return () => {
+      this.setState(prevState => {
+        let chartAttr = prevState.chartAttr;
+
+        return {
+          chartAttr: {
+            ...chartAttr,
+            [attribute]: palette[index]
+          }
+        };
+      });
+    };
+  }
+
+  componentDidUpdate () {
+    const { themes } = this.props,
+      curTheme = themes.themeList[themes.curSelected];
+
+    if (JSON.stringify(this.textCosmetics) !== JSON.stringify(curTheme.map.text)) {
+      this.setState(prevState => {
+        let chartAttr = prevState.chartAttr;
+
+        this.textCosmetics = curTheme.map.text;
+        return {
+          chartAttr: {
+            ...chartAttr,
+            captionfontcolor: this.textCosmetics.title.color,
+            subcaptionfontcolor: this.textCosmetics.subtitle.color
+          }
+        };
+      });
+    }
+  }
+
   render () {
-    const { chartAttr, type, height, csv, caption, subCaption, range } = this.state,
+    const { chartAttr, type, height, csv, range } = this.state,
       { themes } = this.props,
       { themeList, curSelected } = themes,
-      curTheme = themeList[curSelected];
+      curTheme = themeList[curSelected],
+      colorPalette = curTheme.map.text.generic.palette;
 
     const newChartAttr = Object.assign({}, chartAttr);
 
@@ -293,9 +351,7 @@ class MapItem extends Component {
       dataFormat: 'json',
       dataSource: {
         chart: {
-          ...newChartAttr,
-          caption,
-          subCaption
+          ...newChartAttr
         },
         colorRange: {
           gradient: 0,
@@ -330,12 +386,48 @@ class MapItem extends Component {
             </div>
             <div className='mt-2'>
               <span className='font-weight-bold'>Title:</span>
-              <Input className='d-inline-block' onChange={this.titleChangeHandler} value={caption} />
+              <Input className='d-inline-block' onChange={this.titleChangeHandler} value={newChartAttr.caption} />
             </div>
+            {
+              newChartAttr.caption &&
+                (<div className='mt-2'>
+                  <span style={{ marginRight: 22 }}>Title color: </span>
+                  <ButtonGroup className='px-1' size='sm'>
+                    {colorPalette.map((color, index) => {
+                      return (
+                        <Button
+                          key={index}
+                          className='color-btn mr-1'
+                          onClick={this.getColorBtnHandler('captionfontcolor', index)}
+                          style={{ backgroundColor: color }}
+                        ></Button>
+                      );
+                    })}
+                  </ButtonGroup>
+                </div>)
+            }
             <div className='mt-2'>
               <span className='font-weight-bold'>Subtitle:</span>
-              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={subCaption} />
+              <Input className='d-inline-block' onChange={this.subtitleChangeHandler} value={newChartAttr.subcaption} />
             </div>
+            {
+              newChartAttr.subcaption &&
+                (<div className='mt-2'>
+                  <span>Subtitle color: </span>
+                  <ButtonGroup className='px-1' size='sm'>
+                    {colorPalette.map((color, index) => {
+                      return (
+                        <Button
+                          key={index}
+                          className='color-btn mr-1'
+                          onClick={this.getColorBtnHandler('subcaptionfontcolor', index)}
+                          style={{ backgroundColor: color }}
+                        ></Button>
+                      );
+                    })}
+                  </ButtonGroup>
+                </div>)
+            }
             <hr />
             <div className='mt-2'>
               <ColorRangeHOC

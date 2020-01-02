@@ -49,28 +49,28 @@ class SettingsPanel extends Component {
     }
   }
 
-  toggleModal = (id, open, apply) => {
-    return () => {
-      this.setState(() => {
-        let { themes } = this.props,
-          { themeList } = themes;
+  // toggleModal = (id, open, apply) => {
+  //   return () => {
+  //     this.setState(() => {
+  //       let { themes } = this.props,
+  //         { themeList } = themes;
 
-        if (open) {
-          // this._curThemeId = id;
-          this._curTheme[id] = this._curTheme[id] || cloneObject(themeList[id]);
-        } else {
-          apply && this.props.updateFullTheme(this._curTheme[id], id);
-          // delete this._curTheme;
-          // delete this._curThemeId;
-        }
+  //       if (open) {
+  //         // this._curThemeId = id;
+  //         this._curTheme[id] = this._curTheme[id] || cloneObject(themeList[id]);
+  //       } else {
+  //         apply && this.props.updateFullTheme(this._curTheme[id], id);
+  //         // delete this._curTheme;
+  //         // delete this._curThemeId;
+  //       }
 
-        return {
-          modalOpen: open && id,
-          currentHoveredTheme: null
-        }
-      });
-    }
-  }
+  //       return {
+  //         modalOpen: open && id,
+  //         currentHoveredTheme: null
+  //       }
+  //     });
+  //   }
+  // }
 
   shallowThemeChange = (id, type, index) => {
     return val => {
@@ -81,8 +81,8 @@ class SettingsPanel extends Component {
         case 'infograph-text-quote': this._curTheme[id].text.quote.color = val; break;
         case 'infograph-text-body': this._curTheme[id].text.body.color = val; break;
         case 'infograph-chart-palette': this._curTheme[id].chart.generic.palette[index] = val; break;
-        case 'infograph-chart-title': this._curTheme[id].chart.title.color = val; break;
-        case 'infograph-chart-subtitle': this._curTheme[id].chart.subtitle.color = val; break;
+        case 'infograph-chart-title': this._curTheme[id].chart.text.title.color = val; break;
+        case 'infograph-chart-subtitle': this._curTheme[id].chart.text.subtitle.color = val; break;
         case 'infograph-map-palette': this._curTheme[id].map.generic.palette[index] = val; break;
         case 'infograph-map-title': this._curTheme[id].map.title.color = val; break;
         case 'infograph-map-subtitle': this._curTheme[id].map.subtitle.color = val; break;
@@ -164,13 +164,13 @@ class SettingsPanel extends Component {
       showModal =  modalOpen === ids[i];
 
       demos.push(
-        <div key={ids[i]} className='theme-container position-relative' onMouseOver={this.setVisibleEditor(i)} onMouseOut={this.setVisibleEditor(null)}>
-          <div 
+        <div key={ids[i]} className='theme-container position-relative' /* onMouseOver={this.setVisibleEditor(i)} onMouseOut={this.setVisibleEditor(null)} */>
+          {/* <div 
             className={ showEditor ? 'position-absolute rounded-circle' : 'd-none' } 
             style={{ top: -12, right: -10, width: 28, height: 28, backgroundColor: 'white' }}
           >
             <span style={{ paddingLeft: 7, paddingTop: 1 }} onClick={this.toggleModal(ids[i], true)}><FontAwesomeIcon icon={faEdit} /></span>
-          </div>
+          </div> */}
           <div 
             className={ curSelected === ids[i] ? 'position-absolute rounded-circle' : 'd-none' } 
             style={{ top: -12, left: -10, width: 28, height: 28, backgroundColor: 'white' }}
@@ -234,11 +234,11 @@ class SettingsPanel extends Component {
                   </div>
                   <div className='d-flex flex-row'>
                     <span style={{ marginRight: 59 }}>Chart title Color</span>
-                    <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-title')} />
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.text.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-title')} />
                   </div>
                   <div className='d-flex flex-row'>
                     <span style={{ marginRight: 33 }}>Chart subtitle Color</span>
-                    <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-subtitle')} />
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.text.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-chart-subtitle')} />
                   </div>
                 </div>
                 <div className='w-100'>
@@ -253,11 +253,11 @@ class SettingsPanel extends Component {
                   </div>
                   <div className='d-flex flex-row'>
                     <span style={{ marginRight: 69 }}>Map title Color</span>
-                    <ColorPicker className='d-inline-block' color={curTheme.chart.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-title')} />
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.text.title.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-title')} />
                   </div>
                   <div className='d-flex flex-row'>
                     <span style={{ marginRight: 42 }}>Map subtitle Color</span>
-                    <ColorPicker className='d-inline-block' color={curTheme.chart.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-subtitle')} />
+                    <ColorPicker className='d-inline-block' color={curTheme.chart.text.subtitle.color} onColorChange={this.shallowThemeChange(ids[i], 'infograph-map-subtitle')} />
                   </div>
                 </div>
                 <div className='w-100'>

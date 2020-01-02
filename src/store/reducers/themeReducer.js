@@ -30,29 +30,28 @@ const staticthemeList = {
         generic: {
           palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
         },
-        caption: {
+        title: {
           color: '#800204'
         },
-        subcaption: {
+        subtitle: {
           color: '#525f65'
         }
-      },
-      title: {
-        color: '#e96655'
-      },
-      subtitle: {
-        color: '#e96655'
       }
     },
     map: {
       generic: {
         palette: ['#800204', '#AC2423', '#ee4f52', '#ff5f5f', '#bac2c5']
       },
-      title: {
-        color: '#e96655'
-      },
-      subtitle: {
-        color: '#e96655'
+      text: {
+        generic: {
+          palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+        },
+        title: {
+          color: '#800204'
+        },
+        subtitle: {
+          color: '#e96655'
+        }
       }
     },
     rating: {
@@ -113,29 +112,28 @@ const staticthemeList = {
         generic: {
           palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
         },
-        caption: {
+        title: {
           color: '#493139'
         },
-        subcaption: {
+        subtitle: {
           color: '#e56d53'
         }
-      },
-      title: {
-        color: '#493139'
-      },
-      subtitle: {
-        color: '#e56d53'
       }
     },
     map: {
       generic: {
         palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa']
       },
-      title: {
-        color: '#493139'
-      },
-      subtitle: {
-        color: '#e56d53'
+      text: {
+        generic: {
+          palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        title: {
+          color: '#493139'
+        },
+        subtitle: {
+          color: '#e56d53'
+        }
       }
     },
     rating: {
@@ -196,29 +194,28 @@ const staticthemeList = {
         generic: {
           palette: ['#e4eaf1', '#d1ac18', '#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
         },
-        caption: {
+        title: {
           color: '#e4eaf1'
         },
-        subcaption: {
+        subtitle: {
           color: '#d1ac18'
         }
-      },
-      title: {
-        color: '#d1ac18'
-      },
-      subtitle: {
-        color: '#e4eaf1'
       }
     },
     map: {
       generic: {
         palette: ['#eabd04', '#e94939', '#9955b4', '#4ab0f4']
       },
-      title: {
-        color: '#d1ac18'
-      },
-      subtitle: {
-        color: '#e4eaf1'
+      text: {
+        generic: {
+          palette: ['#e4eaf1', '#d1ac18', '#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        title: {
+          color: '#d1ac18'
+        },
+        subtitle: {
+          color: '#e4eaf1'
+        }
       }
     },
     rating: {
