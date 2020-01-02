@@ -26,6 +26,17 @@ const staticthemeList = {
       generic: {
         palette: ['#800204', '#AC2423', '#ee4f52', '#ff5f5f', '#bac2c5']
       },
+      text: {
+        generic: {
+          palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+        },
+        caption: {
+          color: '#800204'
+        },
+        subcaption: {
+          color: '#525f65'
+        }
+      },
       title: {
         color: '#e96655'
       },
@@ -98,6 +109,17 @@ const staticthemeList = {
       generic: {
         palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa']
       },
+      text: {
+        generic: {
+          palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        caption: {
+          color: '#493139'
+        },
+        subcaption: {
+          color: '#e56d53'
+        }
+      },
       title: {
         color: '#493139'
       },
@@ -169,6 +191,17 @@ const staticthemeList = {
     chart: {
       generic: {
         palette: ['#eabd04', '#e94939', '#9955b4', '#4ab0f4']
+      },
+      text: {
+        generic: {
+          palette: ['#e4eaf1', '#d1ac18', '#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        caption: {
+          color: '#e4eaf1'
+        },
+        subcaption: {
+          color: '#d1ac18'
+        }
       },
       title: {
         color: '#d1ac18'
