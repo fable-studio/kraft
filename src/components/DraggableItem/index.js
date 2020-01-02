@@ -74,9 +74,9 @@ class Item extends Component {
   static Editor = InfographEditorHOC;
 
   render () {
-    const { task, index, preview } = this.props;
+    const { task, index, preview, nonInteractive } = this.props;
     return (
-      <Draggable draggableId={task.id} index={index}>
+      <Draggable draggableId={task.id} index={index} isDragDisabled={nonInteractive}>
         {provided => (
           <div
             ref={provided.innerRef}
@@ -84,13 +84,17 @@ class Item extends Component {
             {...provided.dragHandleProps}
           >
             <div className='d-flex flex-row position-relative'>
-              <span
-                className={preview ? 'd-none' : 'position-absolute font-weight-bold'}
-                style={{ right: 10, top: 0, cursor: 'pointer' }}
-                onClick={() => this.props.deleteTask(task.id)}
-              >
-                x
-              </span>
+              {
+                !nonInteractive && (
+                  <span
+                    className={preview ? 'd-none' : 'position-absolute font-weight-bold'}
+                    style={{ right: 10, top: 0, cursor: 'pointer' }}
+                    onClick={() => this.props.deleteTask(task.id)}
+                  >
+                    x
+                  </span>
+                )
+              }
               {task.content}
             </div>
           </div>
