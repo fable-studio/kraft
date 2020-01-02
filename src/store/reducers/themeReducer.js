@@ -2,13 +2,13 @@ import { cloneObject } from '../../utils';
 
 const staticthemeList = {
   'theme-1': {
-    generic: {
-      palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
-    },
     infograph: {
       background: '#ebeff2'
     },
     text: {
+      generic: {
+        palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+      },
       header: {
         color: '#525f65'
       },
@@ -26,22 +26,32 @@ const staticthemeList = {
       generic: {
         palette: ['#800204', '#AC2423', '#ee4f52', '#ff5f5f', '#bac2c5']
       },
-      title: {
-        color: '#e96655'
-      },
-      subtitle: {
-        color: '#e96655'
+      text: {
+        generic: {
+          palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+        },
+        title: {
+          color: '#800204'
+        },
+        subtitle: {
+          color: '#525f65'
+        }
       }
     },
     map: {
       generic: {
         palette: ['#800204', '#AC2423', '#ee4f52', '#ff5f5f', '#bac2c5']
       },
-      title: {
-        color: '#e96655'
-      },
-      subtitle: {
-        color: '#e96655'
+      text: {
+        generic: {
+          palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+        },
+        title: {
+          color: '#800204'
+        },
+        subtitle: {
+          color: '#e96655'
+        }
       }
     },
     rating: {
@@ -74,13 +84,13 @@ const staticthemeList = {
     }
   },
   'theme-2': {
-    generic: {
-      palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
-    },
     infograph: {
       background: '#f6efdf'
     },
     text: {
+      generic: {
+        palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+      },
       header: {
         color: '#493139'
       },
@@ -98,22 +108,32 @@ const staticthemeList = {
       generic: {
         palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa']
       },
-      title: {
-        color: '#493139'
-      },
-      subtitle: {
-        color: '#e56d53'
+      text: {
+        generic: {
+          palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        title: {
+          color: '#493139'
+        },
+        subtitle: {
+          color: '#e56d53'
+        }
       }
     },
     map: {
       generic: {
         palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa']
       },
-      title: {
-        color: '#493139'
-      },
-      subtitle: {
-        color: '#e56d53'
+      text: {
+        generic: {
+          palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        title: {
+          color: '#493139'
+        },
+        subtitle: {
+          color: '#e56d53'
+        }
       }
     },
     rating: {
@@ -146,13 +166,13 @@ const staticthemeList = {
     }
   },
   'theme-3': {
-    generic: {
-      palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
-    },
     infograph: {
       background: '#2b3d50'
     },
     text: {
+      generic: {
+        palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+      },
       header: {
         color: '#e4eaf1'
       },
@@ -170,22 +190,32 @@ const staticthemeList = {
       generic: {
         palette: ['#eabd04', '#e94939', '#9955b4', '#4ab0f4']
       },
-      title: {
-        color: '#d1ac18'
-      },
-      subtitle: {
-        color: '#e4eaf1'
+      text: {
+        generic: {
+          palette: ['#e4eaf1', '#d1ac18', '#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        title: {
+          color: '#e4eaf1'
+        },
+        subtitle: {
+          color: '#d1ac18'
+        }
       }
     },
     map: {
       generic: {
         palette: ['#eabd04', '#e94939', '#9955b4', '#4ab0f4']
       },
-      title: {
-        color: '#d1ac18'
-      },
-      subtitle: {
-        color: '#e4eaf1'
+      text: {
+        generic: {
+          palette: ['#e4eaf1', '#d1ac18', '#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+        },
+        title: {
+          color: '#d1ac18'
+        },
+        subtitle: {
+          color: '#e4eaf1'
+        }
       }
     },
     rating: {

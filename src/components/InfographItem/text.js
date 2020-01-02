@@ -17,6 +17,11 @@ class TextItem extends Component {
   constructor (props) {
     super(props);
 
+    const curTheme = props.themes.themeList[props.themes.curSelected];
+
+    this.genericCosmetics = curTheme.text.generic || {};
+    this.textCosmetics = curTheme.text[props.type] || {};
+
     this.state = {
       content: props.content,
       type: props.type || 'header',
@@ -24,9 +29,8 @@ class TextItem extends Component {
       textBold: '',
       textItalic: '',
       textUnderline: '',
-      textCosmetics: {
-        // color: 'black'
-      },
+      genericCosmetics: this.genericCosmetics,
+      textCosmetics: this.textCosmetics,
       textTypes: ['header', 'title', 'quote', 'body']
     };
   }
@@ -35,12 +39,14 @@ class TextItem extends Component {
     return () => {
       const { themes } = this.props,
         curTheme = themes.themeList[themes.curSelected],
-        colorPalette = curTheme.generic.palette;
+        colorPalette = curTheme.text.generic.palette;
 
-      this.setState({
-        textCosmetics: {
-          ...this.state.textCosmetics,
-          color: colorPalette[index]
+      this.setState(prevState => {
+        return {
+          textCosmetics: {
+            ...prevState.textCosmetics,
+            color: colorPalette[index]
+          }
         }
       });
     };
@@ -73,10 +79,8 @@ class TextItem extends Component {
   }
 
   getFormattedHeader = () => {
-    let { maxLineWidth, themes } = this.props,
-      curTheme = themes.themeList[themes.curSelected],
+    let { maxLineWidth } = this.props,
       headers = this.state.content.split('\n'),
-      // fontColor = this.state.textCosmetics.color || curTheme.text.header.color,
       divs = [],
       i;
 
@@ -96,7 +100,7 @@ class TextItem extends Component {
       }
 
       divs.push(
-        <div className='header-text' key={index} style={{ fontSize: i - 2, lineHeight: `${i - 5}px`, ...curTheme.text.header }}>{header}</div>
+        <div className='header-text' key={index} style={{ fontSize: i - 2, lineHeight: `${i - 5}px`, ...this.state.textCosmetics }}>{header}</div>
       );
     });
 
@@ -109,8 +113,8 @@ class TextItem extends Component {
 
   getText = type => {
     let { content, textCosmetics } = this.state,
-      { themes } = this.props,
-      curTheme = themes.themeList[themes.curSelected],
+      // { themes } = this.props,
+      // curTheme = themes.themeList[themes.curSelected],
       textFontSize,
       lineHeight,
       // fontColor,
@@ -119,7 +123,7 @@ class TextItem extends Component {
     if (type === 'title') {
       textFontSize = 35;
       // fontColor = textCosmetics.color || curTheme.text.title.color;
-      textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.title }}>{content}</div>;
+      textJSX = <div style={{ fontSize: textFontSize, ...textCosmetics }}>{content}</div>;
     } else if (type === 'quote') {
       textFontSize = 30;
       // fontColor = textCosmetics.color || curTheme.text.quote.color;
@@ -133,13 +137,13 @@ class TextItem extends Component {
               <FontAwesomeIcon icon={faQuoteRight} />
             </span>
           </div>
-          <div style={{ fontSize: textFontSize, lineHeight: '30px', ...curTheme.text.quote }}>{content}</div>
+          <div style={{ fontSize: textFontSize, lineHeight: '30px', ...textCosmetics }}>{content}</div>
         </div>
       )
     } else if (type === 'body') {
       textFontSize = 20;
       // fontColor = textCosmetics.color || curTheme.text.body.color;
-      textJSX = <div style={{ fontSize: textFontSize, ...curTheme.text.body }}>{content}</div>;
+      textJSX = <div style={{ fontSize: textFontSize, ...textCosmetics }}>{content}</div>;
     }
 
     return textJSX;
@@ -151,13 +155,33 @@ class TextItem extends Component {
     });
   }
 
+  componentDidUpdate () {
+    const { type } = this.state,
+      { themes } = this.props,
+      curTheme = themes.themeList[themes.curSelected];
+
+    if (JSON.stringify(this.genericCosmetics) !== JSON.stringify(curTheme.text.generic)) {
+      this.setState({
+        genericCosmetics: curTheme.text.generic
+      });
+      this.genericCosmetics = curTheme.text.generic;
+    }
+
+    if (JSON.stringify(this.textCosmetics) !== JSON.stringify(curTheme.text[type])) {
+      this.setState({
+        textCosmetics: curTheme.text[type]
+      });
+      this.textCosmetics = curTheme.text[type];
+    }
+  } 
+
   render () {
     const { textTypes, type, textCosmetics, content, alignment,
       textBold, textItalic, textUnderline } = this.state;
 
     const { themes } = this.props,
       curTheme = themes.themeList[themes.curSelected],
-      colorPalette = curTheme.generic.palette;
+      colorPalette = curTheme.text.generic.palette;
 
     let retContent,
       textContainerClassName = `mx-3 my-2 h-100 py-3 ${alignment} ${textBold} ${textItalic} ${textUnderline}`;
@@ -180,21 +204,21 @@ class TextItem extends Component {
                 );
               })}
             </ButtonGroup>
-            {/* <div className='mt-2'>
+            <div className='mt-2'>
               <span>Color: </span>
               <ButtonGroup className='px-1' size='sm'>
                 {colorPalette.map((color, index) => {
                   return (
                     <Button
                       key={index}
-                      className='color-btn'
+                      className='color-btn mr-1'
                       onClick={this.getColorBtnHandler(index)}
                       style={{ backgroundColor: color }}
                     ></Button>
                   );
                 })}
               </ButtonGroup>
-            </div> */}
+            </div>
             <div className='mt-3 d-flex flex-row justify-content-between'>
               <div className='info-text-justify'>
                 <span className='mr-2'>Alignment:</span>
@@ -234,9 +258,9 @@ class TextItem extends Component {
         <Item.Infograph>
           <div
             className={textContainerClassName}
-            style={{
-              color: textCosmetics.color
-            }}
+            // style={{
+            //   color: textCosmetics.color
+            // }}
             spellCheck={false}
           >
             {type === 'header' ? this.getFormattedHeader() : this.getText(type)}
