@@ -17,7 +17,8 @@ import {
   ImageItem,
   MapItem,
   TagTextIcon,
-  TagText
+  TagText,
+  CreditItem
 } from '../InfographItem';
 import { Input, Button, Spinner } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,48 +36,55 @@ class Editor extends Component {
       infoBodyWidth = 500,
       editorBodyWidth = 400;
 
+    const draggableList = {
+      tasks: {
+        'task-6': {
+          id: 'task-6',
+          content: <ImageItem maxLineWidth={infoBodyWidth} />
+        },
+        'task-5': {
+          id: 'task-5',
+          content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
+        },
+        'task-4': {
+          id: 'task-4',
+          content: <ChartItem />
+        },
+        'task-3': {
+          id: 'task-3',
+          content: <RatingItem />
+        },
+        'task-2': {
+          id: 'task-2',
+          content: <TagText />
+        },
+        'task-1': {
+          id: 'task-1',
+          content: <MapItem />
+        },
+        'task-0': {
+          id: 'task-0',
+          draggable: false,
+          content: <CreditItem />
+        }
+      },
+      columns: {
+        'column-1': {
+          id: 'column-1',
+          taskIds: ['task-6', 'task-5', 'task-4', 'task-3', 'task-2', 'task-1', 'task-0']
+        }
+      },
+      columnOrder: ['column-1']
+    };
+
     this.state = {
-      taskCount: 6,
+      taskCount: Object.keys(draggableList.tasks).length,
       sidebarWidth,
       infoBodyWidth,
       editorBodyWidth,
       fileName: 'fable-studio',
       showSpinner: false,
-      draggableList: {
-        tasks: {
-          'task-6': {
-            id: 'task-6',
-            content: <ImageItem maxLineWidth={infoBodyWidth} />
-          },
-          'task-5': {
-            id: 'task-5',
-            content: <TextItem maxLineWidth={infoBodyWidth - DEFAULTTEXTPADDING} />
-          },
-          'task-4': {
-            id: 'task-4',
-            content: <ChartItem />
-          },
-          'task-3': {
-            id: 'task-3',
-            content: <RatingItem />
-          },
-          'task-2': {
-            id: 'task-2',
-            content: <TagText />
-          },
-          'task-1': {
-            id: 'task-1',
-            content: <MapItem />
-          }
-        },
-        columns: {
-          'column-1': {
-            id: 'column-1',
-            taskIds: ['task-6', 'task-5', 'task-4', 'task-3', 'task-2', 'task-1']
-          }
-        },
-        columnOrder: ['column-1']
-      }
+      draggableList
     };
   }
 
@@ -269,7 +277,7 @@ class Editor extends Component {
                     {provided => {
                       return (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
-                          {tasks.map((task, index) => <Item infoBodyWidth={infoBodyWidth} editorBodyWidth={editorBodyWidth} key={task.id} task={task} index={index} deleteTask={this.deleteTask} />)}
+                          {tasks.map((task, index) => <Item nonInteractive={task.draggable === false} infoBodyWidth={infoBodyWidth} editorBodyWidth={editorBodyWidth} key={task.id} task={task} index={index} deleteTask={this.deleteTask} />)}
                           {provided.placeholder}
                         </div>
                       );

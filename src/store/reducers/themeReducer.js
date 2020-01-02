@@ -81,6 +81,15 @@ const staticthemeList = {
       content: {
         color: '#e96655'
       }
+    },
+    credit: {
+      background: {
+        backgroundColor: 'white',
+        border: '1px solid #ebeff2'
+      },
+      text: {
+        color: '#222f25'
+      }
     }
   },
   'theme-2': {
@@ -163,6 +172,15 @@ const staticthemeList = {
       content: {
         color: '#e56d53'
       }
+    },
+    credit: {
+      background: {
+        backgroundColor: 'white',
+        border: '1px solid #f6efdf'
+      },
+      text: {
+        color: '#222f25'
+      }
     }
   },
   'theme-3': {
@@ -244,6 +262,15 @@ const staticthemeList = {
       },
       content: {
         color: '#e4eaf1'
+      }
+    },
+    credit: {
+      background: {
+        backgroundColor: 'white',
+        border: '1px solid #2b3d50'
+      },
+      text: {
+        color: '#222f25'
       }
     }
   }
