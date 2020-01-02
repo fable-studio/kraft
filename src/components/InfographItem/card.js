@@ -38,7 +38,7 @@ const Card = (props) => {
           <h1>{character}</h1>
         </div>
       </div>);
-  return (<div style={{ ...curTheme.background }} className={'card card-view ' + (props.selected ? selectedClasses : 'border-0 ') + props.textAlign} onClick={() => props.clicked(props.index)}>
+  return (<div style={{ ...curTheme.background }} className={'card card-view ' + (props.selected && !props.preview ? selectedClasses : 'border-0 ') + props.textAlign} onClick={() => props.clicked(props.index)}>
     {
       orderedEle
     }
