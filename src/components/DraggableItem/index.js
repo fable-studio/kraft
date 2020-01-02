@@ -85,7 +85,7 @@ class Item extends Component {
           >
             <div className='d-flex flex-row position-relative'>
               {
-                nonInteractive && (
+                !nonInteractive && (
                   <span
                     className={preview ? 'd-none' : 'position-absolute font-weight-bold'}
                     style={{ right: 10, top: 0, cursor: 'pointer' }}
