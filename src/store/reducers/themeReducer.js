@@ -2,13 +2,13 @@ import { cloneObject } from '../../utils';
 
 const staticthemeList = {
   'theme-1': {
-    generic: {
-      palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
-    },
     infograph: {
       background: '#ebeff2'
     },
     text: {
+      generic: {
+        palette: ['#ebeff2', '#525f65', '#bac2c5', '#eb6f68']
+      },
       header: {
         color: '#525f65'
       },
@@ -74,13 +74,13 @@ const staticthemeList = {
     }
   },
   'theme-2': {
-    generic: {
-      palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
-    },
     infograph: {
       background: '#f6efdf'
     },
     text: {
+      generic: {
+        palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+      },
       header: {
         color: '#493139'
       },
@@ -146,13 +146,13 @@ const staticthemeList = {
     }
   },
   'theme-3': {
-    generic: {
-      palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
-    },
     infograph: {
       background: '#2b3d50'
     },
     text: {
+      generic: {
+        palette: ['#493139', '#e56d53', '#eebb47', '#8ab6aa', '#eee2cc', '#bebebe']
+      },
       header: {
         color: '#e4eaf1'
       },
