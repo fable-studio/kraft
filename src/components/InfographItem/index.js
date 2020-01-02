@@ -3,7 +3,7 @@ import { ChartIcon, ChartItemHOC as ChartItem } from './chart';
 import { MapIcon, MapItemHOC as MapItem } from './maps';
 import { ImageIcon, ImageItem } from './image';
 import { RatingIcon, RatingItemHOC as RatingItem } from './rating';
-import { TagTextHOC as TagText, TagTextIcon } from './tag-text';
+import { TagText, TagTextIcon } from './tag-text';
 import { CreditItemHOC as CreditItem } from './credit';
 
 export {

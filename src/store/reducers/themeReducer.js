@@ -252,7 +252,7 @@ const staticthemeList = {
     },
     'tag-text': {
       background: {
-        backgroundColor: 'white'
+        backgroundColor: '#2b3d50'
       },
       orderText: {
         backgroundColor: '#e94939'
