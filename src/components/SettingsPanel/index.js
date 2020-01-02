@@ -49,28 +49,28 @@ class SettingsPanel extends Component {
     }
   }
 
-  // toggleModal = (id, open, apply) => {
-  //   return () => {
-  //     this.setState(() => {
-  //       let { themes } = this.props,
-  //         { themeList } = themes;
+  toggleModal = (id, open, apply) => {
+    return () => {
+      this.setState(() => {
+        let { themes } = this.props,
+          { themeList } = themes;
 
-  //       if (open) {
-  //         // this._curThemeId = id;
-  //         this._curTheme[id] = this._curTheme[id] || cloneObject(themeList[id]);
-  //       } else {
-  //         apply && this.props.updateFullTheme(this._curTheme[id], id);
-  //         // delete this._curTheme;
-  //         // delete this._curThemeId;
-  //       }
+        if (open) {
+          // this._curThemeId = id;
+          this._curTheme[id] = this._curTheme[id] || cloneObject(themeList[id]);
+        } else {
+          apply && this.props.updateFullTheme(this._curTheme[id], id);
+          // delete this._curTheme;
+          // delete this._curThemeId;
+        }
 
-  //       return {
-  //         modalOpen: open && id,
-  //         currentHoveredTheme: null
-  //       }
-  //     });
-  //   }
-  // }
+        return {
+          modalOpen: open && id,
+          currentHoveredTheme: null
+        }
+      });
+    }
+  }
 
   shallowThemeChange = (id, type, index) => {
     return val => {
@@ -175,7 +175,7 @@ class SettingsPanel extends Component {
             className={ curSelected === ids[i] ? 'position-absolute rounded-circle' : 'd-none' } 
             style={{ top: -12, left: -10, width: 28, height: 28, backgroundColor: 'white' }}
           >
-            <span style={{ paddingLeft: 7, paddingTop: 1 }} onClick={this.toggleModal(ids[i], true)}><FontAwesomeIcon icon={faCheck} /></span>
+            <span style={{ paddingLeft: 7, paddingTop: 1 }} ><FontAwesomeIcon icon={faCheck} /></span>
           </div>
           <div onClick={this.changeTheme(ids[i])} className='theme-demo d-flex flex-column justify-content-start align-items-start px-2 py-2 h-100' style={{ background: curTheme.infograph.background}}>
             <div style={{ fontSize: 32, lineHeight: '55px', ...curTheme.text.header }}>Infographic</div>
