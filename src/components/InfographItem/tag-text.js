@@ -14,13 +14,20 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Card from './card';
 import { Button, ButtonGroup, Input } from 'reactstrap';
-import { connect } from 'react-redux';
 
 const getCardAlignment = (mode, index) => {
-  if (mode === 0) return 'left';
-  else if (mode === 2) return 'right';
-  else return index % 2 === 0 ? 'left' : 'right';
-};
+    if (mode === 0) return 'left';
+    else if (mode === 2) return 'right';
+    else return index % 2 === 0 ? 'left' : 'right';
+  },
+  ACTIVE = {
+    backgroundColor: '#4e555b',
+    color: 'white'
+  },
+  NON_ACTIVE = {
+    backgroundColor: 'white',
+    color: '#4e555b'
+  };
 
 class TagText extends Component {
  state = {
@@ -164,9 +171,7 @@ class TagText extends Component {
        title: '',
        content: '',
        textAlign: ''
-     } : cards[selectedIndex],
-     { themeList, curSelected } = this.props.themes,
-     curTheme = themeList[curSelected];
+     } : cards[selectedIndex];
    return (
      <>
        <Item.Infograph>
@@ -176,12 +181,12 @@ class TagText extends Component {
                content={content} clicked={this.cardSelected}
                textAlign={textAlign} isLeftAligned={cardAlign === 'left'}
                selected={index === selectedIndex}
-               isNumeric={numericOrdering} curTheme={curTheme} ></Card>)
+               isNumeric={numericOrdering} ></Card>)
          }
        </Item.Infograph>
        <Item.Editor>
          <div className='mx-3 my-3'>
-           <div>
+           <div className='mb-2'>
              <ButtonGroup size='sm'>
                <Button active className='mr-1' onClick={this.addCard}>
                  <FontAwesomeIcon icon={faPlus} />
@@ -191,18 +196,18 @@ class TagText extends Component {
                </Button>
              </ButtonGroup>
            </div>
-           <div className='info-text-justify'>
+           <div className='info-text-justify mb-2'>
              <span className='mr-2'>Ordering: &nbsp; </span>
              <ButtonGroup size='sm'>
-               <Button active={numericOrdering === false} className='mr-1' onClick={() => this.updateCardOrdering(false)}>
+               <Button active={numericOrdering === false} className='mr-1' style={numericOrdering === false ? ACTIVE : NON_ACTIVE} onClick={() => this.updateCardOrdering(false)}>
                  <FontAwesomeIcon icon={faList} />
                </Button>
-               <Button active={numericOrdering === true} className='mr-1' onClick={() => this.updateCardOrdering(true)}>
+               <Button active={numericOrdering === true} className='mr-1' style={numericOrdering === false ? NON_ACTIVE : ACTIVE} onClick={() => this.updateCardOrdering(true)}>
                  <FontAwesomeIcon icon={faListOl} />
                </Button>
              </ButtonGroup>
            </div>
-           <div className='info-text-justify'>
+           <div className='info-text-justify  mb-2'>
              <span className='mr-2'>Alignment:</span>
              <ButtonGroup size='sm'>
                <Button active={textAlign === 'text-left'} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetTextAlignemnt('text-left'); }}>
@@ -216,7 +221,7 @@ class TagText extends Component {
                </Button>
              </ButtonGroup>
            </div>
-           <div className='info-text-justify'>
+           <div className='info-text-justify  mb-2'>
              <span className='mr-2'>Card Style:</span>
              <ButtonGroup size='sm'>
                <Button active={cardStyleMode === 0} className='font-weight-bold text-alignment-btn' onClick={() => { this.upadetCardStyling(0); }}>
@@ -245,14 +250,6 @@ class TagText extends Component {
  }
 }
 
-const mapStateToPropsTagText = state => {
-  return {
-    themes: state.themes
-  };
-};
-
-const TagTextHOC = connect(mapStateToPropsTagText)(TagText);
-
 class TagTextIcon extends Component {
   render () {
     const { type, onClickFn, count } = this.props;
@@ -272,6 +269,6 @@ class TagTextIcon extends Component {
 }
 
 export {
-  TagTextHOC,
+  TagText,
   TagTextIcon
 };
