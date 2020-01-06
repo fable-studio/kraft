@@ -12,11 +12,34 @@
 .card-view {
   margin: 10px;
 }
-.card-button {
+
+.card-delete-button {
   display: none;
+  left: -10px;
+  top: -8px;
+  background-color: white;
+  border: solid black 1px;
+  width: 20px;
+  height: 20px;
 }
 
-.card-view:hover  .card-button {
+.card-add-button {
+  display: none;
+  left: -10px;
+  bottom: -5px;
+  background-color: white;
+  border: solid black 1px;
+  width: 20px;
+  height: 20px;
+}
+
+
+
+.card-view:hover  .card-add-button {
+  display: block;
+  cursor: pointer;
+}
+.card-view:hover  .card-delete-button {
   display: block;
   cursor: pointer;
 }

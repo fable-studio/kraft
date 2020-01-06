@@ -81,18 +81,14 @@ class TagText extends Component {
      const cards = state.cards.slice();
      if (cards.length === 1) return null;
      let selectedIndex = state.selectedIndex;
-     cards.splice(index, 1);
-     if (cards.length) {
-       if (index === selectedIndex) {
-         if (selectedIndex + 1 >= cards.length) {
-           selectedIndex = cards.length - 1;
-         } else {
-           selectedIndex++;
-         }
+     if (index === selectedIndex) {
+       if (selectedIndex === cards.length - 1) {
+         selectedIndex = cards.length - 2;
        }
-     } else {
-       selectedIndex = null;
+     } else if (index < selectedIndex) {
+       selectedIndex--;
      }
+     cards.splice(index, 1);
      return {
        ...state,
        selectedIndex,

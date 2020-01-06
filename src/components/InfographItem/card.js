@@ -47,11 +47,15 @@ const Card = (props) => {
     {
       orderedEle
     }
-    <div style={{ position: 'absolute', right: '2px', top: '-2px', display: props.preview ? 'none' : '' }} className='card-button' onClick={(e) => props.deleteCard(props.index, e)}>
-      <FontAwesomeIcon icon={faTimes} />
+    <div style={{ display: props.preview ? 'none' : '' }} className='position-absolute rounded-circle card-delete-button' onClick={(e) => props.deleteCard(props.index, e)}>
+      <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)' }}>
+        <FontAwesomeIcon icon={faTimes} />
+      </span>
     </div>
-    <div style={{ position: 'absolute', right: '2px', bottom: '0px', display: props.preview ? 'none' : '' }} className='card-button' onClick={(e) => props.addCard(props.index, e)}>
-      <FontAwesomeIcon icon={faPlus} />
+    <div style={{ display: props.preview ? 'none' : '' }} className='position-absolute rounded-circle card-add-button' onClick={(e) => props.addCard(props.index, e)}>
+      <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)' }}>
+        <FontAwesomeIcon icon={faPlus} />
+      </span>
     </div>
   </div>);
 };
