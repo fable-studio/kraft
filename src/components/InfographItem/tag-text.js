@@ -60,7 +60,7 @@ class TagText extends Component {
    e.stopPropagation();
    this.setState(state => {
      const cards = state.cards.slice();
-     cards.splice(selectedIndex, 0, {
+     cards.splice(selectedIndex + 1, 0, {
        id: `card-${state.cardCount}`,
        title: 'Lorem ipsum',
        textAlign: 'text-left',
