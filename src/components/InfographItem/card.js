@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPlus,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 import './card.scss';
 const alphabetsCode = 65;
 
@@ -42,6 +47,12 @@ const Card = (props) => {
     {
       orderedEle
     }
+    <div style={{ position: 'absolute', right: '2px', top: '-2px', display: props.preview ? 'none' : '' }} className='card-button' onClick={(e) => props.deleteCard(props.index, e)}>
+      <FontAwesomeIcon icon={faTimes} />
+    </div>
+    <div style={{ position: 'absolute', right: '2px', bottom: '0px', display: props.preview ? 'none' : '' }} className='card-button' onClick={(e) => props.addCard(props.index, e)}>
+      <FontAwesomeIcon icon={faPlus} />
+    </div>
   </div>);
 };
 

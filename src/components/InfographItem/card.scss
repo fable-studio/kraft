@@ -12,6 +12,14 @@
 .card-view {
   margin: 10px;
 }
+.card-button {
+  display: none;
+}
+
+.card-view:hover  .card-button {
+  display: block;
+  cursor: pointer;
+}
 
 .index h1 {
   position: relative;
