@@ -4,8 +4,6 @@ import BaseItemIcon from './base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faStream,
-  faPlus,
-  faTimes,
   faAlignLeft,
   faAlignRight,
   faAlignCenter,
@@ -33,6 +31,7 @@ class TagText extends Component {
  state = {
    selectedIndex: 0,
    cardStyleMode: 2,
+   cardCount: 3,
    numericOrdering: false,
    cards: [{
      id: 'card-0',
@@ -57,11 +56,12 @@ class TagText extends Component {
    }]
  }
 
- addCard = () => {
+ addCard = (selectedIndex, e) => {
+   e.stopPropagation();
    this.setState(state => {
      const cards = state.cards.slice();
-     cards.push({
-       id: `card-${cards.length}`,
+     cards.splice(selectedIndex + 1, 0, {
+       id: `card-${state.cardCount}`,
        title: 'Lorem ipsum',
        textAlign: 'text-left',
        cardAlign: getCardAlignment(state.cardStyleMode, cards.length),
@@ -69,18 +69,26 @@ class TagText extends Component {
      });
      return {
        ...state,
-       selectedIndex: cards.length - 1,
+       cardCount: state.cardCount + 1,
        cards
      };
    });
  }
 
- deleteCard = () => {
+ deleteCard = (index, e) => {
+   e.stopPropagation();
    this.setState(state => {
      const cards = state.cards.slice();
+     if (cards.length === 1) return null;
      let selectedIndex = state.selectedIndex;
-     cards.splice(selectedIndex, 1);
-     selectedIndex = cards.length ? 0 : null;
+     if (index === selectedIndex) {
+       if (selectedIndex === cards.length - 1) {
+         selectedIndex = cards.length - 2;
+       }
+     } else if (index < selectedIndex) {
+       selectedIndex--;
+     }
+     cards.splice(index, 1);
      return {
        ...state,
        selectedIndex,
@@ -181,21 +189,13 @@ class TagText extends Component {
                content={content} clicked={this.cardSelected}
                textAlign={textAlign} isLeftAligned={cardAlign === 'left'}
                selected={index === selectedIndex}
+               addCard={this.addCard}
+               deleteCard={this.deleteCard}
                isNumeric={numericOrdering} ></Card>)
          }
        </Item.Infograph>
        <Item.Editor>
          <div className='mx-3 my-3'>
-           <div className='mb-2'>
-             <ButtonGroup size='sm'>
-               <Button active className='mr-1' onClick={this.addCard}>
-                 <FontAwesomeIcon icon={faPlus} />
-               </Button>
-               <Button active className='mr-1' onClick={this.deleteCard}>
-                 <FontAwesomeIcon icon={faTimes} />
-               </Button>
-             </ButtonGroup>
-           </div>
            <div className='info-text-justify mb-2'>
              <span className='mr-2'>Ordering: &nbsp; </span>
              <ButtonGroup size='sm'>
